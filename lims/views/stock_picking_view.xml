@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="stock_picking_view_lims_form" model="ir.ui.view">
+        <field name="name">stock.picking.view.lims.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                 <button
+                    name="create_all_analysis"
+                    type="object"
+                    string="Create Analysis"
+                    attrs="{'invisible': [('state', '!=', 'done')]}"
+                    class="btn btn-info"
+                    icon="fa-flask"
+                />
+            </xpath>
+<!--              <xpath expr="//header" position="after">-->
+<!--                <div-->
+<!--                    class="alert alert-warning"-->
+<!--                    role="alert"-->
+<!--                    attrs="{'invisible': [('sale_warn_msg', '=', False)]}"-->
+<!--                    style="margin-bottom:0px;"-->
+<!--                >-->
+
+<!--                    <div style="width:2%;float:left;">-->
+<!--                        <i class="fa fa-info-circle" style="font-size:2em;"/>-->
+<!--                    </div>-->
+<!--                    <div style="width:98%;float:left;">-->
+<!--                        <field name="sale_warn_msg" class="oe_inline" />-->
+<!--                    </div>-->
+<!--                    <div style="clear:both;">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </xpath>-->
+           <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_analysis"
+                    type="object"
+                    icon="fa-flask"
+                    attrs="{'invisible': [('analysis_count', '=', 0)]}"
+                >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field
+                                name="analysis_count"
+                            /></span>
+                        <span class="o_stat_text">Analysis</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

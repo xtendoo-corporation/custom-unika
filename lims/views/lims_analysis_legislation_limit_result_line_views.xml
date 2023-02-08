@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record
+        id="analysis_parameter_legislation_limit_result_line_form"
+        model="ir.ui.view"
+    >
+        <field name="name">analysis.legislation.limit.result.line.form</field>
+        <field name="model">lims.analysis.legislation.limit.result.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <label for="legislation_limit_result_id" />
+                <field name="legislation_limit_result_id" />
+                <br />
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_parameters_legislation_result_line_tree" model="ir.ui.view">
+        <field name="name">analysis.legislation.limit.result.line.tree</field>
+        <field name="model">lims.analysis.legislation.limit.result.line</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="operator_from" string="Operator from" />
+                <field name="limit_value_from" string="Value from" />
+                <field name="operator_to" string="Operator to" />
+                <field name="limit_value_to" string="Value to" />
+                <field name="required_comment_legislation" string="required_comment" />
+                <field name="is_present" string="Present" />
+                <field name="is_correct" string="Correct" />
+                <field name="type" string="Type"/>
+                <field
+                    name="state"
+                    widget="selection"
+                    decoration-success="state == 'conform'"
+                    decoration-warning="state == 'warning'"
+                    decoration-danger="state == 'not_conform'"
+                    string="state"
+                />
+                <field name="message" string="message" />
+                <field name="required_comment"></field>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

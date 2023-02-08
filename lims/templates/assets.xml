@@ -1,0 +1,10 @@
+<odoo>
+    <template id="lims.assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/lims/static/src/js/list_controller_assets.js"
+            />
+        </xpath>
+    </template>
+</odoo>

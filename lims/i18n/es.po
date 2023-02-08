@@ -1,0 +1,2475 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* lims
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-01 13:36+0000\n"
+"PO-Revision-Date: 2023-02-01 13:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#, python-format
+msgid "%(percentage)s %% discount and %(price)s surcharge"
+msgstr ""
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#, python-format
+msgid "%s %% discount"
+msgstr ""
+
+#. module: lims
+#: code:addons/lims/models/analytical_method_price.py:0
+#, python-format
+msgid "%s - %s"
+msgstr ""
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_limit.py:0
+#, python-format
+msgid "%s -> %s"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:lims.sale_order_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.stock_picking_view_lims_form
+msgid "<span class=\"o_stat_text\">Analysis</span>"
+msgstr "<span class=\"o_stat_text\">Análisis</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">Date: "
+"</span>"
+msgstr ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">Fecha: "
+"</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">Page: </span>\n"
+"                                <span class=\"page\"/>\n"
+"                                <span>/</span>\n"
+"                                <span class=\"topage\"/>"
+msgstr ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">Página: </span>\n"
+"                                <span class=\"page\"/>\n"
+"                                <span>/</span>\n"
+"                                <span class=\"topage\"/>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">id: "
+"</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;margin-"
+"bottom:0;\">Report Nº:</span>"
+msgstr ""
+"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;margin-"
+"bottom:0;\">Nº informe:</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span style=\"color:white\">abc</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Brand</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Marca</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Customer</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Cliente</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>EAN Code</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Código EAN </strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Expiration</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Caducidad</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Nº of samples</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Nº de muestras</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Pick up date and time</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Fecha y hora de recogida</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Pickup location</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Ubicación de recogida</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Pre. essays</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Enseayos pre.</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Presentation</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Presentación</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Product</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Producto</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Quantity</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Cantidad</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Sample number</strong>\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                                <strong>Número de  muestra</strong>\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Address</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Dirección</strong>\n"
+"                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>City</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Localidad</strong>\n"
+"                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Name</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Nombre</strong>\n"
+"                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>R(UE)</strong>\n"
+"                                        </span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Royal decree</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Real Decreto</strong>\n"
+"                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>State</strong>\n"
+"                                        </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                            <strong>Provincia</strong>\n"
+"                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Correct\n"
+"                                    </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Correcto\n"
+"                                    </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Not Apply\n"
+"                                    </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        No Aplicable\n"
+"                                    </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Not correct\n"
+"                                    </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Incorrecto\n"
+"                                    </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Recommendation\n"
+"                                    </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Recomendación\n"
+"                                    </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Warning\n"
+"                                    </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">\n"
+"                                        Advertencia\n"
+"                                    </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">1169/2011</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">1801/2008</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">2073/2005</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid "<span style=\"display:table-cell;vertical-align: middle;\">474/2014</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: "
+"middle;\">Presentation</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"display:table-cell;vertical-align: middle;\">Previous\n"
+"                                                essays\n"
+"                                            </span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">Ensayos\n"
+"                                                previos\n"
+"                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid "<span style=\"display:table-cell;vertical-align: middle;\">Quantity</span>"
+msgstr ""
+"<span style=\"display:table-cell;vertical-align: middle;\">Cantidad</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"font-size:1.4em;display:table-cell;vertical-align: "
+"middle;color:white;font-weight:bolder;\">FINAL OPINION</span>"
+msgstr ""
+"<span style=\"font-size:1.4em;display:table-cell;vertical-align: "
+"middle;color:white;font-weight:bolder;\">DICTAMEN FINAL</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid ""
+"<span style=\"margin-left:8px;\"><strong>UNIKA</strong></span>\n"
+"                            <span>Gestión de Marcas, SL,</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                                Not Present\n"
+"                                                            </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                                No Presente\n"
+"                                                            </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            <strong>CD</strong>\n"
+"                                                        </span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            <strong>Parameters</strong>\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            <strong>Parámetros</strong>\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Data Sheet\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Ficha técnica\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Evaluation\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Evaluación\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Labeled\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Etiquetado\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Limit**\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Límite**\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Method\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Método\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Present\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Presente\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Result\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Resultado\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Units.\n"
+"                                                        </span>"
+msgstr ""
+"<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
+"                                                            Uds.\n"
+"                                                        </span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid "<span> (</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid "<span> - </span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+msgid "<span>) Tfno.- </span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>:</span>"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Correct</span>"
+msgstr "<span>Correcto</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Limit</span>"
+msgstr "<span>Límite</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Method</span>"
+msgstr "<span>Método</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Not Correct</span>"
+msgstr "<span>Incorrectot</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Not Present</span>"
+msgstr "<span>No Presente</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Parameter</span>"
+msgstr "<span>Parámetro</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Present</span>"
+msgstr "<span>Presente</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_label_lot_document_lims
+msgid "<span>Sample:</span>"
+msgstr "<span>Muestra:</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Unit</span>"
+msgstr "<span>Unidad</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "<span>Value</span>"
+msgstr "<span>Valor</span>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"<strong>LEGISLATION</strong>\n"
+"                                            APPLICABLE"
+msgstr ""
+"<strong>LEGISLACIÓN</strong>\n"
+"                                            APLICABLE"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_limit.py:0
+#, python-format
+msgid "A combination already exists with the parameter %s, type %s y %s"
+msgstr "Ya eciste una combinación con el parámetro %s, tipo %s y %s"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.sample_image_view_kanban
+msgid "Acceptable file size"
+msgstr "Tamaño de archivo aceptable"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_needaction
+msgid "Action Needed"
+msgstr "Accion necesaria"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__active
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Address:"
+msgstr "Dirección:"
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#: model:ir.model.fields.selection,name:lims.selection__product_pricelist_item__applied_on__3_global
+#, python-format
+msgid "All Products"
+msgstr "Todos los productos"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__all_test_received
+msgid "All Test Received"
+msgstr "Todas las pruebas recibidas"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_view_analysis
+#: model:ir.actions.act_window,name:lims.analysis_new_action
+#: model:ir.actions.report,name:lims.report_analysis_result
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__analysis_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__analysis_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__analysis_id
+#: model:ir.model.fields,field_description:lims.field_product_product__analysis_ids
+#: model:ir.model.fields,field_description:lims.field_product_template__analysis_ids
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__analysis_id
+#: model:ir.model.fields,field_description:lims.field_sale_order_line__analysis_group_ids
+#: model:ir.model.fields,field_description:lims.field_stock_move_line__analysis_ids
+#: model:ir.ui.menu,name:lims.menu_lims_analysis_line
+msgid "Analysis"
+msgstr "Análisis"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__analysis_group_id
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__analysis_group_id
+#: model:ir.model.fields,field_description:lims.field_product_pricelist_item__analysis_group_ids
+msgid "Analysis Group"
+msgstr "Paquete analítico"
+
+#. module: lims
+#: model:ir.model,name:lims.model_product_template_lims_analysis_rel
+msgid "Analysis Group Product REL LIMS"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis
+msgid "Analysis LIMS"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_line
+msgid "Analysis Line LIMS"
+msgstr "Análisis"
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_group_lims_analysis_rel
+msgid "Analysis REL LIMS"
+msgstr ""
+
+#. module: lims
+#: model:ir.actions.report,name:lims.report_analysis_result_unika
+msgid "Analysis Unika"
+msgstr "Análisis Unika"
+
+#. module: lims
+#: code:addons/lims/models/sale_order.py:0
+#: code:addons/lims/models/stock_picking.py:0
+#, python-format
+msgid "Analysis from %s"
+msgstr "Análisis de %s"
+
+#. module: lims
+#: code:addons/lims/models/product_template.py:0
+#: code:addons/lims/models/product_template.py:0
+#, python-format
+msgid "Analysis from Product %s"
+msgstr "Análisis del Producto %s"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__product_pricelist_item__applied_on__4_analysis_group
+msgid "Analysis group"
+msgstr "Paquete analítico"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__analysis_ids
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__parent_id
+msgid "Analysis lims"
+msgstr "Análisis"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__analysis_ids
+msgid "Analysis lims Line"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__parameter_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parameter_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parameter_legislation_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parent_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__parameter_ids
+msgid "Analysis lims parameter"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_lims_analysis_parameter_rel
+msgid "Analysis parameter REL LIMS"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_line_parameter_method_rel
+msgid "Analysis parameter line REL LIMS"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+msgid "Analytic Package name"
+msgstr "Nombre del paquete analítico"
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analytical_method
+#: model:ir.model.fields.selection,name:lims.selection__product_pricelist_item__applied_on__5_analytical_method
+msgid "Analytical Method"
+msgstr "Método analítico"
+
+#. module: lims
+#: model:ir.model,name:lims.model_analytical_method_price
+msgid "Analytical Method Price"
+msgstr "Método analítico precio"
+
+#. module: lims
+#: model:ir.model,name:lims.model_parameter_analytical_method_price_uom
+msgid "Analytical Method Price UOM"
+msgstr ""
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_analysis
+#: model:ir.ui.menu,name:lims.menu_lims_analysis
+msgid "Analytical Packages"
+msgstr "Paquetes analíticos"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_analytical_method
+#: model:ir.ui.menu,name:lims.menu_lims_analytical_method
+msgid "Analytical methods"
+msgstr "Métodos analíticos"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_analysis_line
+msgid "Análisis"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_product_pricelist_item__applied_on
+msgid "Apply On"
+msgstr "Aplicar Sobre"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__pass
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__pass
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__pass
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__pass
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__pass
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_attachment_count
+msgid "Attachment Count"
+msgstr "Recuento de archivos adjuntos"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Barcode:"
+msgstr "Cod. Barras:"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__legislation_limit_value
+msgid "Between Limit Value"
+msgstr "Valor límite entre"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_tree
+msgid "Bloq"
+msgstr "Bloque"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Brand:"
+msgstr "Marca:"
+
+#. module: lims
+#: model:ir.ui.menu,name:lims.menu_product_brand_inherit
+msgid "Brands"
+msgstr "Marcas"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__cancel
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__quantity
+msgid "Cantidad"
+msgstr ""
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#, python-format
+msgid "Category: %s"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__change
+msgid "Change"
+msgstr "Cambio"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "City:"
+msgstr "Localidad:"
+
+#. module: lims
+#: model:ir.model.constraint,message:lims.constraint_lims_analysis_parameter_code_uniq
+#: model:ir.model.constraint,message:lims.constraint_lims_analytical_method_code_uniq
+msgid "Code already exists!"
+msgstr "¡El código ya existe!"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_tree
+msgid "Color"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__color
+msgid "Color Index"
+msgstr "Índice de color"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__comment
+msgid "Comment"
+msgstr "Comentario"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+msgid "Comment required"
+msgstr "Comentario requerido"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__company_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__company_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__company_id
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__company_id
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "Company"
+msgstr "Empresa"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__complete
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Complete"
+msgstr "Completado"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_analysis_numerical_result
+#: model:ir.ui.menu,name:lims.menu_analysis_numerical_result
+msgid "Components to analyze"
+msgstr "Componentes para analizar"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__state__conform
+msgid "Conform"
+msgstr "Conforme"
+
+#. module: lims
+#: model:ir.model,name:lims.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Convert to Draft"
+msgstr "Convertir a borrador"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Correct"
+msgstr "Correcto"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__legislation_value
+msgid "Corrected Value"
+msgstr "Valor correcto"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__cost
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__cost
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_tree
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "Cost"
+msgstr "Coste"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Country:"
+msgstr "País:"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.stock_picking_view_lims_form
+msgid "Create Analysis"
+msgstr "Crear Análisis"
+
+#. module: lims
+#: model_terms:ir.actions.act_window,help:lims.action_contacts_maker
+msgid "Create a Maker in your address book"
+msgstr "Crea un Fabricante en tu libreta de direcciones"
+
+#. module: lims
+#: model_terms:ir.actions.act_window,help:lims.action_contacts_lab
+msgid "Create a laboratory in your address book"
+msgstr "Crea un laboratorio en tu libreta de direcciones"
+
+#. module: lims
+#: model_terms:ir.actions.act_window,help:lims.action_product_product_sample
+msgid "Create a new sample product"
+msgstr "Crear un nuevo producto de muestra"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__create_uid
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__create_uid
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__create_uid
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__create_uid
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__create_uid
+#: model:ir.model.fields,field_description:lims.field_sample_image__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__create_date
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__create_date
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__create_date
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__create_date
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__create_date
+#: model:ir.model.fields,field_description:lims.field_sample_image__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__customer_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__customer_contact_id
+msgid "Customer contact"
+msgstr "Contacto del cliente"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Customer identification data"
+msgstr "Datos de identificación del cliente"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "D. Receipt:"
+msgstr "F. Recepción:"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__data_sheet
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit__type__technical
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Data sheet"
+msgstr "Ficha técnica"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__date_complete
+msgid "Date Complete"
+msgstr "Fecha completado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__date_issue
+msgid "Date Issue"
+msgstr "Fecha de publicación"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__date_due
+msgid "Date due"
+msgstr "Fecha de vencimiento"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__date_sample
+msgid "Date sample"
+msgstr "Fecha de la muestra"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__date_sample_begin
+msgid "Date sample begin"
+msgstr "Fecha de incio de análisis"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__date_sample_receipt
+msgid "Date sample receipt"
+msgstr "Fecha de recepción"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Delivery Add:"
+msgstr "Dirección ent:"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_tree_update_in_sale
+msgid "Descartar"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__description
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__description
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__description
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__description
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_tree
+#: model_terms:ir.ui.view,arch_db:lims.analytical_method_lims_form
+msgid "Description"
+msgstr "Descripción"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Description:"
+msgstr "Descripción:"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__display_name
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__display_name
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__display_name
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__display_name
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__display_name
+#: model:ir.model.fields,field_description:lims.field_sample_image__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "EXP date:"
+msgstr "Fecha CAD:"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__between
+msgid "Entre"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_res_brand__send_by_mail
+#: model:ir.model.fields,field_description:lims.field_res_partner__send_by_mail
+#: model:ir.model.fields,field_description:lims.field_res_users__send_by_mail
+msgid "Enviar por correo"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__iscorrect
+msgid "Es correcto"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__ispresent
+msgid "Está presente"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__external_lab
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__external_lab
+msgid "External Lab"
+msgstr "Laboratorio externo"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_tree
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "External laboratory"
+msgstr "Laboratorio externo"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_stock_production_lot__lot_image_ids
+msgid "Extra Sample Media"
+msgstr "Medios de muestra adicionales"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "F. Take sample:"
+msgstr "F. toma de muestra:"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__fail
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__fail
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__fail
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__fail
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__fail
+msgid "Failed"
+msgstr "Fallido"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__failed_message_ids
+msgid "Failed Messages"
+msgstr "Mensajes fallidos"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores(Clientes)"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "General Information"
+msgstr "Información general"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_settings_general
+#: model:ir.ui.menu,name:lims.menu_lims_settings_general
+msgid "General Settings"
+msgstr "Configuración general"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.wirard_lot
+msgid "Generar Lotes"
+msgstr "Generar nº muestra"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.wirard_lot
+msgid "Generate"
+msgstr "Generar"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.wirard_lot
+msgid "Generate and print"
+msgstr "Generar e imprimir"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_menu_wizard_lot
+#: model:ir.ui.menu,name:lims.cat_menu_lims_lots_generate
+msgid "Generate sample numbers"
+msgstr "Generar números de muestra"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_tree_update_in_sale
+msgid "Guardar"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__has_message
+msgid "Has Message"
+msgstr "tiene mensaje"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__priority__3
+msgid "High"
+msgstr "Alta"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.sample_image_view_kanban
+msgid "Huge file size. The image should be optimized/reduced."
+msgstr "Gran tamaño de archivo. La imagen debe ser optimizada/reducida."
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__id
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__id
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__id
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__id
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__id
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__id
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__id
+#: model:ir.model.fields,field_description:lims.field_sample_image__id
+msgid "ID"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"IDENTIFICATION OF\n"
+"                                            <strong>MAKER</strong>"
+msgstr ""
+"IDENTIFICACION DE\n"
+"                                            <strong>FABRICANTE</strong>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"IDENTIFICATION OF\n"
+"                                            <strong>PRODUCT</strong>"
+msgstr ""
+"IDENTIFICACION DE\n"
+"                                            <strong>PRODUCTO</strong>"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid ""
+"IDENTIFICATION OF THE\n"
+"                                            <strong>SAMPLE</strong>"
+msgstr ""
+"IDENTIFICACIÓN DE LA\n"
+"                                            <strong>MUESTRA</strong>"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__message_needaction
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, los nuevos mensajes requieren su atención."
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si está marcado, los nuevos mensajes requieren su atención."
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_from__=
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__=
+msgid "Igual que"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__image_1920
+msgid "Image"
+msgstr "Imagen"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__image_1024
+msgid "Image 1024"
+msgstr "Imagen 1024"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__image_128
+msgid "Image 128"
+msgstr "Imagen 128"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__image_256
+msgid "Image 256"
+msgstr "Imagen 256"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__image_512
+msgid "Image 512"
+msgstr "Imagen 512"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.view_sample_image_form
+msgid "Image Name"
+msgstr "Nombre Imagen"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.view_sample_image_form
+msgid "Imagen principal"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__incomplete
+msgid "Incomplete"
+msgstr "Incompleto"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__internal
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_tree
+msgid "Internal"
+msgstr "Interno"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__is_correct
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__is_correct
+msgid "Is Correct"
+msgstr "Es Correcto"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__is_duplicate
+msgid "Is Duplicate"
+msgstr "Está duplicado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__is_locked
+msgid "Is Locked"
+msgstr "Está bloqueado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__is_present
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__is_present
+msgid "Is Present"
+msgstr "Está presente"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_stock_move_line__is_product_sample
+msgid "Is Product Sample"
+msgstr "Es un producto muestra"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.res_partner_form_view
+msgid "Is a laboratory"
+msgstr "Es un laboratorio"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.res_partner_form_view
+msgid "Is a maker"
+msgstr "Es un fabricante"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_product_product__is_product_sample
+#: model:ir.model.fields,field_description:lims.field_product_template__is_product_sample
+msgid "Is a product sample"
+msgstr "Es un producto muestra"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__main
+msgid "Is main"
+msgstr "Es principal"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__issued
+msgid "Issued"
+msgstr "Publicaco"
+
+#. module: lims
+#: model:ir.ui.menu,name:lims.main_menu_lims
+#: model_terms:ir.ui.view,arch_db:lims.product_template_form_view
+msgid "LIMS"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_numerical_result
+msgid "LIMS Analysis Numerical Result"
+msgstr ""
+
+#. module: lims
+#: model:ir.actions.report,name:lims.lims_report_label_lot
+msgid "Label Print"
+msgstr "Impresión de etiquetas"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__labeled
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Labeled"
+msgstr "Etiquetado"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_contacts_lab
+#: model:ir.ui.menu,name:lims.cat_menu_lims_lab
+#: model_terms:ir.ui.view,arch_db:lims.res_partner_view_search_lims
+msgid "Laboratories"
+msgstr "Laboratorios"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__laboratory_id
+#: model:ir.model.fields,field_description:lims.field_res_brand__is_lab
+#: model:ir.model.fields,field_description:lims.field_res_partner__is_lab
+#: model:ir.model.fields,field_description:lims.field_res_users__is_lab
+msgid "Laboratory"
+msgstr "Laboratorio"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot____last_update
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel____last_update
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel____last_update
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom____last_update
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel____last_update
+#: model:ir.model.fields,field_description:lims.field_sample_image____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__write_uid
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__write_uid
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__write_uid
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__write_uid
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__write_uid
+#: model:ir.model.fields,field_description:lims.field_sample_image__write_uid
+msgid "Last Updated by"
+msgstr "Última modificación por"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__write_date
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__write_date
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__write_date
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__write_date
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__write_date
+#: model:ir.model.fields,field_description:lims.field_sample_image__write_date
+msgid "Last Updated on"
+msgstr "Última modificación en"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit__type__legislation
+msgid "Legislation"
+msgstr "Legislación"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__limit_value
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__limit_value_char
+msgid "Limit Value"
+msgstr "Valor límite"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__limit_value_from
+msgid "Limit Value From"
+msgstr "Valor límite desde"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__limit_value_to
+msgid "Limit Value to"
+msgstr "Valor límite hasta"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_product_product__limit_ids
+#: model:ir.model.fields,field_description:lims.field_product_template__limit_ids
+#: model_terms:ir.ui.view,arch_db:lims.analysis_limit_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+msgid "Limits"
+msgstr "Límites"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__limit_result_line_ids
+msgid "Limits Line"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_line_analysis_group_rel__sale_line_id
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__sale_line_id
+msgid "Line"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__sale_line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
+msgid "Logo"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lote/Número de serie"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__priority__1
+msgid "Low"
+msgstr "Baja"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__limit
+msgid "Límite"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__limits_ids
+msgid "Límits"
+msgstr "Límites"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Archivo adjunto principal"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__maker_id
+#: model:ir.model.fields,field_description:lims.field_res_brand__is_maker
+#: model:ir.model.fields,field_description:lims.field_res_partner__is_maker
+#: model:ir.model.fields,field_description:lims.field_res_users__is_maker
+msgid "Maker"
+msgstr "Fabricante"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_contacts_maker
+#: model:ir.ui.menu,name:lims.cat_menu_lims_maker
+#: model_terms:ir.ui.view,arch_db:lims.res_partner_view_search_lims_maker
+msgid "Makers"
+msgstr "Fabricantes"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_from__>=
+msgid "Mayor o igual que"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_from__>
+msgid "Mayor que"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.stock_production_lot_view
+msgid "Media"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__priority__2
+msgid "Medium"
+msgstr "Media"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__<=
+msgid "Menor o igual que"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__<
+msgid "Menor que"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__message
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Message"
+msgstr "Comentario"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_has_error
+msgid "Message Delivery error"
+msgstr "Message delivery failure"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_ids
+msgid "Messages"
+msgstr "Comentarios"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__analytical_method_id
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__analytical_method_id
+#: model:ir.model.fields,field_description:lims.field_product_pricelist_item__analitycal_method_ids
+msgid "Method"
+msgstr "Método"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analytical_method_lims_form
+msgid "Method name"
+msgstr "nombre del método"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__analytical_method_price_ids
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+msgid "Methods"
+msgstr "Métodos"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__lot_id
+msgid "Muestra"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__analytical_method_id
+msgid "Método"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__name
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__name
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__name
+#: model:ir.model.fields,field_description:lims.field_sample_image__name
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_tree
+#: model_terms:ir.ui.view,arch_db:lims.analytical_method_lims_tree
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_tree
+msgid "Name"
+msgstr "Nombre"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Name:"
+msgstr "Nombre:"
+
+#. module: lims
+#. openerp-web
+#: code:addons/lims/static/src/js/list_controller_assets.js:0
+#, python-format
+msgid "No valid record to save"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__priority__0
+msgid "Normal"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__state__not_conform
+msgid "Not Conform"
+msgstr "No Conforme"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Nota..."
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__note
+msgid "Note"
+msgstr "Nota"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_product_product__analysis_count
+#: model:ir.model.fields,field_description:lims.field_product_template__analysis_count
+#: model:ir.model.fields,field_description:lims.field_sale_order__analysis_count
+#: model:ir.model.fields,field_description:lims.field_stock_picking__analysis_count
+msgid "Number of Analysis Generated"
+msgstr "Número de análisis generados"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de errores"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de entrega"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leídos"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__numerical_result
+msgid "Numerical Result"
+msgstr "Resultado Numérico"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "Only 'Canceled' orders can be archived"
+msgstr "Solo se pueden archivar pedidos 'Cancelados'"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__operator_from
+msgid "Operator From"
+msgstr "Operador desde"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Operator from"
+msgstr "Operador desde"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__operator_to
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Operator to"
+msgstr "Operador hasta"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.sample_image_view_kanban
+msgid ""
+"Optimization required! Reduce the image size or increase your compression "
+"settings."
+msgstr ""
+"¡Se requiere optimización! Reduzca el tamaño de la imagen o aumente la "
+"configuración de compresión."
+
+#. module: lims
+#: model:ir.ui.menu,name:lims.cat_menu_lims_config_organizing
+msgid "Organization"
+msgstr "Organización"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Otra Información"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__out_of_time
+msgid "Out Of Time"
+msgstr "Fuera de tiempo"
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#, python-format
+msgid "Paquete: %s"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__parameter_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__parameter_id
+#: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__parameter_id
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__parameter_id
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "Parameter"
+msgstr "Parámetro"
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_parameter
+msgid "Parameter LIMS"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__parameter_method_ids
+msgid "Parameter Method"
+msgstr "Parámetro Método"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__parameter_used_ids
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__parameter_used_ids
+#: model:ir.model.fields,field_description:lims.field_sale_order_line__parameter_used_ids
+msgid "Parameter Used"
+msgstr "Parámetros usados"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "Parameter and method"
+msgstr "Parámetro y método"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+msgid "Parameter name"
+msgstr "Nombre del parámetro"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_parameter_type
+#: model:ir.ui.menu,name:lims.menu_lims_parameter_type
+msgid "Parameter types"
+msgstr "Tipos de parámetros"
+
+#. module: lims
+#: code:addons/lims/models/sale_order.py:0
+#: model:ir.actions.act_window,name:lims.action_lims_parameter
+#: model:ir.model.fields,field_description:lims.field_sale_order_line__parameter_ids
+#: model:ir.ui.menu,name:lims.menu_lims_parameter
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_tree
+#, python-format
+msgid "Parameters"
+msgstr "Parámetros"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Parámetro"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Present"
+msgstr "Presente"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__previous_analysis_date
+msgid "Previous Analysis Date"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_analytical_method_price__price
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__price
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__price
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__price
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_tree
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_form
+#: model_terms:ir.ui.view,arch_db:lims.anaytical_method_price_tree
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "Price"
+msgstr "Precio"
+
+#. module: lims
+#: model:ir.ui.menu,name:lims.cat_menu_lims_pricelist
+msgid "Pricelist"
+msgstr "Tarifas"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_product_pricelist_item__applied_on
+msgid "Pricelist Item applicable on selected option"
+msgstr "Elemento de tarifa aplicable a la opción seleccionada"
+
+#. module: lims
+#: model:ir.model,name:lims.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Regla de Tarifa"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__number_from
+msgid "Primer Lote"
+msgstr "Primer nº muestra"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__priority
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: lims
+#: model:ir.model,name:lims.model_product_product
+#: model:ir.model.fields,field_description:lims.field_product_template_lims_analysis_rel__product_id
+#: model:ir.model.fields,field_description:lims.field_stock_production_lot__product_id
+#: model:ir.model.fields.selection,name:lims.selection__product_pricelist_item__applied_on__1_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__product_pricelist_item__applied_on__2_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: lims
+#: model:ir.model,name:lims.model_sample_image
+msgid "Product Image"
+msgstr "Imagen producto"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.sample_image_view_kanban
+msgid "Product Images"
+msgstr "Imagenes producto"
+
+#. module: lims
+#: model:ir.model,name:lims.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Movimientos de Producto (Stock Move Line)"
+
+#. module: lims
+#: model:ir.model,name:lims.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__product_pricelist_item__applied_on__0_product_variant
+msgid "Product Variant"
+msgstr "Variantes de producto"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Product:"
+msgstr "Producto:"
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#, python-format
+msgid "Product: %s"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis__product_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__product_id
+#: model:ir.ui.menu,name:lims.cat_menu_lims_product
+#: model:ir.ui.menu,name:lims.cat_menu_lims_product_parent
+msgid "Products"
+msgstr "Productos"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__reason
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__reason
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Reason"
+msgstr "Razón"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Receive"
+msgstr "Recibir"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__received
+msgid "Received"
+msgstr "Recibido"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__reference
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__default_code
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__default_code
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+#: model_terms:ir.ui.view,arch_db:lims.analytical_method_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.analytical_method_lims_tree
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__required_comment
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__required_comment
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__required_comment
+msgid "Required Commentary"
+msgstr "Comentario requerido"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__result
+msgid "Result"
+msgstr "Resultado"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Result DS."
+msgstr "Resultado FT."
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Result L."
+msgstr "Resultado E."
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Result Le."
+msgstr "Resultado  L."
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__result_legislation
+msgid "Result Legislation"
+msgstr "Resultado legislación"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__previous_analysis_result
+msgid "Result Previous"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__result_datasheet
+msgid "Result dataSheet"
+msgstr "Resultado ficha técnica"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__result_label
+msgid "Result label"
+msgstr "Resultado etiquetado"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Resultados"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_form
+msgid "Sale Order Tags"
+msgstr "Etiquetas de orden de venta"
+
+#. module: lims
+#: model:ir.model,name:lims.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: lims
+#: model:ir.model,name:lims.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de pedido de venta"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.view_sample_image_form
+msgid "Sample Images"
+msgstr "Imágenes de muestra"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Sample Information"
+msgstr "Información de muestra"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__sample_name
+msgid "Sample Name"
+msgstr "Nombre de la muestra"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Sample information:"
+msgstr "Información de la muestra:"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__lot_id
+msgid "Sample num."
+msgstr "Nº  de muestra"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__lot_id
+#: model:ir.model.fields,field_description:lims.field_stock_move_line__lot_id
+#: model:ir.ui.menu,name:lims.cat_menu_lims_lots
+msgid "Sample number"
+msgstr "Número de muestra:"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Sample number:"
+msgstr "Número de muestra:"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__sampler
+msgid "Sampler"
+msgstr "Técnico"
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_product_product_sample
+#: model_terms:ir.ui.view,arch_db:lims.product_template_view_search_lims
+msgid "Samples"
+msgstr "Muestras"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__sequence
+#: model:ir.model.fields,field_description:lims.field_sample_image__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: lims
+#: model:ir.ui.menu,name:lims.cat_menu_lims_config
+msgid "Settings"
+msgstr "Ajustes"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__show_in_report
+msgid "Show in Report"
+msgstr "Mostrar en informe"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Show in report"
+msgstr "Mostrar en informe"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Start Analysis"
+msgstr "Iniciar análisis"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__started
+msgid "Started"
+msgstr "iniciado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__state
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__state
+msgid "State"
+msgstr "Estado"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "State:"
+msgstr "Estado:"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__stock_move_line_id
+msgid "Stock Line Move"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.constraint,message:lims.constraint_lims_analysis_parameter_type_tags_name_uniq
+msgid "Tag name already exists!"
+msgstr "¡El nombre de la etiqueta ya existe!"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Test report issued by"
+msgstr "Informe de prueba emitido por"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+msgid "Tipo"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "To invoice"
+msgstr "Facturar"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "To post"
+msgstr "Publicar"
+
+#. module: lims
+#: model:ir.model,name:lims.model_stock_picking
+msgid "Transfer"
+msgstr "Albarán"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__type
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__type
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Type"
+msgstr "Tipo"
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_parameter_type_tags
+msgid "Type Parameter tags"
+msgstr "Etiquetas de parámetros de tipo"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__type_tags
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__type_tags
+msgid "Type tags"
+msgstr "Etiquetas de tipo"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__parameter_type_in_lims
+msgid "Types"
+msgstr "Tipos"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "Tº PROD:"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "UdM"
+msgstr "Unidad"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "UdM_all"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analytical_method_lims_form
+msgid "Uncertainty"
+msgstr "Incertidumbre"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__parameter_uom
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__uom_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__parameter_uom
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__parameter_uom
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__parameter_uom
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__uom_id
+msgid "Unit of Measure"
+msgstr "Unidad de medida"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_form
+#: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
+msgid "Unit of meassure"
+msgstr "Unidad de medida"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes no leídos"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de mensajes no leídos"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__none
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__none
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__none
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__none
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__none
+msgid "Unrealized"
+msgstr "No realizado"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
+msgid "Validate"
+msgstr "Validar"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__state__validated
+msgid "Validated"
+msgstr "Validado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__value
+msgid "Value"
+msgstr "Valor"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Value from"
+msgstr "Valor desde"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "Value to"
+msgstr "Valor hasta"
+
+#. module: lims
+#: code:addons/lims/models/lims_product_pricelist_item.py:0
+#, python-format
+msgid "Variant: %s"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__state__warning
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__warning
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__warning
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__warning
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__warning
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__warning
+msgid "Warning"
+msgstr "Advertencia"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_lims_analysis_line__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicación del sitio web"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can draft only Cancel analysis"
+msgstr "Solo se pueden convertir a borrador análisis 'Cancelados'"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can only Complete a started analysis"
+msgstr "Solo puede Completar un análisis iniciado"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can only Issue a validated analysis"
+msgstr "Solo puede Emitir un análisis validado"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can only Start Analysis a received analysis"
+msgstr "Solo puede Iniciar análisis un análisis recibido"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can only Validate  a complete analysis"
+msgstr "Solo puede Validar un análisis completo"
+
+#. module: lims
+#: code:addons/lims/models/product_template.py:0
+#, python-format
+msgid "You can only create sample products if they are storable."
+msgstr "Solo puede crear productos de muestra si se pueden almacenar."
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can only received a draft analysis"
+msgstr "Solo puede recibir un análisis en borrador"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You can't cancel Cancel analysis"
+msgstr "No se puede cancelar análisis cancelados"
+
+#. module: lims
+#: code:addons/lims/models/stock_move_line.py:0
+#, python-format
+msgid "You must first validate the picking"
+msgstr "Primero debe validar el picking"
+
+#. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "You only can delete Cancel analysis"
+msgstr "Solo puede eliminar análisis Cancelados"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
+msgid "abc"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__to_invoice
+msgid "billable"
+msgstr "facturable"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit__type__label
+msgid "labeled"
+msgstr "Etiquetado"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "legislation"
+msgstr "legislación"
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_wizard_lot
+msgid "lims.wizard.lot"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_line_analysis_group_rel
+msgid "line.analysis.group.rel"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "message"
+msgstr "mensaje"
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_limit
+msgid "parameter LIMS Limit"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_limit_result_line
+msgid "parameter LIMS Limit Result Line"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__parameter_uom_all
+msgid "parameter_uom"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__pricelist_id
+msgid "pricelist"
+msgstr "tarifa"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "required_comment"
+msgstr "comentario_requerido"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
+msgid "state"
+msgstr "estado"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analytical_method__uncertainty
+msgid "uncertainty"
+msgstr "Incertidumbre"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "value"
+msgstr "valor"

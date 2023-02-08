@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="analysis_line_lims_form" model="ir.ui.view">
+        <field name="name">analysis.line.lims.form</field>
+        <field name="model">lims.analysis.line</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <header>
+                    <button
+                        name="action_start_analysis"
+                        type="object"
+                        string="Start Analysis"
+                        attrs="{'invisible': [('state', '!=', 'received')]}"
+                    />
+                    <button
+                        name="action_complete"
+                        type="object"
+                        string="Complete"
+                        attrs="{'invisible': [('state', '!=', 'started')]}"
+                    />
+                    <button
+                        name="action_received"
+                        type="object"
+                        string="Receive"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    />
+
+
+                    <button
+                        name="action_draft"
+                        type="object"
+                        string="Convert to Draft"
+                        attrs="{'invisible': [('state', 'not in', ['cancel'])]}"
+                    />
+                    <button
+                        name="action_cancel"
+                        type="object"
+                        string="Cancel"
+                        attrs="{'invisible': [('state', 'in', ['cancel'])]}"
+                    />
+                    <button
+                        name="action_validate"
+                        type="object"
+                        string="Validate"
+                        attrs="{'invisible': [('state', '!=', 'complete')]}"
+                    />
+                    <button
+                        name="action_issue"
+                        type="object"
+                        string="To post"
+                        attrs="{'invisible': [('state', '!=', 'validated')]}"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'fold_field': 'fold'}"
+                    />
+                </header>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('analysis_warn_msg', '=', False)]}"
+                    style="margin-bottom:0px;"
+                >
+
+                    <div style="width:2%;float:left">
+                        <i class="fa fa-info-circle" style="font-size:2em;"/>
+                    </div>
+                    <div style="width:98%;float:left">
+                        <field name="analysis_warn_msg" style="font-size:1.4em;"/>
+                    </div>
+                    <div style="clear:both;">
+                    </div>
+                </div>
+                <sheet name="Analysis">
+                    <!--                    <field name="parameter_type_in_lims" widget="one2many_list" />-->
+                    <field name="active" invisible="1"/>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
+                    <field
+                        name="result"
+                        style="width:15%;height:50px;display:flex;align-items: center;justify-content:center;font-size:1.3em;font-weight:bolder;color:white;"
+                        class="ml-6 float-right"
+                        widget="badge"
+                        decoration-success="result == 'pass'"
+                        decoration-warning="result == 'warning'"
+                        decoration-danger="result == 'fail'"
+                        decoration-info="result == 'none'"
+                    />
+                    <!--
+                        widget="label_selection"
+                        options="{'classes': {'unrealized': 'default','warning': 'warning','fail': 'danger','pass': 'success'}}"
+                    -->
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group
+                            name="Sample Information"
+                            string="Sample Information"
+                        >
+                            <!--                                <field name="analysis_id" />-->
+                            <field name="stock_move_line_id" invisible="1"/>
+                            <field
+                                name="product_id"
+                                domain="[('is_product_sample', '=', True)]"
+                            />
+                            <field name="description"/>
+                            <field name="lot_id"/>
+                            <field
+                                name="priority"
+                                class="oe_inline"
+                                widget="priority"
+                            />
+                            <!--<field name="regulation"></field>-->
+                        </group>
+                        <group
+                            name="General Information"
+                            string="General Information"
+                        >
+                            <field name="pricelist_id"/>
+                            <field
+                                name="maker_id"
+                                domain="[('is_maker', '=', True)]"
+                            />
+
+                            <field
+                                name="laboratory_id"
+                                domain="[('is_lab', '=', True)]"
+                            />
+                            <field name="customer_id"/>
+                            <field name="customer_contact_id"/>
+                            <!--<field name="active"></field>-->
+                            <!--<field name="tag_ids"></field>-->
+                            <field name="date_sample_receipt" readonly="0"/>
+                            <field name="date_sample_begin"/>
+                            <field name="date_complete"/>
+                            <field name="sampler"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Resultados" name="numerical_results">
+                            <field name="numerical_result" widget="one2many_list" attrs="{'readonly': [('state', 'in', ('received','complete','validated','issued'))]}"/>
+                        </page>
+                        <page string="Otra Información" name="other_info">
+                            <group>
+                                <group>
+                                    <field name="reason"/>
+                                    <field name="reference"/>
+                                    <field name="date_issue"/>
+                                    <field name="date_due"/>
+                                    <field name="company_id"/>
+                                </group>
+                                <group>
+                                    <field name="previous_analysis_date"/>
+                                    <field name="previous_analysis_result"
+                                           decoration-success="previous_analysis_result == 'pass'"
+                                           decoration-warning="previous_analysis_result == 'warning'"
+                                           decoration-danger="previous_analysis_result == 'fail'"
+                                           decoration-info="previous_analysis_result == 'none'"
+                                           widget="badge"
+                                    />
+                                </group>
+                            </group>
+
+                        </page>
+                        <page string="Media" name="media">
+                            <group>
+                                <!--<field name="lot_img" widget='image' />-->
+                                <group name="lot_image_ids" string="Media">
+                                    <field
+                                        name="image_ids"
+                                        context="{'name': name}"
+                                        mode="kanban"
+                                        options="{'create_text':'Add a Media'}"
+                                        nolabel="1"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group name="note_group" col="6" class="mt-2 mt-md-0">
+                        <group colspan="4">
+                            <field
+                                name="note"
+                                nolabel="1"
+                                placeholder="Nota..."
+                            />
+                        </group>
+                    </group>
+                </sheet>
+                <!-- Add chatter and followers widget -->
+                <div class="oe_chatter">
+                    <!-- Followers view -->
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <!-- Chatter view -->
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_line_lims_tree" model="ir.ui.view">
+        <field name="name">analysis.line.lims.tree</field>
+        <field name="model">lims.analysis.line</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="analysis_id"/>
+                <field name="state"/>
+                <field
+                    name="result"
+                    class="w-50 text-center text-uppercase font-weight-bolder"
+                    widget="badge"
+                    decoration-success="result == 'pass'"
+                    decoration-warning="result == 'warning'"
+                    decoration-danger="result == 'fail'"
+                    decoration-info="result == 'none'"
+                />
+                <field name="priority" class="oe_inline" widget="priority"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_analysis_line" model="ir.actions.act_window">
+        <field name="name">Análisis</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_lims_analysis_line"
+        name="Analysis"
+        parent="cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_analysis_line"
+        groups="base.group_system"
+    />
+
+    <!--Secuence-->
+    <record id="sequence_analysis_line_lims" model="ir.sequence">
+        <field name="name">Analysis sequence</field>
+        <field name="code">analysis.line.lims.code</field>
+        <field name="active">True</field>
+        <field name="prefix">Analisis-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Action -->
+    <record id="analysis_new_action" model="ir.actions.act_window">
+        <field name="name">Analysis</field>
+        <field name="res_model">lims.analysis.line</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="action_view_analysis" model="ir.actions.act_window">
+        <field name="name">Analysis</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <record id="view_sample_image_form" model="ir.ui.view">
+        <field name="name">sample.image.view.form</field>
+        <field name="model">sample.image</field>
+        <field name="arch" type="xml">
+            <form string="Sample Images">
+                <field name="sequence" invisible="1"/>
+                <div class="row o_website_sale_image_modal">
+                    <div class="col-md-6 col-xl-5">
+                        <label for="name" string="Image Name"/>
+                        <h2>
+                            <field name="name" placeholder="Image Name"/>
+                        </h2>
+                        <label for="main" string="Imagen principal"/>
+                        <h2>
+                            <field name="main"/>
+                        </h2>
+                    </div>
+                    <div
+                        class="col-md-6 col-xl-7 text-center o_website_sale_image_modal_container"
+                    >
+                        <div class="row">
+                            <div class="col">
+                                <field name="image_1920" widget="image"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="sample_image_view_kanban" model="ir.ui.view">
+        <field name="name">sample.image.view.kanban</field>
+        <field name="model">sample.image</field>
+        <field name="arch" type="xml">
+            <kanban string="Product Images" default_order="sequence">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="image_1920"/>
+                <field name="sequence" widget="handle"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="card oe_kanban_global_click p-0">
+                            <div class="o_squared_image">
+                                <img
+                                    class="card-img-top"
+                                    t-att-src="kanban_image('sample.image', 'image_1920', record.id.raw_value)"
+                                    t-att-alt="record.name.value"
+                                />
+                            </div>
+                            <div class="card-body p-0">
+                                <h4 class="card-title p-2 m-0 bg-200">
+                                    <small>
+                                        <field name="name"/>
+                                    </small>
+                                </h4>
+                            </div>
+                            <!-- below 100 Kb: good -->
+                            <t t-if="record.image_1920.raw_value.length &lt; 100*1000">
+                                <t t-set="size_status" t-value="'badge-success'"/>
+                                <t t-set="message">Acceptable file size</t>
+                            </t>
+                            <!-- below 1000 Kb: decent -->
+                            <t
+                                t-elif="record.image_1920.raw_value.length &lt; 1000*1000"
+                            >
+                                <t t-set="size_status" t-value="'badge-warning'"/>
+                                <t
+                                    t-set="message"
+                                >Huge file size. The image should be optimized/reduced.
+                                </t>
+                            </t>
+                            <!-- above 1000 Kb: bad -->
+                            <t t-else="1">
+                                <t t-set="size_status" t-value="'badge-danger'"/>
+                                <t
+                                    t-set="message"
+                                >Optimization required! Reduce the image size or increase your compression settings.
+                                </t>
+                            </t>
+                            <span
+                                t-attf-class="badge #{size_status} o_product_image_size"
+                                t-esc="record.image_1920.value"
+                                t-att-title="message"
+                            />
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <template id="lims.external_layout_boxed">
+            <t t-name="lims.external_layout_boxed">
+                <div t-attf-class="header" t-att-style="report_header_style">
+                    <div
+                        class="o_boxed_header"
+                        style="margin-top:0px;max-height:130px;"
+                    >
+                        <div
+                            style="width:7%;min-height:130px;max-height:130px;float:left;"
+                        >
+                            <figure style="width:100%;">
+                                <img
+                                    style="width:100%;min-height:130px;"
+                                    src="/lims/static/src/img/unika-header.png"
+                                />
+                            </figure>
+                        </div>
+                        <div
+                            style="width:23%;min-height:130px;max-height:130px;float:left;margin-left:1%;"
+                        >
+                            <figure style="width:100%;">
+                                <img
+                                    t-if="company.logo"
+                                    t-att-src="image_data_uri(company.logo)"
+                                    alt="Logo"
+                                    style="width:100%;margin-top:40px;"
+                                />
+                            </figure>
+                        </div>
+                        <div
+                            style="width:44.5%;height:130px;max-height:130px;float:left;margin-left:1%;background-color:#d0d7e1;display:table;"
+                        >
+                            <p
+                                style="display:table-cell;vertical-align: middle;text-align:center;font-size:1.4em;font-weight:bolder;color:black;"
+                                t-esc="product_name"
+                            />
+                        </div>
+                        <div
+                            style="width:23%;min-height:130px;max-height:130px;float:left;margin-left:0.5%;color:black;"
+                        >
+                            <div
+                                style="background-color:#d0d7e1;height:45px;font-size:1.1em;"
+                            >
+                                <div>
+                                    <span
+                                        style="color:#129067;font-weight:bolder;margin-left:5px;margin-bottom:0;"
+                                    >Report Nº:</span>
+                                </div>
+                                <div style="text-align:left;margin-top:-5px;">
+                                    <span style="margin-left:5px;" t-esc="doc_name" />
+                                </div>
+                            </div>
+                            <div
+                                style="background-color:#d0d7e1;height:26px;margin-top:3px;font-size:1.1em;"
+                            >
+                                <span
+                                    style="color:#129067;font-weight:bolder;margin-left:5px;"
+                                >id: </span>
+                                <span t-esc="doc_id" />
+                            </div>
+                            <div
+                                style="background-color:#d0d7e1;height:25px;margin-top:3px;"
+                            >
+                                 <span
+                                    style="color:#129067;font-weight:bolder;margin-left:5px;"
+                                >Date: </span>
+                                <span
+                                    t-esc="doc_complete_date"
+                                    t-options='{"widget": "date","format": "dd/MM/yyyy"}'
+                                />
+                            </div>
+                            <div
+                                style="background-color:#d0d7e1;height:25px;margin-top:3px;"
+                            >
+                                 <span
+                                    style="color:#129067;font-weight:bolder;margin-left:5px;"
+                                >Page: </span>
+                                <span class="page" />
+                                <span>/</span>
+                                <span class="topage" />
+                            </div>
+                        </div>
+                        <div style="clear:both;" />
+                    </div>
+                </div>
+
+                <div
+                    t-attf-class="article "
+                    t-att-data-oe-model="o and o._name"
+                    t-att-data-oe-id="o and o.id"
+                    t-att-data-oe-lang="o and o.env.context.get('lang')"
+                >
+                    <div class="pt-5">
+                        <!-- This div ensures that the address is not cropped by the header. -->
+                        <t t-call="web.address_layout" />
+                    </div>
+                    <t t-raw="0" />
+                </div>
+
+                <div t-attf-class="footer">
+                    <div
+                        style="height:50px;background-color:#12986f;display:table;width:100%;"
+                    >
+                        <p
+                            style="color:white;font-size:0.95em;display:table-cell;vertical-align: middle;text-align:text-align:center;"
+                        >
+                            <span style="margin-left:8px;"><strong>UNIKA</strong></span>
+                            <span>Gestión de Marcas, SL,</span>
+                            <span t-esc="company.street" />
+                            <span> - </span>
+                            <span t-esc="company.zip" />
+                            <span> </span>
+                            <span t-esc="company.city" />
+                            <span> (</span>
+                            <span t-esc="company.state_id.name" />
+                            <span>) Tfno.- </span>
+                            <span t-esc="company.phone" />
+                            <span> </span>
+                             <t
+                                t-set="website_num"
+                                t-value="company.website.find('/') + 2 "
+                            />
+                            <t
+                                t-set="website_url"
+                                t-value="company.website[website_num:]"
+                            />
+                            <span t-esc="website_url" />
+
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

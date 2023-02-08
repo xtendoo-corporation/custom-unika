@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+    <record id="analysis_lims_form" model="ir.ui.view">
+        <field name="name">analysis.lims.form</field>
+        <field name="model">lims.analysis</field>
+        <field name="arch" type="xml">
+            <form>
+                 <div class="oe_title">
+                    <h1 class="mt0">
+                        <field name="name" placeholder="Analytic Package name" required="1"/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                         <field name="description" widget="section_and_note_text"/>
+                         <field name="price" />
+                    </group>
+                    <group>
+                         <field name="company_id" required="1"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Parameters" name="parameters">
+                        <field name="parameter_used_ids" invisible="1"/>
+                        <field
+                            name="parameter_method_ids"
+                            widget="one2many_list"
+                            domain="[('id', 'not in', parameter_used_ids)]"
+                        >
+                              <tree editable="bottom">
+                                  <field name="parent_id" invisible="1"/>
+                                  <field name="parameter_used_ids" invisible="1"/>
+                                  <field name="parameter_id" string="Parameter" invisible="1"/>
+                                  <field name="analytical_method_id" string="Parameter and method" domain="[('id', 'not in', parameter_used_ids)]"/>
+                                  <field name="uom_id" domain="[('id', '=', parameter_uom)]" string="Unit of meassure"/>
+                                  <field name="parameter_uom" invisible="1"/>
+                                  <field name="cost" string="Cost"/>
+                                  <field name="price" string="Price"/>
+                                  <field name="external_lab" string="External laboratory"/>
+                                  <field name="company_id" string="Company"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_lims_tree" model="ir.ui.view">
+        <field name="name">analysis.lims.tree</field>
+        <field name="model">lims.analysis</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Name"/>
+                   <field name="parameter_method_ids" string="Parameters" widget="many2many_tags" />
+                    <field name="price" string="Price"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_analysis" model="ir.actions.act_window">
+        <field name="name">Analytical Packages</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_lims_analysis"
+        name="Analytical Packages"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_analysis"
+        groups="base.group_system"
+    />
+</odoo>

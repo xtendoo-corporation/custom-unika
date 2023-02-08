@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="analysis_numerical_resutl_form" model="ir.ui.view">
+        <field name="name">analysis.numerical.result.form</field>
+        <field name="model">lims.analysis.numerical.result</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <field name="analysis_ids" readonly="1" invisible="1" />
+                <label for="parameter_ids"/>
+                <field name="parameter_ids" optional="show" string="Parámetro" />
+                <br />
+<!--                <field name="type_tags" widget="many2many_tags" no_create="0" readonly="1" optional="show" string="type_tags" />-->
+                <field name="parameter_uom_all" string="UdM_all" invisible="1" />
+                <label for="parameter_uom"/>
+                <field
+                    name="parameter_uom"
+                    optional="show"
+                    string="UdM"
+                    domain="[('id', 'in', parameter_uom_all)]"
+                />
+                <br />
+                <label for="value"/>
+                <field name="value" optional="show" string="value" />
+                <br />
+                <label for="is_present"/>
+                <field name="is_present" optional="show" string="Present" />
+                <br />
+                <label for="is_correct"/>
+                <field name="is_correct" optional="show" string="Correct" />
+                <br />
+                <label for="data_sheet"/>
+                <field name="data_sheet" optional="show" string="Data sheet" />
+                <br />
+                <label for="result_datasheet"/>
+                <field
+                    name="result_datasheet"
+                    decoration-success="result_datasheet == 'pass'"
+                    decoration-warning="result_datasheet == 'warning'"
+                    decoration-danger="result_datasheet == 'fail'"
+                    decoration-info="result_datasheet == 'none'"
+                    widget="badge"
+                    optional="show"
+                    string="Result DS."
+                />
+                <br />
+                <label for="legislation_value"/>
+                <field name="legislation_value" optional="show" string="legislation" />
+                <br />
+                <label for="result_legislation"/>
+                <field
+                    name="result_legislation"
+                    decoration-success="result_legislation == 'pass'"
+                    decoration-warning="result_legislation == 'warning'"
+                    decoration-danger="result_legislation == 'fail'"
+                    decoration-info="result_legislation == 'none'"
+                    widget="badge"
+                    optional="show"
+                    string="Result Le."
+                />
+                <br />
+<!--                <field name="labeled" optional="show" string="Labeled" />-->
+<!--                 <field-->
+<!--                    name="result_label"-->
+<!--                    decoration-success="result_label == 'pass'"-->
+<!--                    decoration-warning="result_label == 'warning'"-->
+<!--                    decoration-danger="result_label == 'fail'"-->
+<!--                    decoration-info="result_label == 'none'"-->
+<!--                    widget="badge"-->
+<!--                    optional="show"-->
+<!--                    string="Result L."-->
+<!--                />-->
+                <label for="reason"/>
+                <field name="reason" optional="show" string="Reason" />
+                <br />
+                <label for="required_comment"/>
+                <field name="required_comment" invisible="1" string="required_comment" />
+                <br />
+                <label for="comment"/>
+                <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
+                <br />
+                <label for="to_invoice"/>
+                <field name="to_invoice" optional="show" string="To invoice" />
+                <br />
+                <label for="show_in_report"/>
+                <field name="show_in_report" optional="show" string="Show in report" />
+                <br />
+                <label for="price"/>
+                <field name="price" />
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_numerical_result_tree" model="ir.ui.view">
+        <field name="name">analysis.numerical.result.result.tree</field>
+        <field name="model">lims.analysis.numerical.result</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" multi_edit="1">
+                <field name="analysis_ids" readonly="1" invisible="1" />
+                <field name="lot_id" optional="hide"/>
+                <field name="parameter_ids" optional="show" string="Parámetro" />
+<!--                <field name="type_tags" widget="many2many_tags" no_create="0" readonly="1" optional="show" string="type_tags" />-->
+                <field name="parameter_uom_all" string="UdM_all" invisible="1" />
+                <field
+                    name="parameter_uom"
+                    optional="show"
+                    string="UdM"
+                    domain="[('id', 'in', parameter_uom_all)]"
+                />
+                <field name="value" optional="show" string="value" />
+                <field name="is_present" optional="show" string="Present" />
+                <field name="is_correct" optional="show" string="Correct" />
+                <field name="data_sheet" optional="show" string="Data sheet" />
+                <field
+                    name="result_datasheet"
+                    decoration-success="result_datasheet == 'pass'"
+                    decoration-warning="result_datasheet == 'warning'"
+                    decoration-danger="result_datasheet == 'fail'"
+                    decoration-info="result_datasheet == 'none'"
+                    widget="badge"
+                    optional="show"
+                    string="Result DS."
+                />
+                <field name="legislation_value" optional="show" string="legislation" />
+                <field
+                    name="result_legislation"
+                    decoration-success="result_legislation == 'pass'"
+                    decoration-warning="result_legislation == 'warning'"
+                    decoration-danger="result_legislation == 'fail'"
+                    decoration-info="result_legislation == 'none'"
+                    widget="badge"
+                    optional="show"
+                    string="Result Le."
+                />
+<!--                <field name="labeled" optional="show" string="Labeled" />-->
+<!--                 <field-->
+<!--                    name="result_label"-->
+<!--                    decoration-success="result_label == 'pass'"-->
+<!--                    decoration-warning="result_label == 'warning'"-->
+<!--                    decoration-danger="result_label == 'fail'"-->
+<!--                    decoration-info="result_label == 'none'"-->
+<!--                    widget="badge"-->
+<!--                    optional="show"-->
+<!--                    string="Result L."-->
+<!--                />-->
+                <field name="reason" optional="show" string="Reason" />
+                <field name="required_comment" invisible="1" string="required_comment" />
+                <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
+                <field name="to_invoice" optional="show" string="To invoice" />
+                <field name="show_in_report" optional="show" string="Show in report" />
+                <field name="price" />
+            </tree>
+        </field>
+    </record>
+
+     <record id="action_lims_analysis_numerical_result" model="ir.actions.act_window">
+        <field name="name">Components to analyze</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.numerical.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_analysis_numerical_result"
+        name="Components to analyze"
+        parent="cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_analysis_numerical_result"
+        groups="base.group_system"
+    />
+
+</odoo>

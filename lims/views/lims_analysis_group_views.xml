@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+    <record id="lims_analysis_group_form" model="ir.ui.view">
+        <field name="name">lims.analysis.group.form</field>
+        <field name="model">lims.analysis.group</field>
+        <field name="arch" type="xml">
+            <form>
+                <label for="name" />
+                <field name="name" />
+                 <br />
+                <label for="analysis_ids" />
+                <field name="analysis_ids" widget="res_partner_many2one" />
+            </form>
+        </field>
+    </record>
+
+    <record id="lims_analysis_group_tree" model="ir.ui.view">
+        <field name="name">lims.analysis.group.tree</field>
+        <field name="model">lims.analysis.group</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="analysis_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_analysis_group" model="ir.actions.act_window">
+        <field name="name">Analysis Group</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+    <menuitem
+        id="menu_lims_analysis_group"
+        name="Analysis Group"
+        parent="cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_analysis_group"
+        groups="base.group_system"
+    />
+</odoo>

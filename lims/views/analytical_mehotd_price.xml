@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="anaytical_method_price_tree" model="ir.ui.view">
+        <field name="name">anaytical.method.price.tree</field>
+        <field name="model">analytical.method.price</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name" string="Name" required="1"/>
+                <field name="parameter_id" invisible="1"></field>
+                <field name="analytical_method_id" required="1"/>
+                <field name="external_lab" string="External laboratory" domain="[('is_lab','=', True)]"/>
+                <field name="cost" string="Cost" widget="monetary"/>
+                <field name="price" string="Price" widget="monetary"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="anaytical_method_price_form" model="ir.ui.view">
+        <field name="name">anaytical.method.price.form</field>
+        <field name="model">analytical.method.price</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="analytical_method_id" required="1"/>
+                        <field name="name" string="Name" required="1"/>
+                        <field name="price" string="Price" widget="monetary"/>
+                    </group>
+                    <group>
+                        <field name="parameter_id" invisible="1"></field>
+                        <field name="external_lab" string="External laboratory" domain="[('is_lab','=', True)]"/>
+                        <field name="cost" string="Cost" widget="monetary"/>
+                        <field name="company_id" string="Company" required="1"></field>
+                    </group>
+                </group>
+
+            </form>
+        </field>
+    </record>
+</odoo>

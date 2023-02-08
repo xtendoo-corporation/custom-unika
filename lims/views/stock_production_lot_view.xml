@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="stock_production_lot_view" model="ir.ui.view">
+        <field name="name">stock.production.lot.view</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form" />
+        <field name="arch" type="xml">
+<!--             <xpath expr="//notebook/page[@name='description']" position="after">-->
+<!--                 <page string="Media" name="media">-->
+<!--                     <group>-->
+<!--                    &lt;!&ndash;<field name="lot_img" widget='image' />&ndash;&gt;-->
+<!--                     <group name="lot_image_ids" string="Media">-->
+<!--                        <field-->
+<!--                                name="lot_image_ids"-->
+<!--                                context="{'name': name}"-->
+<!--                                mode="kanban"-->
+<!--                                options="{'create_text':'Add a Media'}"-->
+<!--                                nolabel="1"-->
+<!--                            />-->
+<!--                    </group>-->
+<!--                     </group>-->
+<!--                 </page>-->
+<!--             </xpath>-->
+            <xpath expr="//group[@name='main_group']/group/field[@name='company_id']" position="after">
+                    <field name="partner_id"></field>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="view_sample_image_form" model="ir.ui.view">
+        <field name="name">sample.image.view.form</field>
+        <field name="model">sample.image</field>
+        <field name="arch" type="xml">
+            <form string="Sample Images">
+                <field name="sequence" invisible="1" />
+                <div class="row o_website_sale_image_modal">
+                    <div class="col-md-6 col-xl-5">
+                        <label for="name" string="Image Name" />
+                        <h2><field name="name" placeholder="Image Name" /></h2>
+                        <label for="main" string="Imagen principal" />
+                        <h2><field name="main" /></h2>
+                    </div>
+                    <div
+                        class="col-md-6 col-xl-7 text-center o_website_sale_image_modal_container"
+                    >
+                        <div class="row">
+                            <div class="col">
+                                <field name="image_1920" widget="image" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="sample_image_view_kanban" model="ir.ui.view">
+        <field name="name">sample.image.view.kanban</field>
+        <field name="model">sample.image</field>
+        <field name="arch" type="xml">
+            <kanban string="Product Images" default_order="sequence">
+                <field name="id" />
+                <field name="name" />
+                <field name="image_1920" />
+                <field name="sequence" widget="handle" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="card oe_kanban_global_click p-0">
+                            <div class="o_squared_image">
+                                <img
+                                    class="card-img-top"
+                                    t-att-src="kanban_image('sample.image', 'image_1920', record.id.raw_value)"
+                                    t-att-alt="record.name.value"
+                                />
+                            </div>
+                            <div class="card-body p-0">
+                                <h4 class="card-title p-2 m-0 bg-200">
+                                    <small><field name="name" /></small>
+                                </h4>
+                            </div>
+                            <!-- below 100 Kb: good -->
+                            <t t-if="record.image_1920.raw_value.length &lt; 100*1000">
+                                <t t-set="size_status" t-value="'badge-success'" />
+                                <t t-set="message">Acceptable file size</t>
+                            </t>
+                            <!-- below 1000 Kb: decent -->
+                            <t
+                                t-elif="record.image_1920.raw_value.length &lt; 1000*1000"
+                            >
+                                <t t-set="size_status" t-value="'badge-warning'" />
+                                <t
+                                    t-set="message"
+                                >Huge file size. The image should be optimized/reduced.</t>
+                            </t>
+                            <!-- above 1000 Kb: bad -->
+                            <t t-else="1">
+                                <t t-set="size_status" t-value="'badge-danger'" />
+                                <t
+                                    t-set="message"
+                                >Optimization required! Reduce the image size or increase your compression settings.</t>
+                            </t>
+                            <span
+                                t-attf-class="badge #{size_status} o_product_image_size"
+                                t-esc="record.image_1920.value"
+                                t-att-title="message"
+                            />
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+      <record id="stock_production_lot_view_tree" model="ir.ui.view">
+        <field name="name">stock.production.lot.view.tree</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree" />
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='product_id']" position="after">
+                 <field name="partner_id"></field>
+             </xpath>
+        </field>
+      </record>
+</odoo>

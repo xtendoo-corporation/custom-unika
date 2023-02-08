@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="wirard_lot" model="ir.ui.view">
+        <field name="name">wizard.lot</field>
+        <field name="model">lims.wizard.lot</field>
+        <field name="arch" type="xml">
+            <form string="Generar Lotes" edit="false">
+                <group string="Generar Lotes">
+                    <group name="from">
+                        <field name="number_from" readonly="1" />
+                    </group>
+                     <group name="to">
+                        <field name="quantity" />
+                    </group>
+                </group>
+                <group>
+                     <field name="partner_id" />
+                </group>
+                <footer>
+                     <button
+                        class="btn btn-primary"
+                        name="generate_lots"
+                        string="Generate"
+                        type="object"
+                    />
+                    <button
+                        class="btn btn-primary"
+                        name="generate_and_print_lots"
+                        string="Generate and print"
+                        type="object"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_menu_wizard_lot" model="ir.actions.act_window">
+        <field name="name">Generate sample numbers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.wizard.lot</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+</odoo>

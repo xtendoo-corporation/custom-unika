@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <menuitem
+        id="main_menu_lims"
+        name="LIMS"
+        web_icon="lims,static/description/icon.png"
+    />
+    <menuitem
+        id="cat_menu_lims_product_parent"
+        name="Products"
+        parent="main_menu_lims"
+        sequence="0"
+    />
+    <menuitem
+        id="cat_menu_lims_product"
+        name="Products"
+        parent="cat_menu_lims_product_parent"
+        sequence="0"
+        action="action_product_product_sample"
+    />
+    <menuitem
+        id="cat_menu_lims_lots"
+        name="Sample number"
+        parent="cat_menu_lims_product_parent"
+        sequence="1"
+        action="stock.action_production_lot_form"
+    />
+    <menuitem
+        name="Brands"
+        id="menu_product_brand_inherit"
+        action="product_brand.action_product_brand"
+        parent="cat_menu_lims_product_parent"
+    />
+    <menuitem
+        id="cat_menu_lims_pricelist"
+        name="Pricelist"
+        parent="cat_menu_lims_product_parent"
+        sequence="1"
+        action="product.product_pricelist_action2"
+    />
+    <menuitem
+        id="cat_menu_lims_lab"
+        name="Laboratories"
+        parent="main_menu_lims"
+        sequence="1"
+        action="action_contacts_lab"
+    />
+     <menuitem
+        id="cat_menu_lims_maker"
+        name="Makers"
+        parent="main_menu_lims"
+        sequence="1"
+        action="action_contacts_maker"
+    />
+    <menuitem
+        id="cat_menu_lims_config"
+        name="Settings"
+        parent="main_menu_lims"
+        sequence="2"
+    />
+    <menuitem
+        id="cat_menu_lims_config_organizing"
+        name="Organization"
+        parent="cat_menu_lims_config"
+        sequence="0"
+    />
+     <menuitem
+        id="cat_menu_lims_lots_generate"
+        name="Generate sample numbers"
+        parent="cat_menu_lims_product_parent"
+        sequence="2"
+        action="lims.action_menu_wizard_lot"
+    />
+
+        <menuitem
+        id="menu_lims_uom"
+        name="Unit of meassure"
+        parent="lims.cat_menu_lims_config"
+        sequence="2"
+        action="uom.product_uom_categ_form_action"
+    />
+</odoo>

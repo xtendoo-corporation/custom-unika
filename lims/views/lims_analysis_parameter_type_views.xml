@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="analysis_parameters_type_form" model="ir.ui.view">
+        <field name="name">analysis.parameters.type.form</field>
+        <field name="model">lims.analysis.parameter.type.tags</field>
+        <field name="arch" type="xml">
+            <form string="Sale Order Tags">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="toggle_active"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-archive"
+                        >
+                            <field
+                                name="active"
+                                widget="boolean_button"
+                                options='{"terminology": "archive"}'
+                            />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Bloq" />
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description" string="Description"/>
+                            <field name="internal" string="Internal"></field>
+                            <field name="color" string="Color" widget="color_picker" ></field>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_parameters_type_tree" model="ir.ui.view">
+        <field name="name">analysis.parameters.type.tree</field>
+        <field name="model">lims.analysis.parameter.type.tags</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Bloq"/>
+                <field name="description" string="Description"/>
+                <field name="color" string="Color" widget="color_picker" ></field>
+                <field name="internal" string="Internal"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_parameter_type" model="ir.actions.act_window">
+        <field name="name">Parameter types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.parameter.type.tags</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_lims_parameter_type"
+        name="Parameter types"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_parameter_type"
+        groups="base.group_system"
+    />
+</odoo>

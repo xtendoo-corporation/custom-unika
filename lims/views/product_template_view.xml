@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.lims.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_analysis"
+                    type="object"
+                    icon="fa-flask"
+                    attrs="{'invisible': [('analysis_count', '=', 0)]}"
+                >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field
+                                name="analysis_count"
+                            />
+                        </span>
+                        <span class="o_stat_text">Analysis</span>
+                    </div>
+                </button>
+            </xpath>
+            <div name="options" position="inside">
+                <div>
+                    <field name="is_product_sample"/>
+                    <label for="is_product_sample"/>
+                </div>
+            </div>
+            <notebook position="inside">
+                <page
+                    name="product_lims"
+                    string="LIMS"
+                    attrs="{'invisible': [('is_product_sample', '!=', True)]}"
+                >
+                    <group>
+                        <field name="analysis_ids" widget="res_partner_many2one"/>
+                    </group>
+                    <group colspan="2" col="2">
+                        <separator string="Warning on the Analysis" colspan="4"/>
+                        <field name="analysis_warn" nolabel="1"/>
+                        <field name="analysis_warn_msg" colspan="3" nolabel="1" invisible="1"
+                               attrs="{'required':[('analysis_warn','!=', False), ('analysis_warn','!=','no-message')], 'invisible':[('analysis_warn','in',(False,'no-message'))]}"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="action_product_product_sample" model="ir.actions.act_window">
+        <field name="name">Samples</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="domain">[('is_product_sample', '=', True)]</field>
+        <field name="context">{'default_is_product_sample': True, 'default_detailed_type': 'product'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new sample product
+            </p>
+        </field>
+    </record>
+    <record id="product_template_view_search_lims" model="ir.ui.view">
+        <field name="name">lims.product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='consumable']" position="after">
+                <filter
+                    string="Samples"
+                    name="product_sample"
+                    domain="[('is_product_sample', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

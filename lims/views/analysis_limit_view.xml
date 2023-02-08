@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+     <record id="analysis_limit_form" model="ir.ui.view">
+        <field name="name">analysis.limit.form</field>
+        <field name="model">lims.analysis.limit</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="type" required="1"/>
+                    </group>
+                    <group>
+                        <field name="parameter_ids"></field>
+                        <field name="uom_id"
+                                domain="[('id', '=', parameter_uom)]"
+                               />
+                        <field name="parameter_uom"></field>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Limits" name="limits">
+                        <tree>
+                        <field
+                            name="limit_result_line_ids"
+                            widget="one2many_list"
+                        >
+                        </field>
+                        </tree>
+                    </page>
+
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_limit_tree" model="ir.ui.view">
+        <field name="name">analysis.limit.tree</field>
+        <field name="model">lims.analysis.limit</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="type" required="1"/>
+                <field name="uom_id"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

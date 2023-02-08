@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="analysis_limit_result_form" model="ir.ui.view">
+        <field name="name">analysis.legislation.limit.result.form</field>
+        <field name="model">lims.analysis.legislation.limit.result</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="oe_title">
+                    <h1 class="mt0">
+                        <field
+                            name="name"
+                            placeholder="Limit of the parameter and the article"
+                        />
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <group>
+                            <field name="parameter_ids" />
+<!--                            <field name="product_ids"  domain="[('is_product_sample','=', True)]"/>-->
+                        </group>
+                    </group>
+                    <group>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Limit Results" name="limit_results">
+                        <field
+                            name="limit_result_legislation_line_ids"
+                            widget="one2many_list"
+                        />
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_result_tree" model="ir.ui.view">
+        <field name="name">analysis.legislation.limit.result.tree</field>
+        <field name="model">lims.analysis.legislation.limit.result</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_legislation_limit_result" model="ir.actions.act_window">
+        <field name="name">Límites Legislacíon</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.legislation.limit.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_lims_legislation_limit_result"
+        name="Limites Legislación"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_legislation_limit_result"
+        groups="base.group_system"
+    />
+
+</odoo>

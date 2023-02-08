@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="lims_product_pricelist_item_form" model="ir.ui.view">
+        <field name="name">lims.product.pricelist.item.form</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_form_view" />
+        <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                <field
+                    name="analysis_group_ids"
+                    attrs="{
+                                  'invisible':[('applied_on', '!=', '4_analysis_group')],
+                                  'required':[('applied_on', '=', '4_analysis_group')]}"
+                    options="{'no_create':1}"
+                />
+                     <field
+                    name="analitycal_method_ids"
+                    attrs="{
+                                  'invisible':[('applied_on', '!=', '5_analytical_method')],
+                                  'required':[('applied_on', '=', '5_analytical_method')]}"
+                    options="{'no_create':1}"
+                />
+                </xpath>
+        </field>
+    </record>
+</odoo>

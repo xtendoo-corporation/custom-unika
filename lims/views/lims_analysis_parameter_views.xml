@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="analysis_parameters_form" model="ir.ui.view">
+        <field name="name">analysis.parameters.form</field>
+        <field name="model">lims.analysis.parameter</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="oe_title">
+                    <h1 class="mt0">
+                        <field name="name" placeholder="Parameter name" required="1"/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="default_code" string="Reference" required="1"/>
+                        <field
+                            string="Bloq"
+                            name="type_tags"
+                            widget="many2many_tags"
+                            no_create="0"
+                            options="{'color_field': 'color', 'no_create': True, 'no_create_edit': True}"
+                        />
+                        <field name="parameter_uom" string="Unit of meassure" widget="many2many_tags"/>
+                        <field name="required_comment" string="Comment required"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Methods" name="methods">
+                        <field
+                            name="analytical_method_price_ids"
+                            context="{'default_parameter_id': id}"
+                            domain="[('parameter_id','=', id)]"
+                            widget="one2many_list"
+                        >
+                        </field>
+                    </page>
+                    <page string="Limits" name="Limits_header">
+                        <field
+                            name="limits_ids"
+                            widget="one2many_list"
+
+                        >
+                            <tree editable="bottom">
+                                <field name="type" string="Tipo" required="1"/>
+                                <field name="uom_id"
+                                       string="Unit of meassure"
+                                       domain="[('id', 'in', parameter_uom)]"
+                                       attrs="{'required':[('parameter_uom','!=',[])]}"
+                                />
+                                <field name="parameter_uom" invisible="1" widget="many2many_tags"></field>
+                                <button
+                                    class="btn btn-link"
+                                    type="object"
+                                    name="open_limits_form"
+                                    icon="fa-bars"
+                                />
+                            </tree>
+                        </field>
+                    </page>
+
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_parameters_tree" model="ir.ui.view">
+        <field name="name">analysis.parameter.tree</field>
+        <field name="model">lims.analysis.parameter</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="default_code"/>
+                <field name="name"/>
+                <field
+                    name="type_tags"
+                    widget="many2many_tags"
+                    options="{'color_field': 'color', 'no_create': True, 'no_create_edit': True}"
+                />
+                <!--                <field name="analytical_method_price_ids" />-->
+                <field name="parameter_uom" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_parameter" model="ir.actions.act_window">
+        <field name="name">Parameters</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.parameter</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_lims_parameter"
+        name="Parameters"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_parameter"
+        groups="base.group_system"
+    />
+</odoo>

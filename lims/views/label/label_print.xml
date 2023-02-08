@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="lot_label" model="report.paperformat">
+            <field name="name">Lot Label</field>
+            <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">1.5</field>
+            <field name="margin_left">1.5</field>
+            <field name="page_height">30</field>
+            <field name="page_width">50</field>
+            <field name="orientation">Portrait</field>
+            <field name="header_line">False</field>
+            <field name="header_spacing">500</field>
+            <field name="dpi">90</field>
+        </record>
+
+       <report
+            id="lims_report_label_lot"
+            string="Label Print"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            name="lims.report_label_lot_lims"
+        />
+
+         <record id="lims_report_label_lot" model="ir.actions.report">
+            <field name="paperformat_id" ref="lims.lot_label" />
+        </record>
+
+        <template id="lims.report_label_lot_lims">
+           <t t-name="report_label_lot_lims">
+               <t t-foreach="docs" t-as="o">
+                   <t t-call="lims.report_label_lot_document_lims" />
+               </t>
+           </t>
+        </template>
+
+        <template id="lims.report_label_lot_document_lims">
+            <t t-name="report_label_lot_document_lims">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="oe_structure" />
+                        <table
+                            class="table table-condensed"
+                            style="border-bottom: 0px solid white !important;width: 3in;"
+                        >
+                            <!--<tr>
+                                <th style="text-align: left;">
+                                    <span t-field="o.product_id.display_name"/>
+                                </th>
+                            </tr> -->
+                            <tr style="text-align:center;" name="lot_name">
+                                <td style="font-size:1.5em;font-weight:bolder;">
+                                    <span>Sample:</span>
+                                    <span t-field="o.name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <img
+                                        t-if="o.name"
+                                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 150)"
+                                        style="width:100%;height:20%;"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

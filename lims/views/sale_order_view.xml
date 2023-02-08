@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2022 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="sale_order_lims_form" model="ir.ui.view">
+        <field name="name">sale.order.lims.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+<!--             <xpath expr="//header" position="after">-->
+<!--                <div-->
+<!--                    class="alert alert-warning"-->
+<!--                    role="alert"-->
+<!--                    attrs="{'invisible': [('sale_warn_msg', '=', False)]}"-->
+<!--                    style="margin-bottom:0px;"-->
+<!--                >-->
+
+<!--                    <div style="width:2%;float:left;">-->
+<!--                        <i class="fa fa-info-circle" style="font-size:2em;"/>-->
+<!--                    </div>-->
+<!--                    <div style="width:98%;float:left;">-->
+<!--                        <field name="sale_warn_msg" class="oe_inline" />-->
+<!--                    </div>-->
+<!--                    <div style="clear:both;">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </xpath>-->
+           <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_analysis"
+                    type="object"
+                    icon="fa-flask"
+                    attrs="{'invisible': [('analysis_count', '=', 0)]}"
+                >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field
+                                name="analysis_count"
+                            /></span>
+                        <span class="o_stat_text">Analysis</span>
+                    </div>
+                </button>
+            </xpath>
+             <xpath
+                expr="//field[@name='order_line']/tree/field[@name='name']"
+                position="after"
+            >
+                 <field name="analysis_group_ids" no-create="0" widget="many2many_tags" />
+                 <field name="parameter_ids" no-create="0" widget="many2many_tags" domain="[('id', 'not in', parameter_used_ids)]"/>
+                 <field name="parameter_used_ids" no-create="0" widget="many2many_tags" invisible="1"/>
+                <button name="button_edit_parameters" icon="fa-flask" type="object" />
+             </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="anaytical_method_price_tree_update_in_sale">
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="parameter_ids" />
+                <footer class="oe_edit_only">
+                    <button string="Guardar" special="save" class="oe_highlight" />
+                    <button string="Descartar" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

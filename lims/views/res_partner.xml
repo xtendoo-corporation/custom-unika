@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="res_partner_form_view" model="ir.ui.view">
+        <field name="name">res.partner.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+             <xpath expr="//sheet/group" position="before">
+                  <div
+                    class="o_row"
+                    attrs="{'invisible': ['|',('is_company','=',False),('parent_id','!=',False)]}"
+                >
+                      <group name="lims" String="Lims">
+                          <label for="is_lab" string="Is a laboratory"/>
+                          <div class="o_row">
+                            <field name="is_lab" />
+                        </div>
+                          <label for="is_maker" string="Is a maker"/>
+                          <div class="o_row">
+                            <field name="is_maker" />
+                        </div>
+                        <label for="send_by_mail" />
+                        <div class="o_row">
+                            <field name="send_by_mail" />
+                        </div>
+                    </group>
+                </div>
+             </xpath>
+        </field>
+    </record>
+
+    <record id="action_contacts_lab" model="ir.actions.act_window">
+        <field name="name">Laboratories</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="domain">[('is_lab', '=', True)]</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter" />
+        <field name="context">{'default_is_lab': True}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a laboratory in your address book
+          </p>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search_lims" model="ir.ui.view">
+        <field name="name">lims.partner.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="before">
+                <filter
+                    string="Laboratories"
+                    name="partner_lab"
+                    domain="[('is_lab', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+
+     <record id="action_contacts_maker" model="ir.actions.act_window">
+        <field name="name">Makers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter" />
+        <field name="domain">[('is_maker', '=', True)]</field>
+        <field name="context">{'default_is_maker': True}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a Maker in your address book
+          </p>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search_lims_maker" model="ir.ui.view">
+        <field name="name">lims.partner.search.maker</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="before">
+                <filter
+                    string="Makers"
+                    name="partner_maker"
+                    domain="[('is_maker', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

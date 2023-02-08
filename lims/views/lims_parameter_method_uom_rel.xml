@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Manuel Calero <https://xtendoo.es>
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="lims_parameter_method_uom_rel_tree" model="ir.ui.view">
+        <field name="name">lims.parameter.method.uom.rel.tree</field>
+        <field name="model">parameter.analytical.method.price.uom</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="analytical_method_id" string="Parameter and method"/>
+                <field name="parameter_id" string="Parameter" invisible="1"/>
+                <field name="uom_id" string="Unit of meassure" domain="[('id', '=', parameter_uom)]"/>
+                <field name="parameter_uom" invisible="1"/>
+                <field name="cost" string="Cost"/>
+                <field name="price" string="Price"/>
+                <field name="external_lab" string="External laboratory"/>
+                <field name="company_id" string="Company"/>
+
+            </tree>
+        </field>
+    </record>
+
+      <record id="lims_parameter_method_uom_rel_form" model="ir.ui.view">
+        <field name="name">lims.parameter.method.uom.rel.form</field>
+        <field name="model">parameter.analytical.method.price.uom</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="analytical_method_id"/>
+                <group>
+                    <group>
+                        <field name="parameter_id" invisible="1"/>
+                        <field name="uom_id" string="Unit of meassure" domain="[('id', '=', parameter_uom)]"/>
+                        <field name="price" string="Price"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="parameter_uom" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="cost" string="Cost"/>
+                        <field name="external_lab" string="External laboratory"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>
