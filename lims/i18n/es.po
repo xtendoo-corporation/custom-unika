@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-01 13:36+0000\n"
-"PO-Revision-Date: 2023-02-01 13:36+0000\n"
+"POT-Creation-Date: 2023-02-08 10:58+0000\n"
+"PO-Revision-Date: 2023-02-08 10:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,7 @@ msgstr ""
 
 #. module: lims
 #: code:addons/lims/models/analytical_method_price.py:0
+#: code:addons/lims/models/sale_order.py:0
 #, python-format
 msgid "%s - %s"
 msgstr ""
@@ -639,6 +640,11 @@ msgid "All Test Received"
 msgstr "Todas las pruebas recibidas"
 
 #. module: lims
+#: model:ir.model.fields,field_description:lims.field_sample_image__analysis_id
+msgid "Analisis"
+msgstr ""
+
+#. module: lims
 #: model:ir.actions.act_window,name:lims.action_view_analysis
 #: model:ir.actions.act_window,name:lims.analysis_new_action
 #: model:ir.actions.report,name:lims.report_analysis_result
@@ -687,6 +693,17 @@ msgid "Analysis Unika"
 msgstr "Análisis Unika"
 
 #. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__analysis_warn_msg
+msgid "Analysis Warn Msg"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_product_product__analysis_warn
+#: model:ir.model.fields,field_description:lims.field_product_template__analysis_warn
+msgid "Analysis Warnings"
+msgstr ""
+
+#. module: lims
 #: code:addons/lims/models/sale_order.py:0
 #: code:addons/lims/models/stock_picking.py:0
 #, python-format
@@ -714,7 +731,7 @@ msgstr "Análisis"
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__analysis_ids
 msgid "Analysis lims Line"
-msgstr ""
+msgstr "Análisis"
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__parameter_ids
@@ -723,7 +740,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parent_id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__parameter_ids
 msgid "Analysis lims parameter"
-msgstr ""
+msgstr "Parámetros"
 
 #. module: lims
 #: model:ir.model,name:lims.model_lims_analysis_lims_analysis_parameter_rel
@@ -782,7 +799,6 @@ msgstr "Aplicar Sobre"
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__pass
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__pass
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__pass
-#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__pass
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__pass
 msgid "Approved"
 msgstr "Aprobado"
@@ -919,6 +935,7 @@ msgstr "Convertir a borrador"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "Correct"
 msgstr "Correcto"
@@ -1008,6 +1025,8 @@ msgstr "Creado en"
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__customer_id
+#: model:ir.model.fields,field_description:lims.field_lims_wizard_lot__partner_id
+#: model:ir.model.fields,field_description:lims.field_stock_production_lot__partner_id
 msgid "Customer"
 msgstr "Cliente"
 
@@ -1030,6 +1049,7 @@ msgstr "F. Recepción:"
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__data_sheet
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit__type__technical
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Data sheet"
 msgstr "Ficha técnica"
 
@@ -1158,7 +1178,7 @@ msgid "External laboratory"
 msgstr "Laboratorio externo"
 
 #. module: lims
-#: model:ir.model.fields,field_description:lims.field_stock_production_lot__lot_image_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_line__image_ids
 msgid "Extra Sample Media"
 msgstr "Medios de muestra adicionales"
 
@@ -1171,7 +1191,6 @@ msgstr "F. toma de muestra:"
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__fail
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__fail
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__fail
-#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__fail
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__fail
 msgid "Failed"
 msgstr "Fallido"
@@ -1339,9 +1358,21 @@ msgid "Image Name"
 msgstr "Nombre Imagen"
 
 #. module: lims
+#: code:addons/lims/models/lims_analysis_line.py:0
+#, python-format
+msgid "Image/s are required for complete the anañysis"
+msgstr ""
+
+#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.view_sample_image_form
 msgid "Imagen principal"
 msgstr ""
+
+#. module: lims
+#: code:addons/lims/models/product_template.py:0
+#, python-format
+msgid "Images are required"
+msgstr "Se requieren imágenes"
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__incomplete
@@ -1428,12 +1459,6 @@ msgstr ""
 #: model:ir.actions.report,name:lims.lims_report_label_lot
 msgid "Label Print"
 msgstr "Impresión de etiquetas"
-
-#. module: lims
-#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__labeled
-#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
-msgid "Labeled"
-msgstr "Etiquetado"
 
 #. module: lims
 #: model:ir.actions.act_window,name:lims.action_contacts_lab
@@ -1616,14 +1641,14 @@ msgid "Mayor que"
 msgstr ""
 
 #. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.stock_production_lot_view
+#: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
 msgid "Media"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__priority__2
 msgid "Medium"
-msgstr "Media"
+msgstr "Multimedia"
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__<=
@@ -1638,6 +1663,7 @@ msgstr ""
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__message
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Message"
 msgstr "Comentario"
 
@@ -1645,6 +1671,12 @@ msgstr "Comentario"
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_has_error
 msgid "Message Delivery error"
 msgstr "Message delivery failure"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_product_product__analysis_warn_msg
+#: model:ir.model.fields,field_description:lims.field_product_template__analysis_warn_msg
+msgid "Message for Analysis"
+msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__message_ids
@@ -1668,11 +1700,6 @@ msgstr "nombre del método"
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
 msgid "Methods"
 msgstr "Métodos"
-
-#. module: lims
-#: model:ir.model.fields,field_description:lims.field_sample_image__lot_id
-msgid "Muestra"
-msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__analytical_method_id
@@ -1699,6 +1726,11 @@ msgstr "Nombre"
 #: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
 msgid "Name:"
 msgstr "Nombre:"
+
+#. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__product_template__analysis_warn__no-message
+msgid "No Message"
+msgstr ""
 
 #. module: lims
 #. openerp-web
@@ -1879,11 +1911,13 @@ msgstr "Parámetros"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Parámetro"
 msgstr ""
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "Present"
 msgstr "Presente"
@@ -1993,6 +2027,7 @@ msgstr "Productos"
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__reason
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__reason
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Reason"
 msgstr "Razón"
 
@@ -2024,22 +2059,24 @@ msgid "Required Commentary"
 msgstr "Comentario requerido"
 
 #. module: lims
+#: model:ir.model.fields.selection,name:lims.selection__product_template__analysis_warn__required_images
+msgid "Required images"
+msgstr "Imágenes requeridas"
+
+#. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__result
 msgid "Result"
 msgstr "Resultado"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Result DS."
 msgstr "Resultado FT."
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
-msgid "Result L."
-msgstr "Resultado E."
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Result Le."
 msgstr "Resultado  L."
 
@@ -2059,11 +2096,6 @@ msgid "Result dataSheet"
 msgstr "Resultado ficha técnica"
 
 #. module: lims
-#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__result_label
-msgid "Result label"
-msgstr "Resultado etiquetado"
-
-#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_line_lims_form
 msgid "Resultados"
 msgstr ""
@@ -2072,6 +2104,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_type_form
 msgid "Sale Order Tags"
 msgstr "Etiquetas de orden de venta"
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_sale_order__sale_warn_msg
+msgid "Sale Warn Msg"
+msgstr ""
 
 #. module: lims
 #: model:ir.model,name:lims.model_sale_order
@@ -2149,6 +2186,7 @@ msgstr "Mostrar en informe"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Show in report"
 msgstr "Mostrar en informe"
 
@@ -2195,6 +2233,7 @@ msgstr ""
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "To invoice"
 msgstr "Facturar"
 
@@ -2238,11 +2277,13 @@ msgstr ""
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "UdM"
 msgstr "Unidad"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "UdM_all"
 msgstr ""
 
@@ -2262,6 +2303,7 @@ msgid "Unit of Measure"
 msgstr "Unidad de medida"
 
 #. module: lims
+#: model:ir.ui.menu,name:lims.menu_lims_uom
 #: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
 #: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_form
@@ -2283,7 +2325,6 @@ msgstr "Contador de mensajes no leídos"
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__none
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__none
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__none
-#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__none
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__none
 msgid "Unrealized"
 msgstr "No realizado"
@@ -2324,10 +2365,16 @@ msgstr ""
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__warning
-#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_label__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__warning
 msgid "Warning"
 msgstr "Advertencia"
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.product_template_form_view
+msgid "Warning on the Analysis"
+msgstr ""
+"\n"
+"Advertencia en análisis"
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__website_message_ids
@@ -2338,6 +2385,16 @@ msgstr "Mensajes del sitio web"
 #: model:ir.model.fields,help:lims.field_lims_analysis_line__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicación del sitio web"
+
+#. module: lims
+#: model:ir.model.fields,help:lims.field_product_product__analysis_warn
+#: model:ir.model.fields,help:lims.field_product_template__analysis_warn
+msgid ""
+"When selecting the \"Required Images\" option, the user will be notified "
+"with the message \"You must add image/s\"."
+msgstr ""
+"Al seleccionar la opción \"Imágenes Requeridas\", el usuario será notificado"
+" con el mensaje \"Debe agregar imagen/es\"."
 
 #. module: lims
 #: code:addons/lims/models/lims_analysis_line.py:0
@@ -2410,12 +2467,8 @@ msgid "billable"
 msgstr "facturable"
 
 #. module: lims
-#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit__type__label
-msgid "labeled"
-msgstr "Etiquetado"
-
-#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "legislation"
 msgstr "legislación"
 
@@ -2456,6 +2509,7 @@ msgstr "tarifa"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "required_comment"
 msgstr "comentario_requerido"
 
@@ -2471,5 +2525,6 @@ msgstr "Incertidumbre"
 
 #. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "value"
 msgstr "valor"
