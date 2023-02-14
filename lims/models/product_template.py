@@ -36,10 +36,10 @@ class ProductTemplate(models.Model):
         default=False,
     )
 
-    limit_ids = fields.Many2many(
-        comodel_name="lims.analysis.limit.result",
-        string="Limits",
-    )
+    # limit_ids = fields.Many2many(
+    #     comodel_name="lims.analysis.limit.result",
+    #     string="Limits",
+    # )
     analysis_ids = fields.Many2many(
         "lims.analysis",
         "product_template_lims_analysis_rel",

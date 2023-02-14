@@ -36,7 +36,7 @@
                             name="analytical_method_price_ids"
                             context="{'default_parameter_id': id}"
                             domain="[('parameter_id','=', id)]"
-                            widget="one2many_list"
+                            widget="many2many"
                         >
                         </field>
                     </page>

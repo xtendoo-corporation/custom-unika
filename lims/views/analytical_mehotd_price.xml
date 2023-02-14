@@ -11,8 +11,8 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="name" string="Name" required="1"/>
-                <field name="parameter_id" invisible="1"></field>
+                <field name="name" string="Name" required="1" optional="hide"/>
+                <field name="parameter_id" optional="show"></field>
                 <field name="analytical_method_id" required="1"/>
                 <field name="external_lab" string="External laboratory" domain="[('is_lab','=', True)]"/>
                 <field name="cost" string="Cost" widget="monetary"/>

@@ -41,7 +41,7 @@
         "views/stock_production_lot_view.xml",
         "views/lims_analytical_method_views.xml",
         "views/sale_order_view.xml",
-        "views/layout/external_layout_boxed.xml",
+        #"views/layout/external_layout_boxed.xml",
         # Formatos
         "views/label/label_print.xml",
         "report/analysis_report_unika.xml",
