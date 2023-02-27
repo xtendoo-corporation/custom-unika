@@ -83,4 +83,13 @@
         action="action_lims_analysis"
         groups="base.group_system"
     />
+
+    <menuitem
+        id="menu_lims_analysis_in_sale"
+        name="Analytical Packages"
+        parent="sale.product_menu_catalog"
+        sequence="4"
+        action="action_lims_analysis"
+        groups="base.group_system"
+    />
 </odoo>

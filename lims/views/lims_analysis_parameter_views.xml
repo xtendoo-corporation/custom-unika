@@ -82,7 +82,7 @@
                     widget="many2many_tags"
                     options="{'color_field': 'color', 'no_create': True, 'no_create_edit': True}"
                 />
-                <!--                <field name="analytical_method_price_ids" />-->
+                <field name="analytical_method_price_ids" widget="many2many_tags"></field>
                 <field name="parameter_uom" widget="many2many_tags"/>
             </tree>
         </field>

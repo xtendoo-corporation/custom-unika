@@ -6,6 +6,7 @@ from odoo import fields, models, api, _
 class ParameterAnalyticalMethodRel(models.Model):
     _name = "analytical.method.price"
     _description = "Analytical Method Price"
+    _rec_name = "display_name"
 
     analytical_method_id = fields.Many2one(
         "lims.analytical.method", string="Method", ondelete="cascade", required=True
@@ -21,6 +22,14 @@ class ParameterAnalyticalMethodRel(models.Model):
         comodel_name="res.partner",
         string="External Lab",
     )
+
+    def get_display_name(self):
+        for register in self:
+            if self.env.context.get("params"):
+                register.display_name = register.analytical_method_id.name
+            else:
+                register.display_name = register.name
+    display_name = fields.Char(string="Display NAme", compute="get_display_name")
 
     def _get_company_id(self):
         return self.env.user.company_id

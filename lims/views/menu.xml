@@ -77,7 +77,7 @@
         action="lims.action_menu_wizard_lot"
     />
 
-        <menuitem
+    <menuitem
         id="menu_lims_uom"
         name="Unit of meassure"
         parent="lims.cat_menu_lims_config"
