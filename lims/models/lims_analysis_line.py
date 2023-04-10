@@ -264,19 +264,65 @@ class LimsAnalysisLine(models.Model):
                 result_comment = ""
                 is_correct_default = False
                 is_present_default = False
+                use_acreditation = False
+                use_normative = False
                 for parameter in parameter_method.parameter_id:
                     limit_ids_filter = parameter.limits_ids.filtered(lambda r: r.uom_id == parameter_method.uom_id)
-                    # ficha tecnica
+                    # ficha tecnica, Elegimos acreditado o no y si usa normativa.
                     technical_limit = ""
-                    for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
-                        for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                            technical_limit = limit_line_ids.get_correct_limit()
+                    if parameter_method.use_acreditation:
+                        use_acreditation = True
+                        acreditation_ids_filter = self.env["lims.analysis.normative"].search(
+                            [
+                                ("parameter_ids", "=", parameter.id),
+                                ("is_acreditation", "=", True),
+                                ("uom_id", "=", parameter_method.uom_id.id)
+                            ]
+                        )
+                        for line in acreditation_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                            technical_limit = line.get_correct_limit()
+
                             if technical_limit == "Present":
                                 is_present_default = True
                             if technical_limit == "Correct":
                                 is_correct_default = True
-                    technical_result = parameter.get_anlysis_result(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
-                    technical_comment = parameter._get_limit_comment(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
+                            technical_result = parameter.get_anlysis_result(
+                                acreditation_ids_filter, 0.00, is_correct_default,
+                                is_present_default)
+                            technical_comment = parameter._get_limit_comment(
+                                acreditation_ids_filter, 0.00, is_correct_default,
+                                is_present_default)
+                    elif parameter_method.use_normative:
+                        use_normative = True
+                        normative_ids_filter = self.env["lims.analysis.normative"].search(
+                            [
+                                ("parameter_ids", "=", parameter.id),
+                                ("is_acreditation", "=", False),
+                                ("uom_id", "=", parameter_method.uom_id.id)
+                            ]
+                        )
+                        for line in normative_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                            technical_limit = line.get_correct_limit()
+                            if technical_limit == "Present":
+                                is_present_default = True
+                            if technical_limit == "Correct":
+                                is_correct_default = True
+                            technical_result = parameter.get_anlysis_result(
+                                normative_ids_filter, 0.00, is_correct_default,
+                                is_present_default)
+                            technical_comment = parameter._get_limit_comment(
+                                normative_ids_filter, 0.00, is_correct_default,
+                                is_present_default)
+                    else:
+                        for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
+                            for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                technical_limit = limit_line_ids.get_correct_limit()
+                                if technical_limit == "Present":
+                                    is_present_default = True
+                                if technical_limit == "Correct":
+                                    is_correct_default = True
+                        technical_result = parameter.get_anlysis_result(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
+                        technical_comment = parameter._get_limit_comment(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
                     #legislacion
                     legislation_limit = ""
                     legislation_comment =""
@@ -322,6 +368,8 @@ class LimsAnalysisLine(models.Model):
                             "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
                             "to_invoice": False,
                             "comment": result_comment,
+                            "use_acreditation": use_acreditation,
+                            "use_normative": use_normative,
                         }
                     )
                     # self.env["lims.analysis.numerical.result"].create(

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-# Copyright 2021 - Manuel Calero <https://xtendoo.es>
 # Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -106,6 +105,8 @@
                 <field name="analysis_ids" readonly="1" invisible="1" />
                 <field name="lot_id" optional="hide"/>
                 <field name="parameter_ids" optional="show" string="Parámetro" />
+                <field name="use_acreditation" optional="hidden" string="Use acreditation"  readonly="1"/>
+                <field name="use_normative" optional="hidden" string="Use normative" readonly="1"/>
 <!--                <field name="type_tags" widget="many2many_tags" no_create="0" readonly="1" optional="show" string="type_tags" />-->
                 <field name="parameter_uom_all" string="UdM_all" invisible="1" />
                 <field
@@ -117,7 +118,7 @@
                 <field name="value" optional="show" string="value" />
                 <field name="is_present" optional="show" string="Present" />
                 <field name="is_correct" optional="show" string="Correct" />
-                <field name="data_sheet" optional="show" string="Data sheet" />
+                <field name="data_sheet" optional="show" string="Data sheet" readonly="1"/>
                 <field
                     name="result_datasheet"
                     decoration-success="result_datasheet == 'pass'"
@@ -128,7 +129,7 @@
                     optional="show"
                     string="Result DS."
                 />
-                <field name="legislation_value" optional="show" string="legislation" />
+                <field name="legislation_value" optional="show" string="legislation" readonly="1"/>
                 <field
                     name="result_legislation"
                     decoration-success="result_legislation == 'pass'"

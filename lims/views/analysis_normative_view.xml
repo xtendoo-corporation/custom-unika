@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+     <record id="analysis_normative_form" model="ir.ui.view">
+        <field name="name">analysis.normative.form</field>
+        <field name="model">lims.analysis.normative</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name"></field>
+                        <field name="parameter_ids" string="Parameter"></field>
+                    </group>
+                    <group>
+
+                        <field name="uom_id"
+                                domain="[('id', '=', parameter_uom)]"
+                               />
+                        <field name="parameter_uom" invisible="1"></field>
+                        <field name="is_acreditation" invisible="1"></field>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Limits" name="limits">
+                        <field
+                                name="limit_result_line_ids"
+                                widget="one2many_list"
+                            >
+                             <tree editable="bottom">
+                                <field name="operator_from" string="Operator from"/>
+                                <field name="limit_value_from" string="Limit value from"/>
+                                 <field name="operator_to" string="Operator to"/>
+                                 <field name="limit_value_to" string="Limit value to"/>
+                                 <field name="is_present" string="Present"/>
+                                 <field name="is_correct" string="Correct"/>
+                                 <field name="type" string="type"/>
+                                 <field name="state" string="state"/>
+                                 <field name="message" string="message"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="analysis_normative_tree" model="ir.ui.view">
+        <field name="name">analysis.normative.tree</field>
+        <field name="model">lims.analysis.normative</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"></field>
+                <field name="parameter_ids" string="Parameter"></field>
+                <field name="uom_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lims_normative" model="ir.actions.act_window">
+        <field name="name">Normatives</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.normative</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_is_acreditation': False}</field>
+        <field name="domain">[('is_acreditation', '=', False)]</field>
+    </record>
+
+     <menuitem
+        id="menu_lims_normative"
+        name="Normatives"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_normative"
+        groups="base.group_system"
+    />
+
+    <record id="action_lims_acreditation" model="ir.actions.act_window">
+        <field name="name">Acreditations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lims.analysis.normative</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_is_acreditation': True}</field>
+        <field name="domain">[('is_acreditation', '=', True)]</field>
+    </record>
+
+     <menuitem
+        id="menu_lims_acreditations"
+        name="Acreditations"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_lims_acreditation"
+        groups="base.group_system"
+    />
+</odoo>

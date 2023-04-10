@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-08 10:58+0000\n"
-"PO-Revision-Date: 2023-02-08 10:58+0000\n"
+"POT-Creation-Date: 2023-04-10 10:32+0000\n"
+"PO-Revision-Date: 2023-04-10 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -45,36 +45,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:lims.sale_order_lims_form
 #: model_terms:ir.ui.view,arch_db:lims.stock_picking_view_lims_form
 msgid "<span class=\"o_stat_text\">Analysis</span>"
-msgstr ""
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid ""
-"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">Date: "
-"</span>"
-msgstr ""
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid ""
-"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">Page: </span>\n"
-"                                <span class=\"page\"/>\n"
-"                                <span>/</span>\n"
-"                                <span class=\"topage\"/>"
-msgstr ""
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid ""
-"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;\">id: "
-"</span>"
-msgstr ""
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid ""
-"<span style=\"color:#129067;font-weight:bolder;margin-left:5px;margin-"
-"bottom:0;\">Report Nº:</span>"
 msgstr ""
 
 #. module: lims
@@ -317,13 +287,6 @@ msgid ""
 msgstr ""
 
 #. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid ""
-"<span style=\"margin-left:8px;\"><strong>UNIKA</strong></span>\n"
-"                            <span>Gestión de Marcas, SL,</span>"
-msgstr ""
-
-#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
 msgid ""
 "<span style=\"padding-left:5px;display:table-cell;vertical-align: middle\">\n"
@@ -412,21 +375,6 @@ msgid ""
 msgstr ""
 
 #. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid "<span> (</span>"
-msgstr ""
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid "<span> - </span>"
-msgstr ""
-
-#. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
-msgid "<span>) Tfno.- </span>"
-msgstr ""
-
-#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
 msgid "<span>:</span>"
 msgstr ""
@@ -495,8 +443,26 @@ msgid "A combination already exists with the parameter %s, type %s y %s"
 msgstr ""
 
 #. module: lims
+#: code:addons/lims/models/parameter_analytical_method_price_uom.py:0
+#: code:addons/lims/models/parameter_analytical_method_price_uom.py:0
+#, python-format
+msgid "A parameter can only be accredited or a regulation can be applied"
+msgstr ""
+
+#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.sample_image_view_kanban
 msgid "Acceptable file size"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__used_acreditation
+msgid "Acreditation"
+msgstr ""
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_acreditation
+#: model:ir.ui.menu,name:lims.menu_lims_acreditations
+msgid "Acreditations"
 msgstr ""
 
 #. module: lims
@@ -626,6 +592,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parameter_ids
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parameter_legislation_ids
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__parent_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__parameter_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__parameter_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__parameter_legislation_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__parent_id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__parameter_ids
 msgid "Analysis lims parameter"
 msgstr ""
@@ -664,6 +634,7 @@ msgstr ""
 #. module: lims
 #: model:ir.actions.act_window,name:lims.action_lims_analysis
 #: model:ir.ui.menu,name:lims.menu_lims_analysis
+#: model:ir.ui.menu,name:lims.menu_lims_analysis_in_sale
 msgid "Analytical Packages"
 msgstr ""
 
@@ -808,6 +779,7 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__state__conform
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__state__conform
 msgid "Conform"
 msgstr ""
 
@@ -822,6 +794,7 @@ msgid "Convert to Draft"
 msgstr ""
 
 #. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
@@ -877,6 +850,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__create_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__create_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__create_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__create_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__create_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__create_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__create_uid
@@ -898,6 +873,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__create_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__create_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__create_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__create_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__create_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__create_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__create_date
@@ -999,12 +976,18 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_analytical_method_price__display_name
+msgid "Display NAme"
+msgstr ""
+
+#. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_group_lims_analysis_rel__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__display_name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__display_name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__display_name
@@ -1030,6 +1013,7 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__between
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__type__between
 msgid "Entre"
 msgstr ""
 
@@ -1042,11 +1026,13 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__iscorrect
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__type__iscorrect
 msgid "Es correcto"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__ispresent
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__type__ispresent
 msgid "Está presente"
 msgstr ""
 
@@ -1158,6 +1144,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__id
@@ -1206,6 +1194,8 @@ msgstr ""
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_from__=
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__=
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__operator_from__=
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__operator_to__=
 msgid "Igual que"
 msgstr ""
 
@@ -1269,7 +1259,13 @@ msgid "Internal"
 msgstr ""
 
 #. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__is_acreditation
+msgid "Is Acreditation"
+msgstr ""
+
+#. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__is_correct
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__is_correct
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__is_correct
 msgid "Is Correct"
 msgstr ""
@@ -1291,6 +1287,7 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__is_present
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__is_present
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__is_present
 msgid "Is Present"
 msgstr ""
@@ -1365,6 +1362,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line____last_update
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel____last_update
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative____last_update
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line____last_update
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result____last_update
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter____last_update
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags____last_update
@@ -1386,6 +1385,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__write_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__write_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__write_uid
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__write_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__write_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__write_uid
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__write_uid
@@ -1407,6 +1408,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__write_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_lims_analysis_parameter_rel__write_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__write_date
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__write_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__write_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__write_date
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__write_date
@@ -1433,24 +1436,36 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__limit_value_from
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__limit_value_from
 msgid "Limit Value From"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__limit_value_to
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__limit_value_to
 msgid "Limit Value to"
 msgstr ""
 
 #. module: lims
-#: model:ir.model.fields,field_description:lims.field_product_product__limit_ids
-#: model:ir.model.fields,field_description:lims.field_product_template__limit_ids
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
+msgid "Limit value from"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
+msgid "Limit value to"
+msgstr ""
+
+#. module: lims
 #: model_terms:ir.ui.view,arch_db:lims.analysis_limit_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_form
 msgid "Limits"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__limit_result_line_ids
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__limit_result_line_ids
 msgid "Limits Line"
 msgstr ""
 
@@ -1466,7 +1481,6 @@ msgid "Lines"
 msgstr ""
 
 #. module: lims
-#: model_terms:ir.ui.view,arch_db:lims.external_layout_boxed
 #: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document
 #: model_terms:ir.ui.view,arch_db:lims.report_analysis_result_document_unika
 msgid "Logo"
@@ -1484,6 +1498,7 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__type__limit
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__type__limit
 msgid "Límite"
 msgstr ""
 
@@ -1514,11 +1529,13 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_from__>=
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__operator_from__>=
 msgid "Mayor o igual que"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_from__>
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__operator_from__>
 msgid "Mayor que"
 msgstr ""
 
@@ -1534,16 +1551,19 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__<=
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__operator_to__<=
 msgid "Menor o igual que"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__operator_to__<
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__operator_to__<
 msgid "Menor que"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__message
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__message
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 msgid "Message"
@@ -1592,6 +1612,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_analytical_method_price__name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis__name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__name
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__name
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter_type_tags__name
 #: model:ir.model.fields,field_description:lims.field_lims_analytical_method__name
@@ -1627,7 +1648,19 @@ msgid "Normal"
 msgstr ""
 
 #. module: lims
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__used_normative
+msgid "Normative"
+msgstr ""
+
+#. module: lims
+#: model:ir.actions.act_window,name:lims.action_lims_normative
+#: model:ir.ui.menu,name:lims.menu_lims_normative
+msgid "Normatives"
+msgstr ""
+
+#. module: lims
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__state__not_conform
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__state__not_conform
 msgid "Not Conform"
 msgstr ""
 
@@ -1692,16 +1725,20 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__operator_from
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__operator_from
 msgid "Operator From"
 msgstr ""
 
 #. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "Operator from"
 msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__operator_to
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__operator_to
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "Operator to"
 msgstr ""
@@ -1740,6 +1777,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:lims.field_line_parameter_method_rel__parameter_id
 #: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__parameter_id
 #: model_terms:ir.ui.view,arch_db:lims.analysis_lims_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_tree
 #: model_terms:ir.ui.view,arch_db:lims.lims_parameter_method_uom_rel_tree
 msgid "Parameter"
 msgstr ""
@@ -1796,6 +1835,7 @@ msgid "Parámetro"
 msgstr ""
 
 #. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
 #: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_resutl_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
@@ -1933,6 +1973,7 @@ msgstr ""
 
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__required_comment
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__required_comment
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__required_comment
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__required_comment
 msgid "Required Commentary"
@@ -2083,6 +2124,7 @@ msgstr ""
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__state
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_line__state
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__state
 msgid "State"
 msgstr ""
 
@@ -2130,6 +2172,7 @@ msgstr ""
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__type
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit_result_line__type
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative_result_line__type
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "Type"
 msgstr ""
@@ -2175,6 +2218,8 @@ msgstr ""
 #. module: lims
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__parameter_uom
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_limit__uom_id
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__parameter_uom
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_normative__uom_id
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__parameter_uom
 #: model:ir.model.fields,field_description:lims.field_lims_analysis_parameter__parameter_uom
 #: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__parameter_uom
@@ -2207,6 +2252,20 @@ msgstr ""
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__none
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__none
 msgid "Unrealized"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__use_acreditation
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__use_acreditation
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Use acreditation"
+msgstr ""
+
+#. module: lims
+#: model:ir.model.fields,field_description:lims.field_lims_analysis_numerical_result__use_normative
+#: model:ir.model.fields,field_description:lims.field_parameter_analytical_method_price_uom__use_normative
+#: model_terms:ir.ui.view,arch_db:lims.analysis_numerical_result_tree
+msgid "Use normative"
 msgstr ""
 
 #. module: lims
@@ -2244,6 +2303,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_limit_result_line__state__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__previous_analysis_result__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_line__result__warning
+#: model:ir.model.fields.selection,name:lims.selection__lims_analysis_normative_result_line__state__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_datasheet__warning
 #: model:ir.model.fields.selection,name:lims.selection__lims_analysis_numerical_result__result_legislation__warning
 msgid "Warning"
@@ -2359,6 +2419,7 @@ msgid "line.analysis.group.rel"
 msgstr ""
 
 #. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "message"
 msgstr ""
@@ -2371,6 +2432,16 @@ msgstr ""
 #. module: lims
 #: model:ir.model,name:lims.model_lims_analysis_limit_result_line
 msgid "parameter LIMS Limit Result Line"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_normative
+msgid "parameter LIMS normative"
+msgstr ""
+
+#. module: lims
+#: model:ir.model,name:lims.model_lims_analysis_normative_result_line
+msgid "parameter LIMS normative Result Line"
 msgstr ""
 
 #. module: lims
@@ -2390,8 +2461,14 @@ msgid "required_comment"
 msgstr ""
 
 #. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
 #: model_terms:ir.ui.view,arch_db:lims.analysis_parameters_result_line_tree
 msgid "state"
+msgstr ""
+
+#. module: lims
+#: model_terms:ir.ui.view,arch_db:lims.analysis_normative_form
+msgid "type"
 msgstr ""
 
 #. module: lims

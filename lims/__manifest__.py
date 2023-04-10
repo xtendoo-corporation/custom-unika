@@ -33,6 +33,7 @@
         "views/lims_parameter_method_uom_rel.xml",
         "views/lims_analysis_views.xml",
         "views/analysis_limit_view.xml",
+        "views/analysis_normative_view.xml",
         "views/lims_analysis_line_views.xml",
         "views/res_config_settings.xml",
         # "views/lims_analysis_group_views.xml",

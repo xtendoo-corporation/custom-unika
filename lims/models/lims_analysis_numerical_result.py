@@ -84,6 +84,8 @@ class LimsAnalysisNumericalResult(models.Model):
     to_invoice = fields.Boolean(string="billable", store=True, default=True)
     show_in_report = fields.Boolean(string="Show in Report", store=True, default=True)
     price = fields.Float("Price", store=True)
+    use_acreditation = fields.Boolean(string="Use acreditation", store=True)
+    use_normative = fields.Boolean(string="Use normative", store=True)
 
     def _get_parameter_values(self, vals):
         result_value = ""
@@ -112,7 +114,25 @@ class LimsAnalysisNumericalResult(models.Model):
         for line in self:
             limit_ids_filter = line.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == line.parameter_uom)
             #technical
-            limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
+            #Elección de si esta usa acreditación o no
+            if line.use_acreditation:
+                limit_ids_technical = self.env["lims.analysis.normative"].search(
+                    [
+                        ("parameter_ids", "=", line.parameter_ids.id),
+                        ("is_acreditation", "=", True),
+                        ("uom_id", "=", line.parameter_uom.id)
+                    ]
+                )
+            elif line.use_normative:
+                limit_ids_technical = self.env["lims.analysis.normative"].search(
+                    [
+                        ("parameter_ids", "=", line.parameter_ids.id),
+                        ("is_acreditation", "=", False),
+                        ("uom_id", "=", line.parameter_uom.id)
+                    ]
+                )
+            else:
+                limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
             technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical, value=line.value)
             technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical, value=line.value)
             if technical_result != "":
@@ -123,19 +143,19 @@ class LimsAnalysisNumericalResult(models.Model):
             legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation, value=line.value)
             if legislation_result != "":
                 line.result_legislation = legislation_result
-            #Label
-            limit_ids_label = limit_ids_filter.filtered(lambda r: r.type == 'label')
-            label_result = line.parameter_ids.get_anlysis_result(limit_ids_label, value=line.value)
-            label_comment = line.parameter_ids._get_limit_comment(limit_ids_label, value=line.value)
-            if label_result != "":
-                line.result_label = label_result
-            comment = technical_comment
-            if legislation_result in ('fail', 'warning', None):
-                comment = legislation_comment
-            elif label_result in ('fail', 'warning', None):
-                comment = label_comment
-            if line.parameter_ids.required_comment:
-                line.comment = comment
+            # #Label
+            # limit_ids_label = limit_ids_filter.filtered(lambda r: r.type == 'label')
+            # label_result = line.parameter_ids.get_anlysis_result(limit_ids_label, value=line.value)
+            # label_comment = line.parameter_ids._get_limit_comment(limit_ids_label, value=line.value)
+            # if label_result != "":
+            #     line.result_label = label_result
+            # comment = technical_comment
+            # if legislation_result in ('fail', 'warning', None):
+            #     comment = legislation_comment
+            # elif label_result in ('fail', 'warning', None):
+            #     comment = label_comment
+            # if line.parameter_ids.required_comment:
+            #     line.comment = comment
 
     @api.onchange("is_present")
     def _onchange_is_present(self):

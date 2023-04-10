@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-# Copyright 2021 - Manuel Calero <https://xtendoo.es>
 # Copyright 2021 - Daniel Domínguez <https://xtendoo.es>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -41,6 +40,10 @@
                                   <field name="analytical_method_id" string="Parameter and method" domain="[('id', 'not in', parameter_used_ids)]"/>
                                   <field name="uom_id" domain="[('id', '=', parameter_uom)]" string="Unit of meassure"/>
                                   <field name="parameter_uom" invisible="1"/>
+                                  <field name="use_acreditation"/>
+                                  <field name="used_acreditation" force_save="True" attrs="{'readonly': [('use_acreditation', '=', False)], 'required': [('use_acreditation', '=', True)]}" domain="[('is_acreditation', '=', True),('uom_id', '=', uom_id)]"/>
+                                  <field name="use_normative"/>
+                                  <field name="used_normative" force_save="True" attrs="{'readonly': [('use_normative', '=', False)],'required': [('use_normative', '=', True)]}" domain="[('is_acreditation', '=', False),('uom_id', '=', uom_id)]"/>
                                   <field name="cost" string="Cost"/>
                                   <field name="price" string="Price"/>
                                   <field name="external_lab" string="External laboratory"/>

@@ -1,6 +1,7 @@
 # Copyright 2020 Xtendoo - Manuel Calero
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import fields, models, api, _
+from odoo.exceptions import UserError
 
 
 class ParameterAnalyticalMethodUomRel(models.Model):
@@ -38,11 +39,36 @@ class ParameterAnalyticalMethodUomRel(models.Model):
 
     )
 
-    # @api.onchange('analytical_method_id')
-    # def set_parameter_used_domain(self):
-    #     res = {}
-    #     res['domain'] = {'teacher': [('id', 'in', teacher_list)]}
-    #     return res
+    analytical_method_id = fields.Many2one(
+        "analytical.method.price", string="Method", ondelete="cascade", required=True
+    )
+    use_acreditation = fields.Boolean(string="Use acreditation", store=True)
+    used_acreditation = fields.Many2one(
+        "lims.analysis.normative",
+        "Acreditation",
+    )
+
+    use_normative = fields.Boolean(string="Use normative", store=True)
+
+    used_normative = fields.Many2one(
+        "lims.analysis.normative",
+        "Normative",
+    )
+
+    @api.onchange('use_acreditation')
+    def set_use_acreditation(self):
+        if self.use_acreditation and self.use_normative:
+            raise UserError(_("A parameter can only be accredited or a regulation can be applied"))
+        if not self.use_acreditation:
+            self.used_acreditation = False
+
+    @api.onchange('use_normative')
+    def set_use_normative(self):
+        if self.use_acreditation and self.use_normative:
+            raise UserError(_("A parameter can only be accredited or a regulation can be applied"))
+        if not self.use_normative:
+            self.used_normative = False
+
 
 
 
