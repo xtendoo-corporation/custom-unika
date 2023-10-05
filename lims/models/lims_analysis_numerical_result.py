@@ -19,7 +19,7 @@ class LimsAnalysisNumericalResult(models.Model):
 
     lot_id = fields.Many2one(related="analysis_ids.lot_id", string="Sample num.")
 
-    type_tags = fields.Many2many(related="parameter_ids.type_tags", string="Type tags")
+    type_tags = fields.Many2one(related="parameter_ids.type_tags", string="Type tags")
 
     value = fields.Float(string="Value", store=True, default="", digits=(5, 8))
 

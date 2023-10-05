@@ -7,7 +7,7 @@ from odoo import fields, models
 class LimsAnalysisParameterTypeTags(models.Model):
     _name = "lims.analysis.parameter.type.tags"
     _description = "Type Parameter tags"
-
+    # parameter_ids = fields.Many2one('lims.analysis.parameter', string='Parámetros')
     name = fields.Char(required=True)
     description = fields.Text(string="Description")
     color = fields.Integer(string="Color Index")
@@ -18,5 +18,6 @@ class LimsAnalysisParameterTypeTags(models.Model):
         or 0,
         required=True,
     )
+
 
     _sql_constraints = [("name_uniq", "unique (name)", "Tag name already exists!")]

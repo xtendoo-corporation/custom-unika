@@ -30,7 +30,7 @@ class LimsAnalysisParameter(models.Model):
 
     default_code = fields.Char("Reference", index=True)
     name = fields.Char(string="Name", store=True)
-    type_tags = fields.Many2many(
+    type_tags = fields.Many2one(
         "lims.analysis.parameter.type.tags", string="Type tags"
     )
     parameter_uom = fields.Many2many("uom.uom", string="Unit of Measure")

@@ -21,9 +21,7 @@
                         <field
                             string="Bloq"
                             name="type_tags"
-                            widget="many2many_tags"
-                            no_create="0"
-                            options="{'color_field': 'color', 'no_create': True, 'no_create_edit': True}"
+                            widget="many2one_tags"
                         />
                         <field name="parameter_uom" string="Unit of meassure" widget="many2many_tags"/>
                         <field name="required_comment" string="Comment required"/>
@@ -43,6 +41,7 @@
                         <field
                             name="limits_ids"
                             widget="one2many_list"
+                            options="{'color_field': 'color', 'no_create': True, 'no_create_edit': True}"
 
                         >
                             <tree editable="bottom">
@@ -78,7 +77,7 @@
                 <field name="name"/>
                 <field
                     name="type_tags"
-                    widget="many2many_tags"
+                    widget="many2one_tags"
                     options="{'color_field': 'color', 'no_create': True, 'no_create_edit': True}"
                 />
                 <field name="analytical_method_price_ids" widget="many2many_tags"></field>
