@@ -5,11 +5,19 @@ class LotWiward(models.TransientModel):
     _name = "lims.wizard.lot"
 
     def _compute_number_from(self):
-        return (
-            self.env["ir.sequence"]
-            .search([("code", "=", "stock.lot.serial")])
-            .number_next_actual
-        )
+        sequence = self.env["ir.sequence"].search([("code", "=", "stock.lot.serial")])
+
+        if sequence and sequence.date_range_ids:
+            for range in sequence.date_range_ids:
+                current_date = fields.Date.today()
+                if range.date_from <= current_date <= range.date_to:
+                    return range.number_next_actual
+        elif sequence:
+            # Si no se ha configurado el rango de años, utiliza el número siguiente actual de la secuencia
+            return sequence.number_next_actual
+        else:
+            # Manejar el caso cuando no se encuentra la secuencia
+            return 0  # o cualquier valor por defecto que desees devolver
 
     number_from = fields.Integer(string="Primer Lote", default=_compute_number_from)
     quantity = fields.Integer(string="Cantidad", default="1")

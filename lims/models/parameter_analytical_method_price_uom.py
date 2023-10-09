@@ -32,6 +32,17 @@ class ParameterAnalyticalMethodUomRel(models.Model):
     company_id = fields.Many2one(
         related="analytical_method_id.company_id"
     )
+
+    @api.depends('parameter_uom')
+    def _compute_required_uom(self):
+        for line in self:
+            line.required_uom = bool(line.parameter_uom)
+
+    required_uom = fields.Boolean(
+        string="Required UOM",
+        compute='_compute_required_uom',
+        store=True  # Store the result to improve performance
+    )
     uom_id = fields.Many2one("uom.uom", string="Unit of Measure")
     parameter_uom = fields.Many2many(related="analytical_method_id.parameter_id.parameter_uom")
     parameter_used_ids = fields.Many2many(

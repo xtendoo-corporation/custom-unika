@@ -29,7 +29,7 @@ class ParameterAnalyticalMethodRel(models.Model):
                 register.display_name = register.analytical_method_id.name
             else:
                 register.display_name = register.name
-    display_name = fields.Char(string="Display NAme", compute="get_display_name")
+    display_name = fields.Char(string="Display Name", compute="get_display_name", store=True)
 
     def _get_company_id(self):
         return self.env.user.company_id

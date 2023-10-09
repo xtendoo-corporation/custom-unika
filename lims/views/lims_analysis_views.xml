@@ -38,7 +38,8 @@
                                   <field name="parameter_used_ids" invisible="1"/>
                                   <field name="parameter_id" string="Parameter" invisible="1"/>
                                   <field name="analytical_method_id" string="Parameter and method" domain="[('id', 'not in', parameter_used_ids)]"/>
-                                  <field name="uom_id" domain="[('id', '=', parameter_uom)]" string="Unit of meassure"/>
+                                  <field name="required_uom" invisible="1"/>
+                                  <field name="uom_id" domain="[('id', '=', parameter_uom)]" string="Unit of meassure" attrs="{'required': [('required_uom', '=', True)]}"/>
                                   <field name="parameter_uom" invisible="1"/>
                                   <field name="use_acreditation"/>
                                   <field name="used_acreditation" force_save="True" attrs="{'readonly': [('use_acreditation', '=', False)], 'required': [('use_acreditation', '=', True)]}" domain="[('is_acreditation', '=', True),('uom_id', '=', uom_id)]"/>
