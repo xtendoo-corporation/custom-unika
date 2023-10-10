@@ -15,7 +15,7 @@ class ParameterAnalyticalMethodRel(models.Model):
         comodel_name="lims.analysis.parameter",
         string="Parameter",
     )
-    name = fields.Char(string="Name", store=True)
+    name = fields.Char(string="Name", store=True, )
     price = fields.Float("Price", store=True)
     cost = fields.Float("Cost", store=True)
     external_lab = fields.Many2one(

@@ -28,7 +28,7 @@
                 <group>
                     <group>
                         <field name="analytical_method_id" required="1"/>
-                        <field name="name" string="Name" required="1"/>
+                        <field name="name" string="Name" required="1" force_save="1" readonly="1"/>
                         <field name="price" string="Price" widget="monetary"/>
                     </group>
                     <group>

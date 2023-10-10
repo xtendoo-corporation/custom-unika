@@ -24,6 +24,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
 <!--                <field name="is_legislation" invisible="1" />-->
+                <field name="sequence" widget="handle"></field>
                 <field name="operator_from" string="Operator from" />
                 <field name="limit_value_from" string="Value from" />
                 <field name="operator_to" string="Operator to" />

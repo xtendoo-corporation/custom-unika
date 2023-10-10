@@ -7,6 +7,8 @@ from odoo import fields, models, api
 class LimsAnalysisParameterLimitResultLine(models.Model):
     _name = "lims.analysis.limit.result.line"
     _description = "parameter LIMS Limit Result Line"
+    _order = 'sequence'
+    sequence = fields.Integer(string='Secuencia', help='Define el orden de las líneas')
 
     # limit_result_id = fields.Many2one('lims.analysis.limit.result', string='Limit Result', required=True, ondelete='cascade', index=True,
     #                            copy=False)
@@ -255,14 +257,17 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
 
     def _get_limit_value_char(self):
         limit_char = ""
-        if self.limit_value_from > 0.0:
+
+        if self.operator_from not in ('', False):
+
             limit_char = (
                 "{operator_from} {value_from: .2f}"
             ).format(
                 operator_from=self.operator_from,
                 value_from=self.limit_value_from,
             )
-        if self.limit_value_to > 0.0:
+        if self.operator_to not in ('', False):
+
             limit_char = ("{operator_to} {value_to: .2f}").format(
                 operator_to=self.operator_to,
                 value_to=self.limit_value_to,

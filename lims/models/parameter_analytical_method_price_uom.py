@@ -69,14 +69,14 @@ class ParameterAnalyticalMethodUomRel(models.Model):
     @api.onchange('use_acreditation')
     def set_use_acreditation(self):
         if self.use_acreditation and self.use_normative:
-            raise UserError(_("A parameter can only be accredited or a regulation can be applied"))
+            raise UserError(_("Solo se puede acreditar un parámetro o se puede aplicar un criterio de calidad"))
         if not self.use_acreditation:
             self.used_acreditation = False
 
     @api.onchange('use_normative')
     def set_use_normative(self):
         if self.use_acreditation and self.use_normative:
-            raise UserError(_("A parameter can only be accredited or a regulation can be applied"))
+            raise UserError(_("Solo se puede acreditar un parámetro o se puede aplicar un criterio de calidad"))
         if not self.use_normative:
             self.used_normative = False
 

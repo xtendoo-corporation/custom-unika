@@ -30,6 +30,7 @@ class LimsAnalysisParameter(models.Model):
 
     default_code = fields.Char("Reference", index=True)
     name = fields.Char(string="Name", store=True)
+    description = fields.Text()
     type_tags = fields.Many2one(
         "lims.analysis.parameter.type.tags", string="Type tags"
     )
@@ -45,14 +46,14 @@ class LimsAnalysisParameter(models.Model):
         if limits:
             for parameter_line in limits:
                 if parameter_line.type == "LIMIT" and parameter_line.state == "conform":
-                    if parameter_line.limit_value_from > 0.0:
+                    if parameter_line.operator_from not in ('', False):
                         limit_result_char = (
                             "{operator_from} {value_from: .2f}"
                         ).format(
                             operator_from=parameter_line.operator_from,
                             value_from=parameter_line.limit_value_from,
                         )
-                    if parameter_line.limit_value_to > 0.0:
+                    if parameter_line.operator_to not in ('', False):
                         limit_result_char = ("{operator_to} {value_to: .2f}").format(
                             operator_to=parameter_line.operator_to,
                             value_to=parameter_line.limit_value_to,

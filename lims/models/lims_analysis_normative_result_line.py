@@ -7,6 +7,9 @@ from odoo import fields, models, api
 class LimsAnalysisParameterNormativeResultLine(models.Model):
     _name = "lims.analysis.normative.result.line"
     _description = "parameter LIMS normative Result Line"
+    _order = 'sequence'
+
+    sequence = fields.Integer(string='Secuencia', help='Define el orden de las líneas')
 
     parent_id = fields.Many2one(
         "lims.analysis.normative",

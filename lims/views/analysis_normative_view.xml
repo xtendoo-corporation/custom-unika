@@ -30,6 +30,7 @@
                                 widget="one2many_list"
                             >
                              <tree editable="bottom">
+                                 <field name="sequence" widget="handle"></field>
                                 <field name="operator_from" string="Operator from"/>
                                 <field name="limit_value_from" string="Limit value from"/>
                                  <field name="operator_to" string="Operator to"/>
