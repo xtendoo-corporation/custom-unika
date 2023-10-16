@@ -1,6 +1,6 @@
 # Copyright 2021 - Daniel Domínguez https://xtendoo.es/
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
+from odoo.exceptions import UserError
 from odoo import _, api, fields, models
 
 
@@ -37,9 +37,90 @@ class LimsAnalysisParameter(models.Model):
     parameter_uom = fields.Many2many("uom.uom", string="Unit of Measure")
     required_comment = fields.Boolean(string="Required Commentary", store=True)
 
-    _sql_constraints = [
-        ("code_uniq", "unique (default_code)", "Code already exists!"),
-    ]
+    def _is_code_in_use(self, code, id=None):
+        if id is None:
+            parameter = self.env['lims.analysis.parameter'].search(
+                [
+                    ("default_code", "=", code),
+                    ("id", "!=", id),
+                ], )
+        else:
+            parameter = self.env['lims.analysis.parameter'].search(
+                [
+                    ("default_code", "=",code),
+                ], )
+        return parameter
+    def write(self, vals):
+        if vals.get('default_code'):
+            if vals['default_code'] and self._is_code_in_use(vals['default_code'], self.id):
+                raise UserError(_("La referencia debe ser única por parámetro"))
+        return super(LimsAnalysisParameter, self).write(vals)
+
+    @api.model
+    def create(self, vals):
+        res = super(LimsAnalysisParameter, self).create(vals)
+        if vals['default_code'] and vals['default_code'] != '' and self._is_code_in_use(vals['default_code']):
+                res['default_code'] = ''
+        if self.limits_ids and res:
+            for limit in self.limits_ids:
+                limit_to_create = self.env['lims.analysis.limit'].create(
+                    {
+                        'parameter_ids': res.id,
+                        'type': limit.type,
+                        'uom_id': limit.uom_id.id,
+                        'parameter_uom': limit.parameter_uom,
+                        'limit_result_line_ids': None,
+                    }
+                )
+                for limit_line in limit.limit_result_line_ids:
+                    self.env['lims.analysis.limit.result.line'].create(
+                        {
+                            'parent_id': limit_to_create.id,
+                            'operator_from': limit_line.operator_from,
+                            'limit_value_from': limit_line.limit_value_from,
+                            'operator_to': limit_line.operator_to,
+                            'parameter_ids': res.id,
+                            'limit_value_to': limit_line.limit_value_to,
+                            'is_correct': limit_line.is_correct,
+                            'is_present': limit_line.is_present,
+                            'required_comment': limit_line.required_comment,
+                            'type': limit_line.type,
+                            'state': limit_line.state,
+                            'message': limit_line.message,
+                        }
+                    )
+        if res['analytical_method_price_ids'] and res:
+            methods = res['analytical_method_price_ids']
+            print("/"*50)
+            print("methods", methods)
+            print("/"*50)
+            res['analytical_method_price_ids'] = [(5, 0, 0)]
+            method_ids = ()
+            for method in methods:
+                new_method = self.env['analytical.method.price'].create(
+                    {
+                        'analytical_method_id': method.analytical_method_id.id,
+                        'parameter_id': res.id,
+                        'name': method.name,
+                        'price': method.price,
+                        'cost': method.cost,
+                        'external_lab': method.external_lab.id,
+                        'company_id': method.company_id.id,
+                    }
+                )
+                print(new_method)
+                res['analytical_method_price_ids'] = new_method
+                print("-"*50)
+                print("method", method.parameter_id)
+                print("-"*50)
+                method_ids = method_ids + (new_method.id,)
+            new_methods = self.env['analytical.method.price'].search([("id", "in", method_ids)])
+            res['analytical_method_price_ids'] = new_methods
+            print("*" * 50)
+            print("method_ids", method_ids)
+            print(res['analytical_method_price_ids'])
+            print("*" * 50)
+        return res
 
     def _get_limit_value_char(self, limits):
         limit_result_char = ""

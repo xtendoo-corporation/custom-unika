@@ -412,13 +412,6 @@ class LimsAnalysisLine(models.Model):
             raise UserError(_("Only 'Canceled' orders can be archived"))
         return res
 
-    # @api.multi
-    # def duplicar_registro(self):
-    #     for record in self:
-    #         duplicate_record = record.copy(default={})
-    #         # Puedes hacer más operaciones con la copia si es necesario
-    #     return True
-
     def action_cancel(self):
         if self.filtered(lambda self: self.state in ["cancel"]):
             raise UserError(_("You can't cancel Cancel analysis"))

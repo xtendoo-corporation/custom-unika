@@ -44,13 +44,6 @@ class LimsAnalysis(models.Model):
         compute=_get_parameter_domain
 
     )
-    #parameter_method_ids = fields.One2many('parameter.analytical.method.price.uom', 'parent_id', string='Limits Line')
-    # parameter_method_ids = fields.One2many(
-    #     comodel_name="parameter.analytical.method.price.uom",
-    #     relation="parameter_analytical_method_price_uom",
-    #     string="Métodos",
-    # )
-
     price = fields.Float("Price", store=True)
     def _get_company_id(self):
         return self.env.user.company_id
@@ -60,12 +53,21 @@ class LimsAnalysis(models.Model):
         default=_get_company_id,
     )
 
+    @api.model
+    def create(self, vals):
+        res = super(LimsAnalysis, self).create(vals)
+        if self.parameter_method_ids and res:
+            for parameter in self.parameter_method_ids:
+                parameter_to_create = self.env['parameter.analytical.method.price.uom'].create(
+                    {
+                        'parent_id': res.id,
+                        'analytical_method_id': parameter.analytical_method_id.id,
+                        'uom_id': parameter.uom_id.id,
+                        'use_acreditation': parameter.use_acreditation,
+                        'used_acreditation': parameter.used_acreditation,
+                        'use_normative': parameter.use_normative,
+                        'used_normative': parameter.used_normative,
+                    }
+                )
+        return res
 
-
-    # @api.onchange("parameter_ids")
-    # def _onchange_parameter_price(self):
-    #     analisis_price = 0.00
-    #     for parameter in self.parameter_ids:
-    #         if parameter.price > 0.00:
-    #             analisis_price += parameter.price
-    #     self.price = analisis_price
