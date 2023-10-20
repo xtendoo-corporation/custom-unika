@@ -37,30 +37,37 @@ class LimsAnalysisParameter(models.Model):
     parameter_uom = fields.Many2many("uom.uom", string="Unit of Measure")
     required_comment = fields.Boolean(string="Required Commentary", store=True)
 
-    def _is_code_in_use(self, code, id=None):
-        if id is None:
-            parameter = self.env['lims.analysis.parameter'].search(
-                [
-                    ("default_code", "=", code),
-                    ("id", "!=", id),
-                ], )
-        else:
-            parameter = self.env['lims.analysis.parameter'].search(
-                [
-                    ("default_code", "=",code),
-                ], )
-        return parameter
+    def _is_code_in_use(self, code):
+        parameter = self.env['lims.analysis.parameter'].search(
+            [
+                ("default_code", "=", code),
+            ], )
+        if parameter:
+            return True
+        return False
+
     def write(self, vals):
         if vals.get('default_code'):
-            if vals['default_code'] and self._is_code_in_use(vals['default_code'], self.id):
-                raise UserError(_("La referencia debe ser única por parámetro"))
+            if vals['default_code']:
+                parameter = self.env['lims.analysis.parameter'].search(
+                    [
+                        ("default_code", "=", vals['default_code']),
+                        ("id", "!=", self.id),
+                    ], )
+                if parameter:
+                    raise UserError(_("La referencia debe ser única por parámetro"))
         return super(LimsAnalysisParameter, self).write(vals)
 
     @api.model
     def create(self, vals):
+        if vals['default_code'] and vals['default_code'] != '':
+            is_in_use = self._is_code_in_use(vals['default_code'])
+            if is_in_use:
+                if not self.default_code:
+                    raise UserError(_("La referencia debe ser única por parámetro"))
+                else:
+                    vals['default_code'] = ''
         res = super(LimsAnalysisParameter, self).create(vals)
-        if vals['default_code'] and vals['default_code'] != '' and self._is_code_in_use(vals['default_code']):
-                res['default_code'] = ''
         if self.limits_ids and res:
             for limit in self.limits_ids:
                 limit_to_create = self.env['lims.analysis.limit'].create(
@@ -89,11 +96,8 @@ class LimsAnalysisParameter(models.Model):
                             'message': limit_line.message,
                         }
                     )
-        if res['analytical_method_price_ids'] and res:
+        if self.analytical_method_price_ids and res:
             methods = res['analytical_method_price_ids']
-            print("/"*50)
-            print("methods", methods)
-            print("/"*50)
             res['analytical_method_price_ids'] = [(5, 0, 0)]
             method_ids = ()
             for method in methods:
@@ -101,25 +105,27 @@ class LimsAnalysisParameter(models.Model):
                     {
                         'analytical_method_id': method.analytical_method_id.id,
                         'parameter_id': res.id,
-                        'name': method.name,
+                        'name': res.name + " - " + method.analytical_method_id.name,
+                        'display_name': res.name + " - " + method.analytical_method_id.name,
                         'price': method.price,
                         'cost': method.cost,
                         'external_lab': method.external_lab.id,
                         'company_id': method.company_id.id,
                     }
                 )
-                print(new_method)
                 res['analytical_method_price_ids'] = new_method
-                print("-"*50)
-                print("method", method.parameter_id)
-                print("-"*50)
                 method_ids = method_ids + (new_method.id,)
             new_methods = self.env['analytical.method.price'].search([("id", "in", method_ids)])
             res['analytical_method_price_ids'] = new_methods
-            print("*" * 50)
-            print("method_ids", method_ids)
-            print(res['analytical_method_price_ids'])
-            print("*" * 50)
+        else:
+            for method in res['analytical_method_price_ids']:
+                method.write(
+                    {
+                        'parameter_id': res.id,
+                        'name': res.name + " - " + method.analytical_method_id.name,
+                        'display_name': res.name + " - " + method.analytical_method_id.name,
+                    }
+                )
         return res
 
     def _get_limit_value_char(self, limits):
@@ -387,4 +393,12 @@ class LimsAnalysisParameter(models.Model):
             for limit_line in limit_header.limit_result_line_ids:
                 limit_line.required_comment = self.required_commentary
 
-
+    def unlink(self):
+        for rec in self:
+            for method in rec.analytical_method_price_ids:
+                method.unlink()
+            for limit in rec.limits_ids:
+                for line in limit.limit_result_line_ids:
+                    line.unlink()
+                limit.unlink()
+        return super().unlink()

@@ -137,20 +137,14 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("analysis_group_ids")
     def _charge_parameters(self):
+        self.parameter_ids = None
         if self.analysis_group_ids:
             for analysis in self.analysis_group_ids:
                 if analysis.parameter_method_ids:
                     self.parameter_ids += analysis.parameter_method_ids
-        else:
-            self.parameter_ids = None
-
     def button_edit_parameters(self):
-        print("*" * 80)
-        print("entra en edit parameters")
-        print("*" * 80)
         self.ensure_one()
         view = self.env.ref("lims.anaytical_method_price_tree_update_in_sale")
-        print(view.name)
         return {
             "name": _("Parameters"),
             "type": "ir.actions.act_window",
