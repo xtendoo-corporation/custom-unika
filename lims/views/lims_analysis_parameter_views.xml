@@ -47,6 +47,7 @@
                         >
                             <tree editable="bottom">
                                 <field name="type" string="Tipo" required="1"/>
+                                <field name="legislation_name"></field>
                                 <field name="uom_id"
                                        string="Unit of meassure"
                                        domain="[('id', 'in', parameter_uom)]"

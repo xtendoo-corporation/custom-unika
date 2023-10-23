@@ -17,6 +17,9 @@ class LimsAnalysisLimit(models.Model):
             ("legislation", "Legislation"),
         ])
     uom_id = fields.Many2one("uom.uom", string="Unit of Measure")
+    legislation_name = fields.Char(
+        string="Nombre Legislación",
+    )
     parameter_uom = fields.Many2many(related="parameter_ids.parameter_uom")
     limit_result_line_ids = fields.One2many('lims.analysis.limit.result.line', 'parent_id', string='Limits Line')
 

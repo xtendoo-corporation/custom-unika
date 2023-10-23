@@ -104,6 +104,15 @@ class SaleOrderLine(models.Model):
         string="Parameters",
     )
 
+    price_type = fields.Selection(
+        [
+            ("parameter", "Por parámetros"),
+            ("package", "Por paquete"),
+        ],
+        default='package',
+
+    )
+
     @api.depends('parameter_ids')
     def _get_parameter_domain(self):
         parameters_ids = []
@@ -387,48 +396,84 @@ class SaleOrderLine(models.Model):
         if price != 0.00:
             return price
         return res
+    @api.onchange("price_type")
+    def _onchange_price_type(self):
+        if not self.price_type:
+            self.price_type = "package"
+        self._get_price_unit_sample()
 
     def _get_price_unit_sample(self):
         price_unit = 0.00
-        parameters_in_analysis = self.env["parameter.analytical.method.price.uom"].search(
-            [("analytical_method_id", "=", None)]
-        )
-        if self.analysis_group_ids:
-            for analysis in self.analysis_group_ids:
-                parameters_in_analysis += analysis.parameter_method_ids
-        if self.order_id.pricelist_id:
-            for analysis in self.analysis_group_ids:
-                analysis_id = self.env["lims.analysis"].search(
-                    [("name", "=", analysis.name)], limit=1
-                )
-                pricelist_item = self.env["product.pricelist.item"].search(
-                    [
-                        ("analysis_group_ids", "=", analysis_id.id),
-                        ("pricelist_id", "=", self.order_id.pricelist_id.id),
-                    ],
-                    limit=1,
-                )
-                if pricelist_item:
-                    price_unit += self._get_price_in_pricelist_item(
-                        pricelist_item, pricelist_item.applied_on
+        if self.price_type == "package":
+            if self.order_id.pricelist_id:
+                for analysis in self.analysis_group_ids:
+                    analysis_id = self.env["lims.analysis"].search(
+                        [("name", "=", analysis.name)], limit=1
                     )
-                else:
-                    pricelist_item_all = self.env["product.pricelist.item"].search(
+                    pricelist_item = self.env["product.pricelist.item"].search(
                         [
-                            ("applied_on", "=", "3_global"),
+                            ("analysis_group_ids", "=", analysis_id.id),
                             ("pricelist_id", "=", self.order_id.pricelist_id.id),
                         ],
                         limit=1,
                     )
-                    if pricelist_item_all:
+                    if pricelist_item:
                         price_unit += self._get_price_in_pricelist_item(
-                            pricelist_item_all, pricelist_item.applied_on, analysis_id
+                            pricelist_item, pricelist_item.applied_on
                         )
                     else:
-                        price_unit += analysis_id.price
-            if parameters_in_analysis != self.parameter_ids:
-                restant_parameter = self.parameter_ids - parameters_in_analysis
-                for parameter in restant_parameter:
+                        pricelist_item_all = self.env["product.pricelist.item"].search(
+                            [
+                                ("applied_on", "=", "3_global"),
+                                ("pricelist_id", "=", self.order_id.pricelist_id.id),
+                            ],
+                            limit=1,
+                        )
+                        if pricelist_item_all:
+                            price_unit += self._get_price_in_pricelist_item(
+                                pricelist_item_all, pricelist_item.applied_on, analysis_id
+                            )
+                        else:
+                            price_unit += analysis_id.price
+
+                for parameter in self.parameter_ids:
+                    if parameter not in self.analysis_group_ids.parameter_method_ids:
+                        print("*"*50)
+                        print("parametro fuera de paquete")
+                        print("*" * 50)
+                        parameter_id = self.env["analytical.method.price"].search(
+                            [("name", "=", parameter.name)], limit=1
+                        )
+                        pricelist_item = self.env["product.pricelist.item"].search(
+                            [
+                                ("analitycal_method_ids", "=", parameter_id.id),
+                                ("pricelist_id", "=", self.order_id.pricelist_id.id),
+                            ],
+                            limit=1,
+                        )
+                        if pricelist_item:
+                            price_unit += self._get_price_in_pricelist_item(
+                                pricelist_item, pricelist_item.applied_on
+                            )
+                        else:
+                            pricelist_item_all = self.env["product.pricelist.item"].search(
+                                [
+                                    ("applied_on", "=", "3_global"),
+                                    ("pricelist_id", "=", self.order_id.pricelist_id.id),
+                                ],
+                                limit=1,
+                            )
+                            if pricelist_item_all:
+                                price_unit += self._get_price_in_pricelist_item(
+                                    pricelist_item_all,
+                                    pricelist_item.applied_on,
+                                    parameter_id,
+                                )
+                            else:
+                                price_unit += parameter_id.price
+        if self.price_type == "parameter":
+            for parameter in self.parameter_ids:
+                if parameter in self.parameter_ids:
                     parameter_id = self.env["analytical.method.price"].search(
                         [("name", "=", parameter.name)], limit=1
                     )
@@ -458,7 +503,7 @@ class SaleOrderLine(models.Model):
                                 parameter_id,
                             )
                         else:
-                            price_unit += analysis_id.price
+                            price_unit += parameter_id.price
         self.price_unit = price_unit
 
     @api.onchange("parameter_ids", "analysis_group_ids")
