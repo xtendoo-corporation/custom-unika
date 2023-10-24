@@ -115,6 +115,8 @@
                     string="UdM"
                     domain="[('id', 'in', parameter_uom_all)]"
                 />
+                <field name="required_comment" invisible="1" string="required_comment" />
+                <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
                 <field name="value" optional="show" string="value" />
                 <field name="is_present" optional="show" string="Present" />
                 <field name="is_correct" optional="show" string="Correct" />
@@ -152,8 +154,8 @@
 <!--                    string="Result L."-->
 <!--                />-->
                 <field name="reason" optional="show" string="Reason" />
-                <field name="required_comment" invisible="1" string="required_comment" />
-                <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
+                <field name="show_potency" invisible="1"/>
+                <field name="change_value_for_comment" invisible="1"/>
                 <field name="to_invoice" optional="show" string="To invoice" />
                 <field name="show_in_report" optional="show" string="Show in report" />
                 <field name="price" />

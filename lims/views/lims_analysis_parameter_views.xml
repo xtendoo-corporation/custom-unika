@@ -27,6 +27,10 @@
                         <field name="parameter_uom" string="Unit of meassure" widget="many2many_tags"/>
                         <field name="required_comment" string="Comment required"/>
                     </group>
+                    <group string="Informe">
+                        <field name="show_potency" string="Mostrar como potencia"/>
+                        <field name="change_value_for_comment" string="Cambiar valor por comentario"/>
+                    </group>
                 </group>
                 <notebook>
                     <page string="Methods" name="methods">

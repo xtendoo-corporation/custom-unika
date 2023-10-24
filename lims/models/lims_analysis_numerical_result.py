@@ -45,6 +45,8 @@ class LimsAnalysisNumericalResult(models.Model):
     reason = fields.Char(string="Reason", store=True)
     comment = fields.Char(string="Comment", store=True)
     required_comment = fields.Boolean(related="parameter_ids.required_comment", store=True)
+    show_potency = fields.Boolean(related="parameter_ids.show_potency", store=True)
+    change_value_for_comment = fields.Boolean(related="parameter_ids.change_value_for_comment", store=True)
     analytical_method_id = fields.Many2one(
         "lims.analytical.method", string="Método", ondelete="cascade", required=True
     )
@@ -112,128 +114,128 @@ class LimsAnalysisNumericalResult(models.Model):
     @api.onchange("value")
     def _onchange_value(self):
         for line in self:
-            limit_ids_filter = line.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == line.parameter_uom)
-            #technical
-            #Elección de si esta usa acreditación o no
-            if line.use_acreditation:
-                limit_ids_technical = self.env["lims.analysis.normative"].search(
-                    [
-                        ("parameter_ids", "=", line.parameter_ids.id),
-                        ("is_acreditation", "=", True),
-                        ("uom_id", "=", line.parameter_uom.id)
-                    ]
-                )
-            elif line.use_normative:
-                limit_ids_technical = self.env["lims.analysis.normative"].search(
-                    [
-                        ("parameter_ids", "=", line.parameter_ids.id),
-                        ("is_acreditation", "=", False),
-                        ("uom_id", "=", line.parameter_uom.id)
-                    ]
-                )
+            if self.is_correct:
+                print("*" * 50)
+                print("hay correct")
+                print("*" * 50)
+                if self.data_sheet:
+                    line.result_datasheet = "pass"
+                if self.legislation_value:
+                    line.result_legislation = "pass"
             else:
-                limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
-            technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical, value=line.value)
-            technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical, value=line.value)
-            if technical_result != "":
-                line.result_datasheet = technical_result
-            #legislation
-            limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
-            legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation, value=line.value)
-            legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation, value=line.value)
-            if legislation_result != "":
-                line.result_legislation = legislation_result
-            # #Label
-            # limit_ids_label = limit_ids_filter.filtered(lambda r: r.type == 'label')
-            # label_result = line.parameter_ids.get_anlysis_result(limit_ids_label, value=line.value)
-            # label_comment = line.parameter_ids._get_limit_comment(limit_ids_label, value=line.value)
-            # if label_result != "":
-            #     line.result_label = label_result
-            # comment = technical_comment
-            # if legislation_result in ('fail', 'warning', None):
-            #     comment = legislation_comment
-            # elif label_result in ('fail', 'warning', None):
-            #     comment = label_comment
-            # if line.parameter_ids.required_comment:
-            #     line.comment = comment
+                limit_ids_filter = line.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == line.parameter_uom)
+                #technical
+                #Elección de si esta usa acreditación o no
+                if line.use_acreditation:
+                    limit_ids_technical = self.env["lims.analysis.normative"].search(
+                        [
+                            ("parameter_ids", "=", line.parameter_ids.id),
+                            ("is_acreditation", "=", True),
+                            ("uom_id", "=", line.parameter_uom.id)
+                        ]
+                    )
+                elif line.use_normative:
+                    limit_ids_technical = self.env["lims.analysis.normative"].search(
+                        [
+                            ("parameter_ids", "=", line.parameter_ids.id),
+                            ("is_acreditation", "=", False),
+                            ("uom_id", "=", line.parameter_uom.id)
+                        ]
+                    )
+                else:
+                    limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
+                technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical, value=line.value)
+                technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical, value=line.value)
+                if technical_result != "":
+                    line.result_datasheet = technical_result
+                #legislation
+                limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
+                legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation, value=line.value)
+                legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation, value=line.value)
+                if legislation_result != "":
+                    line.result_legislation = legislation_result
+                # #Label
+                # limit_ids_label = limit_ids_filter.filtered(lambda r: r.type == 'label')
+                # label_result = line.parameter_ids.get_anlysis_result(limit_ids_label, value=line.value)
+                # label_comment = line.parameter_ids._get_limit_comment(limit_ids_label, value=line.value)
+                # if label_result != "":
+                #     line.result_label = label_result
+                # comment = technical_comment
+                # if legislation_result in ('fail', 'warning', None):
+                #     comment = legislation_comment
+                # elif label_result in ('fail', 'warning', None):
+                #     comment = label_comment
+                # if line.parameter_ids.required_comment:
+                #     line.comment = comment
 
     @api.onchange("is_present")
     def _onchange_is_present(self):
         technical_comment = ""
         for line in self:
-            if line.value == 0.0:
-                limit_ids_filter = line.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == line.parameter_uom)
-                for limit in limit_ids_filter:
-                    #technical
-                    limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
-                    limits_technical = self.env['lims.analysis.limit.result.line'].search(
-                        [
-                            ('parent_id', '=', limit_ids_technical[0].id),
-                        ]
-                    )
-                    if limits_technical[0].type == 'ISPRESENT':
-                        technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical,
-                                                                                 ispresent_value=line.is_present)
-                        technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical,
-                                                                                  ispresent_value=line.is_present)
-                        comment = technical_comment
-                        if technical_result != "":
-                            line.result_datasheet = technical_result
-                    #Legislation
-                    limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
-                    limits_legislation = self.env['lims.analysis.limit.result.line'].search(
-                        [
-                            ('parent_id', '=', limit_ids_legislation[0].id),
-                        ]
-                    )
-                    if limits_legislation[0].type == 'ISPRESENT':
-                        legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation,
-                                                                   ispresent_value=line.is_present)
-                        legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation,
-                                                                                    ispresent_value=line.is_present)
-                        if legislation_result != "":
-                            line.result_legislation = legislation_result
-                            if legislation_result in ('fail', 'warning', None):
-                                comment = legislation_comment
-                    if line.parameter_ids.required_comment:
-                        line.comment = comment
+            if self.is_correct:
+                print("*" * 50)
+                print("hay correct")
+                print("*" * 50)
+                if self.data_sheet:
+                    line.result_datasheet = "pass"
+                if self.legislation_value:
+                    line.result_legislation = "pass"
+            else:
+                if line.value == 0.0:
+                    limit_ids_filter = line.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == line.parameter_uom)
+                    for limit in limit_ids_filter:
+                        #technical
+                        limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
+                        if limit_ids_technical:
+                            limits_technical = self.env['lims.analysis.limit.result.line'].search(
+                                [
+                                    ('parent_id', '=', limit_ids_technical[0].id),
+                                ]
+                            )
+
+                            if limits_technical and limits_technical[0].type == 'ISPRESENT':
+                                technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical,
+                                                                                         ispresent_value=line.is_present)
+                                technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical,
+                                                                                          ispresent_value=line.is_present)
+                                comment = technical_comment
+                                if technical_result != "":
+                                    line.result_datasheet = technical_result
+                        #Legislation
+                        limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
+                        if limit_ids_legislation:
+                            limits_legislation = self.env['lims.analysis.limit.result.line'].search(
+                                [
+                                    ('parent_id', '=', limit_ids_legislation[0].id),
+                                ]
+                            )
+                            if limits_legislation and limits_legislation[0].type == 'ISPRESENT':
+                                legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation,
+                                                                           ispresent_value=line.is_present)
+                                legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation,
+                                                                                            ispresent_value=line.is_present)
+                                if legislation_result != "":
+                                    line.result_legislation = legislation_result
+                                    if legislation_result in ('fail', 'warning', None):
+                                        comment = legislation_comment
+                            if line.parameter_ids.required_comment:
+                                line.comment = comment
 
     @api.onchange("is_correct")
     def _onchange_is_correct(self):
+
         for line in self:
-            if line.value == 0.00:
-                limit_ids_filter = line.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == line.parameter_uom)
-                if limit_ids_filter[0].type != 'ISCORRECT':
-                    return
-                # technical
-                limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
-                technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical,
-                                                                         iscorrect_value=line.is_correct)
-                technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical,
-                                                                          iscorrect_value=line.is_correct)
-                if technical_result != "":
-                    line.result_datasheet = technical_result
-                # legislation
-                limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
-                legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation,
-                                                                           iscorrect_value=line.is_correct)
-                legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation,
-                                                                            iscorrect_value=line.is_correct)
-                if legislation_result != "":
-                    line.result_legislation = legislation_result
-                # Label
-                limit_ids_label = limit_ids_filter.filtered(lambda r: r.type == 'label')
-                label_result = line.parameter_ids.get_anlysis_result(limit_ids_label, iscorrect_value=line.is_correct)
-                label_comment = line.parameter_ids._get_limit_comment(limit_ids_label, iscorrect_value=line.is_correct)
-                if label_result != "":
-                    line.result_label = label_result
-                comment = technical_comment
-                if legislation_result in ('fail', 'warning', None):
-                    comment = legislation_comment
-                elif label_result in ('fail', 'warning', None):
-                    comment = label_comment
-                if line.parameter_ids.required_comment:
-                    line.comment = comment
+            if self.is_correct:
+                print("*" * 50)
+                print("hay correct")
+                print("*" * 50)
+                if self.data_sheet:
+                    line.result_datasheet = "pass"
+                if self.legislation_value:
+                    line.result_legislation = "pass"
+            else:
+                self._onchange_is_present()
+                self._onchange_value()
 
     @api.model
     def create(self, vals):

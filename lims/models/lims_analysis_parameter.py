@@ -36,6 +36,16 @@ class LimsAnalysisParameter(models.Model):
     )
     parameter_uom = fields.Many2many("uom.uom", string="Unit of Measure")
     required_comment = fields.Boolean(string="Required Commentary", store=True)
+    show_potency = fields.Boolean(string="Mostrar en potencia", store=True)
+    change_value_for_comment = fields.Boolean(string="Cambiar valor por comentario", store=True)
+
+
+    @api.onchange('change_value_for_comment')
+    def _onchange_change_value_for_comment(self):
+        if self.change_value_for_comment:
+            self.required_comment = True
+        else:
+            self.required_comment = False
 
     def _is_code_in_use(self, code):
         parameter = self.env['lims.analysis.parameter'].search(
