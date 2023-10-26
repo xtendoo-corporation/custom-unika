@@ -7,20 +7,20 @@
                 <div t-attf-class="header" t-att-style="report_header_style">
                     <div
                         class="o_boxed_header"
-                        style="margin-top:0px;max-height:130px;"
+                        style="margin-top:0px;max-height:105px;"
                     >
                         <div
-                            style="width:7%;min-height:130px;max-height:130px;float:left;"
+                            style="width:7%;min-height:105px;max-height:105px;float:left;"
                         >
                             <figure style="width:100%;">
                                 <img
-                                    style="width:100%;min-height:130px;"
+                                    style="width:100%;min-height:105px;"
                                     src="/lims/static/src/img/unika-header.png"
                                 />
                             </figure>
                         </div>
                         <div
-                            style="width:23%;min-height:130px;max-height:130px;float:left;margin-left:1%;"
+                            style="width:23%;min-height:105px;max-height:105px;float:left;margin-left:1%;"
                         >
                             <figure style="width:100%;">
                                 <img
@@ -32,7 +32,7 @@
                             </figure>
                         </div>
                         <div
-                            style="width:44.5%;height:130px;max-height:130px;float:left;margin-left:1%;background-color:#d0d7e1;display:table;"
+                            style="width:44.5%;height:105px;max-height:105px;float:left;margin-left:1%;background-color:#d0d7e1;display:table;"
                         >
                             <p
                                 style="display:table-cell;vertical-align: middle;text-align:center;font-size:1.4em;font-weight:bolder;color:black;"
@@ -40,7 +40,7 @@
                             />
                         </div>
                         <div
-                            style="width:23%;min-height:130px;max-height:130px;float:left;margin-left:0.5%;color:black;"
+                            style="width:23%;min-height:105px;max-height:105px;float:left;margin-left:0.5%;color:black;"
                         >
                             <div
                                 style="background-color:#d0d7e1;height:45px;font-size:1.1em;"
@@ -48,7 +48,7 @@
                                 <div>
                                     <span
                                         style="color:#129067;font-weight:bolder;margin-left:5px;margin-bottom:0;"
-                                    >Report Nº:</span>
+                                    >Informe Nº:</span>
                                 </div>
                                 <div style="text-align:left;margin-top:-5px;">
                                     <span style="margin-left:5px;" t-esc="doc_name" />
@@ -61,17 +61,6 @@
                                     style="color:#129067;font-weight:bolder;margin-left:5px;"
                                 >id: </span>
                                 <span t-esc="doc_id" />
-                            </div>
-                            <div
-                                style="background-color:#d0d7e1;height:25px;margin-top:3px;"
-                            >
-                                 <span
-                                    style="color:#129067;font-weight:bolder;margin-left:5px;"
-                                >Date: </span>
-                                <span
-                                    t-esc="doc_complete_date"
-                                    t-options='{"widget": "date","format": "dd/MM/yyyy"}'
-                                />
                             </div>
                             <div
                                 style="background-color:#d0d7e1;height:25px;margin-top:3px;"

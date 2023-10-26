@@ -152,7 +152,7 @@ class LimsAnalysisLine(models.Model):
         store=True,
         tracking=True,
     )
-    note = fields.Char(
+    note = fields.Text(
         string="Note",
         store=True,
         tracking=True,
@@ -326,7 +326,9 @@ class LimsAnalysisLine(models.Model):
                     #legislacion
                     legislation_limit = ""
                     legislation_comment =""
+                    legislation_name=""
                     for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
+                        legislation_name = limits_id.legislation_name
                         for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
                             legislation_limit = limit_line_ids.get_correct_limit()
                     legislation_result = parameter.get_anlysis_result(
@@ -366,6 +368,7 @@ class LimsAnalysisLine(models.Model):
                             "result_legislation": legislation_result,
                             "result_datasheet": technical_result,
                             "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
+                            "legislation_used_name": legislation_name,
                             "to_invoice": False,
                             "comment": result_comment,
                             "use_acreditation": use_acreditation,

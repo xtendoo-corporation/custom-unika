@@ -44,6 +44,28 @@ class LimsAnalysisNumericalResult(models.Model):
     # dil_fact = fields.Float(string="Dil. Fact.", store=True)
     reason = fields.Char(string="Reason", store=True)
     comment = fields.Char(string="Comment", store=True)
+    valor_informe = fields.Char(string="Valor informe", store=True)
+
+    @api.depends("value")
+    def _compute_valor_potencia(self):
+        for line in self:
+            valor_potencia = ""
+            valor_exponente = ""
+            if not line.show_potency:
+                valor_potencia = ""
+            else:
+                if line.value != 0.0:
+                    valor_potencia = (f"{line.value:.1E}")
+                    valor_potencia = str(valor_potencia)
+                    if valor_potencia.find("E") != -1:
+                        valor_exponente = valor_potencia[valor_potencia.find("E")+1:]
+                    if valor_potencia.find("E") != -1:
+                        valor_potencia = valor_potencia[:valor_potencia.find("E")]
+            line.valor_potencia = valor_potencia
+            line.valor_exponente = valor_exponente
+
+    valor_potencia = fields.Char(string="Valor Potencia", compute="_compute_valor_potencia")
+    valor_exponente = fields.Char(string="Valor Potencia", compute="_compute_valor_potencia")
     required_comment = fields.Boolean(related="parameter_ids.required_comment", store=True)
     show_potency = fields.Boolean(related="parameter_ids.show_potency", store=True)
     change_value_for_comment = fields.Boolean(related="parameter_ids.change_value_for_comment", store=True)
@@ -82,6 +104,9 @@ class LimsAnalysisNumericalResult(models.Model):
         string="Result dataSheet",
         default="none",
         store=True,
+    )
+    legislation_used_name = fields.Char(
+        string="Legislación",
     )
     to_invoice = fields.Boolean(string="billable", store=True, default=True)
     show_in_report = fields.Boolean(string="Show in Report", store=True, default=True)

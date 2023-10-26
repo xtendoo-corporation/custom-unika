@@ -348,89 +348,89 @@
                                 </div>
                             </div>
                         </div>
-                         <!-- Imagenes de la muestra -->
-                            <div
-                                t-if="doc.lot_id.lot_image_ids"
-                                style="display:block;width:100%;height:455px;margin-top:5px;clear:both;"
-                            >
-                                <t
-                                    t-set="main_img"
-                                    t-value="doc.lot_id.lot_image_ids.filtered(lambda l: l.main == True)[0]"
-                                />
-                                <t t-if="not main_img">
-                                    <t
-                                        t-set="main_img"
-                                        t-value="doc.lot_id.lot_image_ids[0]"
-                                    />
-                                </t>
-                                <t t-set="main_img_id" t-value="" />
-                                <!-- Imagen principal -->
+<!--                         &lt;!&ndash; Imagenes de la muestra &ndash;&gt;-->
+<!--                            <div-->
+<!--                                t-if="doc.lot_id.lot_image_ids"-->
+<!--                                style="display:block;width:100%;height:455px;margin-top:5px;clear:both;"-->
+<!--                            >-->
+<!--                                <t-->
+<!--                                    t-set="main_img"-->
+<!--                                    t-value="doc.lot_id.lot_image_ids.filtered(lambda l: l.main == True)[0]"-->
+<!--                                />-->
+<!--                                <t t-if="not main_img">-->
+<!--                                    <t-->
+<!--                                        t-set="main_img"-->
+<!--                                        t-value="doc.lot_id.lot_image_ids[0]"-->
+<!--                                    />-->
+<!--                                </t>-->
+<!--                                <t t-set="main_img_id" t-value="" />-->
+<!--                                &lt;!&ndash; Imagen principal &ndash;&gt;-->
 
-                                <div
-                                    style="width:48.8%;border:2px solid #EEEEEE; height:430px;float:left;"
-                                >
-                                    <t t-foreach="main_img" t-as="image">
-                                        <div style="width:100%;">
-                                            <img
-                                                t-att-src="image_data_uri(image.image_1920)"
-                                                style="width:98%;margin-left:1%;max-height:340px;min-height:340px;"
-                                                alt="Logo"
-                                            />
-                                            <t t-set="main_img_id" t-value="image.id" />
-                                        </div>
-                                    </t>
-                                </div>
-                                <!-- Fin Imagen principal -->
-                                <!--Imagenes secundarias -->
-                                <div
-                                    style="width:49.9%;height:430px;margin-left:1.3%;float:left;"
-                                >
-                                    <t t-set="imagen_num" t-value="0" />
-                                    <t
-                                        t-foreach="doc.lot_id.lot_image_ids"
-                                        t-as="image"
-                                    >
-                                        <t t-if="image.id == main_img_id" />
-                                        <t t-else="">
-                                            <t t-if="imagen_num &gt; 4" />
-                                            <t t-else="">
-                                                <t t-if="imagen_num &lt; 2">
-                                                    <div
-                                                        style="width:47.3%;height:210px;margin-left:2%;margin-bottom:10px;float:left;border:2px solid #EEEEEE;"
-                                                    >
-                                                        <img
-                                                            t-att-src="image_data_uri(image.image_1920)"
-                                                            style="width:95%;max-height:205px;min-height:205px;margin-left:2.5%;"
-                                                            alt="Logo"
-                                                        />
-                                                        <t
-                                                            t-set="imagen_num"
-                                                            t-value="imagen_num + 1"
-                                                        />
-                                                    </div>
-                                                </t>
-                                                <t t-else="">
-                                                    <div
-                                                        style="width:47.3%;height:210px;margin-left:2%;float:left;border:2px solid #EEEEEE;"
-                                                    >
-                                                        <img
-                                                            t-att-src="image_data_uri(image.image_1920)"
-                                                            style="width:95%;margin-left:2.5%;max-height:205px;min-height:205px;"
-                                                            alt="Logo"
-                                                        />
-                                                        <t
-                                                            t-set="imagen_num"
-                                                            t-value="imagen_num + 1"
-                                                        />
-                                                    </div>
-                                                </t>
-                                            </t>
-                                        </t>
-                                    </t>
-                                </div>
-                                <!-- Fin Imagenes secundarias -->
-                            </div>
-                            <!-- Fin imagenes de la muestra -->
+<!--                                <div-->
+<!--                                    style="width:48.8%;border:2px solid #EEEEEE; height:430px;float:left;"-->
+<!--                                >-->
+<!--                                    <t t-foreach="main_img" t-as="image">-->
+<!--                                        <div style="width:100%;">-->
+<!--                                            <img-->
+<!--                                                t-att-src="image_data_uri(image.image_1920)"-->
+<!--                                                style="width:98%;margin-left:1%;max-height:340px;min-height:340px;"-->
+<!--                                                alt="Logo"-->
+<!--                                            />-->
+<!--                                            <t t-set="main_img_id" t-value="image.id" />-->
+<!--                                        </div>-->
+<!--                                    </t>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; Fin Imagen principal &ndash;&gt;-->
+<!--                                &lt;!&ndash;Imagenes secundarias &ndash;&gt;-->
+<!--                                <div-->
+<!--                                    style="width:49.9%;height:430px;margin-left:1.3%;float:left;"-->
+<!--                                >-->
+<!--                                    <t t-set="imagen_num" t-value="0" />-->
+<!--                                    <t-->
+<!--                                        t-foreach="doc.lot_id.lot_image_ids"-->
+<!--                                        t-as="image"-->
+<!--                                    >-->
+<!--                                        <t t-if="image.id == main_img_id" />-->
+<!--                                        <t t-else="">-->
+<!--                                            <t t-if="imagen_num &gt; 4" />-->
+<!--                                            <t t-else="">-->
+<!--                                                <t t-if="imagen_num &lt; 2">-->
+<!--                                                    <div-->
+<!--                                                        style="width:47.3%;height:210px;margin-left:2%;margin-bottom:10px;float:left;border:2px solid #EEEEEE;"-->
+<!--                                                    >-->
+<!--                                                        <img-->
+<!--                                                            t-att-src="image_data_uri(image.image_1920)"-->
+<!--                                                            style="width:95%;max-height:205px;min-height:205px;margin-left:2.5%;"-->
+<!--                                                            alt="Logo"-->
+<!--                                                        />-->
+<!--                                                        <t-->
+<!--                                                            t-set="imagen_num"-->
+<!--                                                            t-value="imagen_num + 1"-->
+<!--                                                        />-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+<!--                                                <t t-else="">-->
+<!--                                                    <div-->
+<!--                                                        style="width:47.3%;height:210px;margin-left:2%;float:left;border:2px solid #EEEEEE;"-->
+<!--                                                    >-->
+<!--                                                        <img-->
+<!--                                                            t-att-src="image_data_uri(image.image_1920)"-->
+<!--                                                            style="width:95%;margin-left:2.5%;max-height:205px;min-height:205px;"-->
+<!--                                                            alt="Logo"-->
+<!--                                                        />-->
+<!--                                                        <t-->
+<!--                                                            t-set="imagen_num"-->
+<!--                                                            t-value="imagen_num + 1"-->
+<!--                                                        />-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+<!--                                            </t>-->
+<!--                                        </t>-->
+<!--                                    </t>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; Fin Imagenes secundarias &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; Fin imagenes de la muestra &ndash;&gt;-->
                          <t t-foreach="doc.parameter_type_in_lims" t-as="type">
                               <t
                             t-set="parameters_grouped"
@@ -483,19 +483,19 @@
                                     </t>
                                     <tr>
                                         <td name="td_result">
-                                            <t t-if="line.result == 'fail'">
+                                            <t t-if="line.result_datasheet == 'fail'">
                                                 <img
                                                     style="width:100%;height:30px;"
                                                     src="/lims/static/src/img/results/not_pass.png"
                                                 />
                                             </t>
-                                            <t t-if="line.result == 'warning'">
+                                            <t t-if="line.result_datasheet == 'warning'">
                                                 <img
                                                     style="width:100%;height:30px;"
                                                     src="/lims/static/src/img/results/warning.png"
                                                 />
                                             </t>
-                                            <t t-if="line.result == 'pass'">
+                                            <t t-if="line.result_datasheet == 'pass'">
                                                 <span></span>
                                             </t>
                                         </td>
@@ -540,14 +540,14 @@
                                             </t>
                                         </td>
                                         <td name="td_valor_limit" style="width:25%;">
-                                            <t t-if="line.use_legislation == True">
-                                                <span
-                                                    t-field="line.legislation_limit_value"
-                                                />
-                                            </t>
-                                            <t t-else="">
+<!--                                            <t t-if="line.use_legislation == True">-->
+<!--                                                <span-->
+<!--                                                    t-field="line.legislation_limit_value"-->
+<!--                                                />-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
                                                 <span t-field="line.limit_value_char"/>
-                                            </t>
+<!--                                            </t>-->
                                         </td>
                                     </tr>
                                 </tbody>

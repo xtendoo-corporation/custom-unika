@@ -2,26 +2,26 @@
 <odoo>
     <data>
         <report
-            id="lims.report_analysis_result_unika"
-            string="Analysis Unika"
+            id="lims.report_analysis_result_unika_boletin"
+            string="Boletín"
             model="lims.analysis.line"
             report_type="qweb-pdf"
-            name="lims.report_analysis_result_print_unika"
+            name="lims.report_analysis_result_print_unika_boletin"
         />
-        <template id="lims.report_analysis_result_print_unika">
-            <t t-name="lims.report_analysis_result_print_unika">
+        <template id="lims.report_analysis_result_print_unika_boletin">
+            <t t-name="lims.report_analysis_result_print_unika_boletin">
                 <t t-call="web.html_container">
                     <t t-foreach="docs" t-as="doc">
                         <t
-                            t-call="lims.report_analysis_result_document_unika"
+                            t-call="lims.report_analysis_result_document_unika_boletin"
                             t-lang="doc.customer_id.lang"
                         />
                     </t>
                 </t>
             </t>
         </template>
-        <template id="lims.report_analysis_result_document_unika">
-            <t t-name="lims.report_analysis_result_document_unika">
+        <template id="lims.report_analysis_result_document_unika_boletin">
+            <t t-name="lims.report_analysis_result_document_unika_boletin">
                 <!-- seteamos variables de cabecera -->
                 <t t-set="company" t-value="doc.company_id" />
                 <t t-set="product_name" t-value="doc.product_id.name" />
@@ -30,8 +30,18 @@
                 <t t-set="doc_complete_date" t-value="doc.date_complete" />
                 <t t-call="lims.external_layout_boxed">
                     <div class="page">
+                        <style>
+                            .table-striped>tbody>tr:nth-child(odd)>td,
+                            .table-striped>tbody>tr:nth-child(odd)>th {
+                                background-color: #d0d7e1;
+                            }
+                            .table-striped>tbody>tr{
+                                background-color: #f2f1f0;
+                            }
+                                    </style>
                         <div class="oe_structure" />
-                        <div style="page-break-after:always;margin-top:-45px;">
+<!--                        <div style="page-break-after:always;margin-top:-45px;">-->
+                        <div style="margin-top:-30px;">
                             <div style="display:block;width:100%;">
                                 <!-- Datos producto -->
                                 <div
@@ -45,143 +55,25 @@
                                         <p
                                             style="color:white;font-size:1.1em;margin-top:-45px;margin-left:12%;"
                                         >
-                                            IDENTIFICATION OF
-                                            <strong>PRODUCT</strong>
+                                            IDENTIFICACIÓN DE LA
+                                            <strong>MUESTRA</strong>
                                         </p>
                                     </div>
                                     <div
                                         style="clear:both;width:100%;color:black;height:35px;"
                                     >
-                                        <!-- Producto -->
-                                        <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:55px;padding-left:1.5%;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong>Product</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:55px;padding-left:1.5%;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                                t-field="doc.product_id.name"
-                                            />
-                                        </div>
-                                        <!-- Fin Producto -->
-                                        <!-- Cliente -->
-                                        <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;clear:both;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong>Customer</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                                t-field="doc.customer_id.name"
-                                            />
-                                        </div>
-                                        <!-- Cantidad -->
-                                        <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;clear:both;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong>Quantity</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:20%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >Quantity</span>
-                                        </div>
-                                        <!--Fin Cantidad -->
-                                        <!-- Presentación -->
-                                        <div
-                                            style="display:table;width:23%;margin-left:1.5%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:0.25%;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong>Presentation</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:29%;background-color:#f2f1f0;float:left;height:35px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >Presentation</span>
-                                        </div>
-                                        <!--Fin Presentación -->
-
-                                        <!-- MARCA -->
-                                        <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;clear:both;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong>Brand</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:20%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                        >
-                                            <t t-if="doc.product_id.product_brand_id">
-                                                <span
-                                                    style="display:table-cell;vertical-align: middle;"
-                                                    t-field="doc.product_id.product_brand_id"
-                                                />
-                                            </t>
-                                            <!--                                        <span style="display:table-cell;vertical-align: middle;" >Marca</span>-->
-                                        </div>
-                                        <!--Fin Marca -->
-                                        <!-- Codigo EAN -->
-                                        <div
-                                            style="display:table;width:23%;margin-left:1.5%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:0.75%;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong>EAN Code</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:29%;background-color:#f2f1f0;float:left;height:35px;"
-                                        >
-                                            <t t-if="doc.product_id.barcode">
-                                                <span
-                                                    style="display:table-cell;vertical-align: middle;"
-                                                    t-field="doc.product_id.barcode"
-                                                />
-                                            </t>
-                                        </div>
-                                        <!--Fin Codigo EAN -->
-
                                         <!-- Lote -->
                                         <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;clear:both;margin-bottom:10px;"
+                                            style="display:table;width:35%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;clear:both;margin-bottom:10px;"
                                         >
                                             <span
                                                 style="display:table-cell;vertical-align: middle;"
                                             >
-                                                <strong>Sample number</strong>
+                                                <strong>Muestra Nº</strong>
                                             </span>
                                         </div>
                                         <div
-                                            style="display:table;width:20%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
+                                            style="display:table;width:63%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
                                         >
                                             <t t-if="doc.lot_id">
                                                 <span
@@ -191,52 +83,118 @@
                                             </t>
                                         </div>
                                         <!--Fin Lote -->
-                                        <!-- Caducidad -->
+                                        <!-- Producto -->
                                         <div
-                                            style="display:table;width:23%;margin-left:1.5%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:0.75%;margin-bottom:10px;"
+                                            style="display:table;width:35%;margin-right:1%;background-color:#d0d7e1;float:left;height:55px;padding-left:1.5%;margin-bottom:10px;clear:both;"
                                         >
                                             <span
                                                 style="display:table-cell;vertical-align: middle;"
                                             >
-                                                <strong>Expiration</strong>
+                                                <strong>Muestra de:</strong>
                                             </span>
                                         </div>
                                         <div
-                                            style="display:table;width:29.5%;background-color:#f2f1f0;float:left;height:35px;"
+                                            style="display:table;width:63%;margin-left:1%;background-color:#f2f1f0;float:left;height:55px;padding-left:1.5%;"
                                         >
-                                            <t t-if="doc.lot_id.expiration_date">
-                                                <span
-                                                    style="display:table-cell;vertical-align: middle;"
-                                                    t-field="doc.lot_id.expiration_date"
-                                                    t-options='{"widget": "date","format": "dd/MM/yyyy"}'
-                                                />
-                                            </t>
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                                t-field="doc.product_id.name"
+                                            />
                                         </div>
-                                        <!--Fin Caducidad -->
+                                        <!-- Fin Producto -->
+                                        <!-- Descripcion -->
+                                        <div
+                                            style="display:table;width:35%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;clear:both;margin-bottom:10px;"
+                                        >
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                            >
+                                                <strong>Descripción</strong>
+                                            </span>
+                                        </div>
+                                        <div
+                                            style="display:table;width:63%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
+                                        >
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                                t-field="doc.description"
+                                            />
+                                        </div>
+                                        <!-- Fin Descripción -->
+                                         <div
+                                            style="display:table;width:35%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
+                                        >
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                            >
+                                                <strong>Lugar de recogida</strong>
+                                            </span>
+                                        </div>
+                                        <div
+                                            style="display:table;width:63%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
+                                        >
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                            >
+                                                <span
+                                                    style="display:block;"
+                                                    t-field="doc.customer_id.street"
+                                                />
+                                            </span>
+                                        </div>
+                                        <!-- Fin Lugar de recogida -->
+                                        <!-- Fecha y hora de recogida -->
+                                        <div
+                                            style="display:table;width:35%;margin-right:1%;background-color:#d0d7e1;float:left;height:65px;padding-left:1.5%;clear:both;margin-bottom:10px;"
+                                        >
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                            >
+                                                <strong
+                                                >Fecha y hora de recogida</strong>
+                                            </span>
+                                        </div>
+                                        <div
+                                            style="display:table;width:63%;margin-left:1%;background-color:#f2f1f0;float:left;height:65px;padding-left:1.5%;"
+                                        >
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;"
+                                                t-field="doc.stock_move_line_id.date"
+                                            />
+                                        </div>
+                                        <!-- Fin Fecha y hora de recogida -->
                                         <!-- Ensayos Anteriores -->
                                         <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
+                                            style="display:table;width:35%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
                                         >
                                             <span
                                                 style="display:table-cell;vertical-align: middle;"
                                             >
-                                                <strong>Pre. essays</strong>
+                                                <strong>Análisis ant.</strong>
                                             </span>
                                         </div>
                                         <div
-                                            style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
+                                            style="display:table;width:63%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
                                         >
                                             <span
                                                 style="display:table-cell;vertical-align: middle;"
-                                            >Previous
-                                                essays
+                                            >
+                                                <t t-if="doc.previous_analysis_date">
+                                                    <span
+                                                        t-field="doc.previous_analysis_date"
+                                                        t-options='{"widget": "date","format": "dd/MM/yyyy"}'
+                                                    />
+                                                </t>
+                                                <t t-else="">
+                                                    <span>No hay análisis anteriores</span>
+                                                </t>
                                             </span>
                                         </div>
                                         <!-- Fin Ensayos Anteriores -->
                                     </div>
                                 </div>
                                 <!-- Fin Datos producto -->
-                                <!-- Datos Fabricante -->
+                                <!-- Datos Customer -->
                                 <div
                                     style="display:block;width:49%;float:left;margin-left:1%;"
                                 >
@@ -248,93 +206,77 @@
                                         <p
                                             style="color:white;font-size:1.1em;margin-top:-45px;margin-left:12%;"
                                         >
-                                            IDENTIFICATION OF
-                                            <strong>MAKER</strong>
+                                            IDENTIFICACIÓN DEL
+                                            <strong>CLIENTE</strong>
                                         </p>
                                     </div>
                                     <!-- Nombre -->
                                     <div
-                                        style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:55px;padding-left:1.5%;margin-bottom:10px;"
+                                        style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;"
                                     >
                                         <span
                                             style="display:table-cell;vertical-align: middle;"
                                         >
-                                            <strong>Name</strong>
+                                            <strong>Nombre</strong>
                                         </span>
                                     </div>
                                     <div
-                                        style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:55px;padding-left:1.5%;"
+                                        style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
                                     >
                                         <span
-                                            t-field="doc.maker_id.name"
+                                            t-field="doc.customer_id.name"
                                             style="display:table-cell;vertical-align: middle;"
                                         />
                                     </div>
                                     <!-- Fin Nombre -->
                                     <!-- Dirección -->
                                     <div
-                                        style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:55px;padding-left:1.5%;margin-bottom:10px;clear:both;"
+                                        style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:100px;padding-left:1.5%;margin-bottom:10px;clear:both;"
                                     >
                                         <span
                                             style="display:table-cell;vertical-align: middle;"
                                         >
-                                            <strong>Address</strong>
+                                            <strong>Dirección</strong>
                                         </span>
                                     </div>
                                     <div
-                                        style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:55px;padding-left:1.5%;"
+                                        style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:100px;padding-left:1.5%;"
                                     >
-                                        <span
-                                            t-field="doc.maker_id.street"
-                                            style="display:table-cell;vertical-align: middle;"
-                                        />
+                                        <span style="display:table-cell;vertical-align: middle;">
+                                            <span t-field="doc.customer_id.street"/> <br/>
+                                            <span t-field="doc.customer_id.zip"/>
+                                            -<span t-field="doc.customer_id.city" />
+                                            (
+                                            <span t-field="doc.customer_id.state_id.name"/>
+                                            )
+
+                                        </span>
                                     </div>
                                     <!-- Fin Dirección -->
-                                    <!-- Localidad -->
+                                    <!-- CIF -->
                                     <div
                                         style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
                                     >
                                         <span
                                             style="display:table-cell;vertical-align: middle;"
                                         >
-                                            <strong>City</strong>
+                                            <strong>CIF</strong>
                                         </span>
                                     </div>
                                     <div
                                         style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
                                     >
                                         <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <span t-field="doc.maker_id.zip" />
-                                            -
-                                            <span t-field="doc.maker_id.city" />
-                                        </span>
-                                    </div>
-                                    <!-- Fin Localidad -->
-                                    <!-- Provincia -->
-                                    <div
-                                        style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <strong>State</strong>
-                                        </span>
-                                    </div>
-                                    <div
-                                        style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                    >
-                                        <span
-                                            t-field="doc.maker_id.state_id.name"
+                                            t-field="doc.customer_id.vat"
                                             style="display:table-cell;vertical-align: middle;"
                                         />
                                     </div>
-                                    <!-- Fin Provincia -->
+                                    <!-- Fin CIF -->
                                 </div>
-                                <!-- Datos Legislación Aplicable -->
+                                <!-- Fin Datos Customer -->
+                                <!-- Control fechas -->
                                 <div
-                                    style="display:block;width:49%;float:right;margin-left:1%;margin-top:5px;"
+                                    style="display:block;width:49%;float:left;margin-left:1%;"
                                 >
                                     <div style="height:45px;">
                                         <img
@@ -344,411 +286,108 @@
                                         <p
                                             style="color:white;font-size:1.1em;margin-top:-45px;margin-left:12%;"
                                         >
-                                            <strong>LEGISLATION</strong>
-                                            APPLICABLE
+                                            CONTROL DE
+                                            <strong>FECHAS</strong>
                                         </p>
                                     </div>
-                                    <!-- R(UE) -->
-                                    <div
-                                        style="margin-top:15px;display:table;width:25%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <strong>R(UE)</strong>
-                                        </span>
-                                    </div>
-                                    <div
-                                        style="margin-top:15px;display:table;width:73%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >1169/2011</span>
-                                    </div>
-                                    <!-- Fin R(UE) -->
-                                    <!-- R(UE) -->
-                                    <div
-                                        style="display:table;width:25%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <strong>R(UE)</strong>
-                                        </span>
-                                    </div>
-                                    <div
-                                        style="display:table;width:73%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >2073/2005</span>
-                                    </div>
-                                    <!-- Fin R(UE) -->
-                                    <!-- R(UE) -->
-                                    <div
-                                        style="display:table;width:25%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <strong>R(UE)</strong>
-                                        </span>
-                                    </div>
-                                    <div
-                                        style="display:table;width:73%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >1801/2008</span>
-                                    </div>
-                                    <!-- Fin R(UE) -->
-                                    <!-- Real Decreto -->
-                                    <div
-                                        style="display:table;width:25%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <strong>Royal decree</strong>
-                                        </span>
-                                    </div>
-                                    <div
-                                        style="display:table;width:73%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >474/2014</span>
-                                    </div>
-                                    <!-- Fin Real Decreto -->
-                                    <!-- None -->
-                                    <div
-                                        style="display:table;width:25%;margin-right:1%;background-color:#d0d7e1;float:left;height:35px;padding-left:1.5%;margin-bottom:10px;clear:both;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                            <strong />
-                                        </span>
-                                    </div>
-                                    <div
-                                        style="display:table;width:73%;margin-left:1%;background-color:#f2f1f0;float:left;height:35px;padding-left:1.5%;"
-                                    >
-                                        <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        />
-                                    </div>
-                                    <!-- Fin None -->
-
-                                </div>
-                                <!-- Fin datos Legislación Aplicable -->
-                                <!-- Identificación de la muestra -->
-                                <div
-                                    style="display:block;width:49%;float:left;margin-right:1%;"
-                                >
-                                    <div style="height:45px;">
-                                        <img
-                                            style="width:80%;height:45px;margin-left:10%;"
-                                            src="/lims/static/src/img/plaquita_unika.png"
-                                        />
-                                        <p
-                                            style="color:white;font-size:1.1em;margin-top:-45px;margin-left:12%;"
-                                        >
-                                            IDENTIFICATION OF THE
-                                            <strong>SAMPLE</strong>
-                                        </p>
-                                    </div>
-                                    <div
-                                        style="clear:both;width:100%;color:black;height:35px;"
-                                    >
-                                        <!--  Lugar de recogida -->
-                                        <div
-                                            style="display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:90px;padding-left:1.5%;margin-bottom:10px;"
-                                        >
+                                    <!-- Entrada -->
+                                    <div style="width:32.66%;margin-right:1%;float:left;">
+                                        <div style="display:table;background-color:#d0d7e1;padding-left:1.5%;width:100%;margin-bottom:5px;">
                                             <span
-                                                style="display:table-cell;vertical-align: middle;"
+                                            style="display:table-cell;vertical-align: middle;text-align:center;height:30px;"
                                             >
-                                                <strong>Pickup location</strong>
+                                                <strong>Entrada</strong>
                                             </span>
                                         </div>
-                                        <div
-                                            style="display:table;width:75%;margin-left:1%;background-color:#f2f1f0;float:left;height:90px;padding-left:1.5%;"
-                                        >
+                                        <div style="display:table;background-color:#f2f1f0;height:30px;padding-left:1.5%;width:100%;">
                                             <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <span
-                                                    style="display:block;"
-                                                    t-field="doc.customer_id.street"
-                                                />
-                                                <span
-                                                    style="display:block;"
-                                                    t-field="doc.customer_id.city"
-                                                />
-                                                <span style="display:block;">
-                                                    <span
-                                                        t-field="doc.customer_id.zip"
-                                                    />
-                                                    <span
-                                                        t-field="doc.customer_id.state_id.name"
-                                                    />
-                                                </span>
-                                            </span>
-                                        </div>
-                                        <!-- Fin Lugar de recogida -->
-                                        <!-- Fecha y hora de recogida -->
-                                        <div
-                                            style="display:table;width:24%;margin-right:1%;background-color:#d0d7e1;float:left;height:65px;padding-left:1.5%;clear:both;margin-bottom:10px;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                            >
-                                                <strong
-                                                >Pick up date and time</strong>
-                                            </span>
-                                        </div>
-                                        <div
-                                            style="display:table;width:39%;margin-left:1%;background-color:#f2f1f0;float:left;height:65px;padding-left:1.5%;"
-                                        >
-                                            <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                                t-field="doc.stock_move_line_id.date"
+                                                style="display:table-cell;vertical-align: middle;text-align:center;"
+                                                t-field="doc.date_sample_receipt"
+                                                t-options='{"widget": "date","format": "dd/MM/yyyy"}'
                                             />
                                         </div>
-                                        <!-- Fin Fecha y hora de recogida -->
-                                        <!-- Numero de muestras -->
-                                        <div
-                                            style="margin-left:1%;display:table;width:23%;margin-right:1%;background-color:#d0d7e1;float:left;height:65px;padding-left:1.5%;margin-bottom:10px;"
-                                        >
+                                    </div>
+                                    <!--Fin entrada -->
+                                     <!-- Inicio -->
+                                    <div style="width:32.66%;margin-right:1%;float:left;">
+                                        <div style="display:table;background-color:#d0d7e1;padding-left:1.5%;width:100%;margin-bottom:5px;">
                                             <span
-                                                style="display:table-cell;vertical-align: middle;"
+                                            style="display:table-cell;vertical-align:middle;text-align:center;height:30px;"
                                             >
-                                                <strong>Nº of samples</strong>
+                                                <strong>Inicio</strong>
                                             </span>
                                         </div>
-                                        <div
-                                            style="display:table;width:9.5%;margin-left:1%;background-color:#f2f1f0;float:left;height:65px;padding-left:1.5%;"
-                                        >
+                                        <div style="display:table;background-color:#f2f1f0;height:30px;padding-left:1.5%;width:100%;">
                                             <span
-                                                style="display:table-cell;vertical-align: middle;"
-                                                t-field="doc.stock_move_line_id.qty_done"
+                                                style="display:table-cell;vertical-align: middle;text-align:center;"
+                                                t-field="doc.date_sample_begin"
+                                                t-options='{"widget": "date","format": "dd/MM/yyyy"}'
                                             />
                                         </div>
-                                        <!-- Fin Numero de muestras -->
                                     </div>
+                                    <!--Fin inicio -->
+                                     <!-- Finalizacion -->
+                                    <div style="width:32.66%;float:left;">
+                                        <div style="display:table;background-color:#d0d7e1;padding-left:1.5%;width:100%;margin-bottom:5px;">
+                                            <span
+                                            style="display:table-cell;vertical-align: middle;text-align:center;height:30px;"
+                                            >
+                                                <strong>Finalización</strong>
+                                            </span>
+                                        </div>
+                                        <div style="display:table;background-color:#f2f1f0;height:30px;padding-left:1.5%;width:100%;">
+                                            <span
+                                                style="display:table-cell;vertical-align: middle;text-align:center;"
+                                                t-field="doc.date_complete"
+                                                t-options='{"widget": "date","format": "dd/MM/yyyy"}'
+                                            />
+                                        </div>
+                                    </div>
+                                    <!--Fin entrada -->
                                 </div>
-                                <!--Fin identificación de la muestra -->
+                                <!--  FinControl fechas -->
                             </div>
-                            <!-- Imagenes de la muestra -->
-                            <div
-                                t-if="doc.lot_id.lot_image_ids"
-                                style="display:block;width:100%;height:25px;margin-top:20px;clear:both;"
-                            >
-                                <t
-                                    t-set="main_img"
-                                    t-value="doc.lot_id.lot_image_ids.filtered(lambda l: l.main == True)[0]"
-                                />
-                                <t t-if="not main_img">
-                                    <t
-                                        t-set="main_img"
-                                        t-value="doc.lot_id.lot_image_ids[0]"
-                                    />
-                                </t>
-                                <t t-set="main_img_id" t-value="" />
-                                <!-- Imagen principal -->
-
+                            <div style="display:block;width:100%;">
+                                <!-- Datos producto -->
                                 <div
-                                    style="width:48.8%;border:2px solid #129067; height:430px;float:left;"
+                                    style="display:block;width:100%;float:left;margin-right:1%;"
                                 >
-                                    <t t-foreach="main_img" t-as="image">
-                                        <div style="width:100%;">
-                                            <img
-                                                t-att-src="image_data_uri(image.image_1920)"
-                                                style="width:98%;margin-left:1%;max-height:340px;min-height:340px;"
-                                                alt="Logo"
-                                            />
-                                            <t t-set="main_img_id" t-value="image.id" />
-                                        </div>
-                                    </t>
-                                </div>
-                                <!-- Fin Imagen principal -->
-                                <!--Imagenes secundarias -->
-                                <div
-                                    style="width:49.9%;height:430px;margin-left:1.3%;float:left;"
-                                >
-                                    <t t-set="imagen_num" t-value="0" />
-                                    <t
-                                        t-foreach="doc.lot_id.lot_image_ids"
-                                        t-as="image"
-                                    >
-                                        <t t-if="image.id == main_img_id" />
-                                        <t t-else="">
-                                            <t t-if="imagen_num &gt; 4" />
-                                            <t t-else="">
-                                                <t t-if="imagen_num &lt; 2">
-                                                    <div
-                                                        style="width:47.3%;height:210px;margin-left:2%;margin-bottom:10px;float:left;border:2px solid #129067;"
-                                                    >
-                                                        <img
-                                                            t-att-src="image_data_uri(image.image_1920)"
-                                                            style="width:95%;max-height:205px;min-height:205px;margin-left:2.5%;"
-                                                            alt="Logo"
-                                                        />
-                                                        <t
-                                                            t-set="imagen_num"
-                                                            t-value="imagen_num + 1"
-                                                        />
-                                                    </div>
-                                                </t>
-                                                <t t-else="">
-                                                    <div
-                                                        style="width:47.3%;height:210px;margin-left:2%;float:left;border:2px solid #129067;"
-                                                    >
-                                                        <img
-                                                            t-att-src="image_data_uri(image.image_1920)"
-                                                            style="width:95%;margin-left:2.5%;max-height:205px;min-height:205px;"
-                                                            alt="Logo"
-                                                        />
-                                                        <t
-                                                            t-set="imagen_num"
-                                                            t-value="imagen_num + 1"
-                                                        />
-                                                    </div>
-                                                </t>
+                                    <div style="height:45px;">
+                                        <img
+                                            style="width:90%;height:45px;margin-left:5%;"
+                                            src="/lims/static/src/img/plaquita_unika.png"
+                                        />
+                                        <p
+                                            style="color:white;font-size:1.1em;margin-top:-45px;margin-left:12%;"
+                                        >
+                                            <strong>LEGISLACIONES</strong>
+                                            APLICADAS
+                                        </p>
+                                    </div>
+                                    <table class="table table-sm o_main_table table-striped" style="clear:both;">
+                                        <tbody>
+                                            <t t-foreach="doc.numerical_result" t-as="result_line">
+                                            <t t-if="result_line.legislation_used_name != ''">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="result_line.legislation_used_name"/>
+                                                    </td>
+                                                </tr>
                                             </t>
                                         </t>
-                                    </t>
-                                </div>
-                                <!-- Fin Imagenes secundarias -->
-                            </div>
-                            <!-- Fin imagenes de la muestra -->
-                        </div>
-                        <!-- Leyenda resultados -->
-                        <div style="display:block;clear:both;width:100%;height:35px;">
-                            <!--No Aplica -->
-                            <div
-                                style="width:20%;background-color: #f2f1f0;height:35px;float:left;"
-                            >
-                                <figure
-                                    style="width:14%;height:35px;float:left;margin-left:1%;"
-                                >
-                                    <img
-                                        style="width:100%;height:25px;margin-top:5px;"
-                                        src="/lims/static/src/img/results/not_apply.png"
-                                    />
-                                </figure>
-                                <div
-                                    style="width:85%;display:table;float:left;height:35px"
-                                >
-                                    <span
-                                        style="display:table-cell;vertical-align: middle;"
-                                    >
-                                        Not Apply
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin No Aplica -->
-                            <!--Recomendación -->
-                            <div
-                                style="width:20%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;margin-bottom:5px;"
-                            >
-                                <figure
-                                    style="width:14%;height:35px;float:left;margin-left:1%;"
-                                >
-                                    <img
-                                        style="width:100%;height:25px;margin-top:5px;"
-                                        src="/lims/static/src/img/results/recommendation.png"
-                                    />
-                                </figure>
-                                <div
-                                    style="width:85%;display:table;float:left;height:35px"
-                                >
-                                    <span
-                                        style="display:table-cell;vertical-align: middle;"
-                                    >
-                                        Recommendation
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Recomendación -->
-                            <!--Correcto -->
-                            <div
-                                style="width:19.5%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;"
-                            >
-                                <figure
-                                    style="width:14%;height:35px;float:left;margin-left:1%;"
-                                >
-                                    <img
-                                        style="width:100%;height:25px;margin-top:5px;"
-                                        src="/lims/static/src/img/results/passed.png"
-                                    />
-                                </figure>
-                                <div
-                                    style="width:85%;display:table;float:left;height:35px"
-                                >
-                                    <span
-                                        style="display:table-cell;vertical-align: middle;"
-                                    >
-                                        Correct
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Correcto -->
-                            <!--Aviso -->
-                            <div
-                                style="width:18.5%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;"
-                            >
-                                <figure
-                                    style="width:14%;height:35px;float:left;margin-left:1%;"
-                                >
-                                    <img
-                                        style="width:100%;height:25px;margin-top:5px;"
-                                        src="/lims/static/src/img/results/warning.png"
-                                    />
-                                </figure>
-                                <div
-                                    style="width:85%;display:table;float:left;height:35px"
-                                >
-                                    <span
-                                        style="display:table-cell;vertical-align: middle;"
-                                    >
-                                        Warning
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Aviso -->
-                            <!--Incorrecto -->
-                            <div
-                                style="width:20.4%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;"
-                            >
-                                <figure
-                                    style="width:14%;height:35px;float:left;margin-left:1%;"
-                                >
-                                    <img
-                                        style="width:100%;height:25px;margin-top:5px;"
-                                        src="/lims/static/src/img/results/not_pass.png"
-                                    />
-                                </figure>
-                                <div
-                                    style="width:85%;display:table;float:left;height:35px"
-                                >
-                                    <span
-                                        style="display:table-cell;vertical-align: middle;"
-                                    >
-                                        Not correct
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Incorrecto -->
-                        </div>
-                        <!-- FIN Leyenda resultados -->
+                                        </tbody>
 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Resultados -->
                         <t t-foreach="doc.parameter_type_in_lims" t-as="type">
                               <t
                             t-set="parameters_grouped"
                             t-value="doc.numerical_result.filtered(lambda l: l.type_tags.id == type.id)"/>
                              <t t-set="last_type" t-value="" />
-                        <table name="analysis_line_table" style="width:100%;">
+                        <table name="analysis_line_table" style="width:100%;margin-top:0px;">
                             <t t-foreach="parameters_grouped" t-as="line">
                                 <t t-set="l" t-value="line" />
                                 <t t-set="actual_type" t-value="line.type_tags" />
@@ -801,12 +440,12 @@
                                                         </span>
                                                     </div>
                                                     <div
-                                                        style="width:17.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                        style="width:18%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
                                                     >
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            <strong>Parameters</strong>
+                                                            <strong>Parámetros</strong>
                                                         </span>
                                                     </div>
                                                     <div
@@ -815,16 +454,7 @@
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Units.
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:9.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            Limit**
+                                                            Uds.
                                                         </span>
                                                     </div>
                                                     <div
@@ -833,25 +463,25 @@
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Data Sheet
+                                                            F. técnica
                                                         </span>
                                                     </div>
                                                     <div
-                                                        style="width:9.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                        style="width:11.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
                                                     >
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Result
+                                                            Legislación
                                                         </span>
                                                     </div>
                                                     <div
-                                                        style="width:10%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                        style="width:16%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
                                                     >
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Labeled
+                                                            Resultado
                                                         </span>
                                                     </div>
                                                     <div
@@ -860,16 +490,16 @@
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Method
+                                                            Método
                                                         </span>
                                                     </div>
                                                     <div
-                                                        style="width:10%;float:left;background-color:#d0d7e1;height:35px;display:table;margin-bottom:5px;"
+                                                        style="width:11%;float:left;background-color:#d0d7e1;height:35px;display:table;margin-bottom:5px;"
                                                     >
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Evaluation
+                                                            Evaluación
                                                         </span>
                                                     </div>
                                                 </div>
@@ -894,7 +524,7 @@
                                                     />
                                                 </div>
                                                 <div
-                                                    style="width:17.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
+                                                    style="width:18%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
                                                 >
                                                     <span
                                                         t-field="line.parameter_ids.name"
@@ -910,69 +540,93 @@
                                                     />
                                                 </div>
                                                 <div
-                                                    style="width:9.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
+                                                    style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
                                                 >
-                                                    <t
-                                                        t-if="line.use_legislation == True"
-                                                    >
-                                                        <span
-                                                            t-field="line.legislation_limit_value"
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        />
+                                                    <t t-if="line.data_sheet == 'Present'">
+                                                         <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                            Presente
+                                                         </span>
                                                     </t>
                                                     <t t-else="">
-                                                        <span
-                                                            t-field="line.limit_value_char"
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        />
+                                                        <t t-if="line.data_sheet == 'Not Present'">
+                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                            No presente
+                                                         </span>
+                                                        </t>
+                                                        <t t-else="">
+                                                             <span t-field="line.data_sheet"
+                                                          style="padding-left:5px;display:table-cell;vertical-align: middle"/>
+                                                        </t>
                                                     </t>
                                                 </div>
                                                 <div
                                                     style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
                                                 >
-                                                    <span
-                                                        t-field="line.data_sheet"
-                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                    />
+                                                      <t t-if="line.legislation_value == 'Present'">
+                                                         <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                            Presente
+                                                         </span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-if="line.legislation_value == 'Not Present'">
+                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                            No presente
+                                                         </span>
+                                                        </t>
+                                                        <t t-else="">
+                                                             <span t-field="line.legislation_value"
+                                                          style="padding-left:5px;display:table-cell;vertical-align: middle"/>
+                                                        </t>
+                                                    </t>
                                                 </div>
                                                 <div
-                                                    style="width:9.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
+                                                    style="width:16%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
                                                 >
                                                     <t
-                                                        t-if="line.limit_value_char == 'Presente'"
+                                                        t-if="line.data_sheet == 'Present'"
                                                     >
                                                         <span
                                                             style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                         >
-                                                            Present
+                                                            Presente
                                                         </span>
                                                     </t>
                                                     <t t-else="">
                                                         <t
-                                                            t-if="line.limit_value_char == 'No Presente'"
+                                                            t-if="line.data_sheet == 'Not Present'"
                                                         >
                                                             <span
                                                                 style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                             >
-                                                                Not Present
+                                                                No presente
                                                             </span>
                                                         </t>
                                                         <t t-else="">
-                                                            <span
-                                                                t-field="line.value"
+                                                            <t t-if="line.change_value_for_comment">
+                                                                <span
+                                                                t-field="line.valor_informe"
                                                                 style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                             />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-if="line.show_potency">
+                                                                    <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                                        <span t-esc="line.valor_potencia"/>
+                                                                        <span>x10 <sup><span t-esc="line.valor_exponente"/></sup></span>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                     <span
+                                                                        t-field="line.value"
+                                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                    />
+                                                                </t>
+
+                                                            </t>
+
                                                         </t>
                                                     </t>
 
-                                                </div>
-                                                <div
-                                                    style="width:10%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
-                                                >
-                                                    <span
-                                                        t-field="line.labeled"
-                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                    />
                                                 </div>
                                                 <div
                                                     style="width:15.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
@@ -983,21 +637,39 @@
                                                     />
                                                 </div>
                                                 <div
-                                                    style="width:10%;float:left;background-color:#f2f1f0;height:45px;display:table;margin-bottom:5px;"
+                                                    style="width:11%;float:left;background-color:#f2f1f0;height:45px;display:table;margin-bottom:5px;"
                                                 >
-                                                    <t t-if="line.result == 'fail'">
+                                                    <t t-if="line.result_datasheet == 'fail'">
                                                         <img
                                                             style="padding-left:5px;width:50%;height:35px;margin-top:5px;"
                                                             src="/lims/static/src/img/results/not_pass.png"
                                                         />
                                                     </t>
-                                                    <t t-if="line.result == 'warning'">
+                                                    <t t-if="line.result_datasheet == 'warning'">
                                                         <img
                                                             style="padding-left:5px;width:50%;height:35px;margin-top:5px;"
                                                             src="/lims/static/src/img/results/warning.png"
                                                         />
                                                     </t>
-                                                    <t t-if="line.result == 'pass'">
+                                                    <t t-if="line.result_datasheet == 'pass'">
+                                                        <img
+                                                            style="padding-left:5px;width:50%;height:35px;margin-top:5px;"
+                                                            src="/lims/static/src/img/results/passed.png"
+                                                        />
+                                                    </t>
+                                                     <t t-if="line.result_legislation == 'fail'">
+                                                        <img
+                                                            style="padding-left:5px;width:50%;height:35px;margin-top:5px;"
+                                                            src="/lims/static/src/img/results/not_pass.png"
+                                                        />
+                                                    </t>
+                                                    <t t-if="line.result_legislation == 'warning'">
+                                                        <img
+                                                            style="padding-left:5px;width:50%;height:35px;margin-top:5px;"
+                                                            src="/lims/static/src/img/results/warning.png"
+                                                        />
+                                                    </t>
+                                                    <t t-if="line.result_legislation == 'pass'">
                                                         <img
                                                             style="padding-left:5px;width:50%;height:35px;margin-top:5px;"
                                                             src="/lims/static/src/img/results/passed.png"
@@ -1011,275 +683,8 @@
                             </t>
                         </table>
                         </t>
-                        <t
-                            t-set="parameters_grouped"
-                            t-value="doc.numerical_result.sorted(key=lambda l: l.type_tags.id)"
-                        />
-<!--                        <t t-set="last_type" t-value="" />-->
-<!--                        <table name="analysis_line_table" style="width:100%;">-->
-<!--                            <t t-foreach="parameters_grouped" t-as="line">-->
-<!--                                <t t-set="l" t-value="line" />-->
-<!--                                <t t-set="actual_type" t-value="line.type_tags" />-->
-<!--                                <t t-if="actual_type != last_type">-->
-<!--                                    <thead>-->
-<!--                                        <tr>-->
-<!--                                            <th>-->
-<!--                                                <t t-if="last_type">-->
-<!--                                                    <div-->
-<!--                                                        style="display:block;clear:both;margin-top:5px;margin-bottom:15px;width:100%;height:15px;background-color:#129067;"-->
-<!--                                                    >-->
-<!--                                                    </div>-->
-
-<!--                                                </t>-->
-<!--                                                &lt;!&ndash; Etiqueta analisis tipo &ndash;&gt;-->
-<!--                                                <div-->
-<!--                                                    style="display:block;width:100%;background-color:#129067;height:60px;clear:both;"-->
-<!--                                                >-->
-<!--                                                    <div-->
-<!--                                                        style="width:7%;margin-left:1%;float:left;"-->
-<!--                                                    >-->
-<!--                                                        <figure style="width:100%;">-->
-<!--                                                            <img-->
-<!--                                                                style="width:100%;height:50px;margin-top:5px;"-->
-<!--                                                                src="/lims/static/src/img/type_legend.png"-->
-<!--                                                            />-->
-<!--                                                        </figure>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:91%;margin-left:0.5%;float:left;display:table;height:60px;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            t-field="line.parameter_ids.type_tags.description"-->
-<!--                                                            style="font-size:1.4em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"-->
-<!--                                                        />-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash;  fin Etiqueta analisis tipo &ndash;&gt;-->
-<!--                                                &lt;!&ndash;Cabecera &ndash;&gt;-->
-<!--                                                <div-->
-<!--                                                    style="display:block;width:100%;clear:both;"-->
-<!--                                                >-->
-<!--                                                    <div-->
-<!--                                                        style="width:5.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            <strong>CD</strong>-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:17.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            <strong>Parámetros</strong>-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:7.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Uds.-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:9.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Límite**-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:11.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            F. Técnica-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:9.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Resultado-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:10%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Etiquetado-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:15.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Método-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                    <div-->
-<!--                                                        style="width:10%;float:left;background-color:#d0d7e1;height:35px;display:table;margin-bottom:5px;"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Evaluación-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash;Fin Cabecera &ndash;&gt;-->
-<!--                                            </th>-->
-<!--                                        </tr>-->
-<!--                                    </thead>-->
-<!--                                </t>-->
-<!--                                <t t-set="last_type" t-value="actual_type" />-->
-<!--                                <tbody>-->
-<!--                                    <tr>-->
-<!--                                        <td>-->
-<!--                                            <div-->
-<!--                                                style="display:block;width:100%;clear:both;font-size:0.9em;"-->
-<!--                                            >-->
-<!--                                                <div-->
-<!--                                                    style="width:5.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <span-->
-<!--                                                        t-field="line.parameter_ids.default_code"-->
-<!--                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:17.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <span-->
-<!--                                                        t-field="line.parameter_ids.name"-->
-<!--                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:7.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <span-->
-<!--                                                        t-field="line.parameter_uom"-->
-<!--                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:9.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <t-->
-<!--                                                        t-if="line.use_legislation == True"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            t-field="line.legislation_limit_value"-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        />-->
-<!--                                                    </t>-->
-<!--                                                    <t t-else="">-->
-<!--                                                        <span-->
-<!--                                                            t-field="line.limit_value_char"-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        />-->
-<!--                                                    </t>-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <span-->
-<!--                                                        t-field="line.data_sheet"-->
-<!--                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:9.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <t-->
-<!--                                                        t-if="line.limit_value_char == 'Presente'"-->
-<!--                                                    >-->
-<!--                                                        <span-->
-<!--                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                        >-->
-<!--                                                            Presente-->
-<!--                                                        </span>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-else="">-->
-<!--                                                        <t-->
-<!--                                                            t-if="line.limit_value_char == 'No Presente'"-->
-<!--                                                        >-->
-<!--                                                            <span-->
-<!--                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                            >-->
-<!--                                                                No Presente-->
-<!--                                                            </span>-->
-<!--                                                        </t>-->
-<!--                                                        <t t-else="">-->
-<!--                                                            <span-->
-<!--                                                                t-field="line.value"-->
-<!--                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                            />-->
-<!--                                                        </t>-->
-<!--                                                    </t>-->
-
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:10%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <span-->
-<!--                                                        t-field="line.labeled"-->
-<!--                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:15.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"-->
-<!--                                                >-->
-<!--                                                    <span-->
-<!--                                                        t-field="line.analytical_method_id.name"-->
-<!--                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"-->
-<!--                                                    />-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                    style="width:10%;float:left;background-color:#f2f1f0;height:45px;display:table;margin-bottom:5px;"-->
-<!--                                                >-->
-<!--                                                    <t t-if="line.result == 'fail'">-->
-<!--                                                        <img-->
-<!--                                                            style="padding-left:5px;width:50%;height:35px;margin-top:5px;"-->
-<!--                                                            src="/lims/static/src/img/results/not_pass.png"-->
-<!--                                                        />-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="line.result == 'warning'">-->
-<!--                                                        <img-->
-<!--                                                            style="padding-left:5px;width:50%;height:35px;margin-top:5px;"-->
-<!--                                                            src="/lims/static/src/img/results/warning.png"-->
-<!--                                                        />-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="line.result == 'pass'">-->
-<!--                                                        <img-->
-<!--                                                            style="padding-left:5px;width:50%;height:35px;margin-top:5px;"-->
-<!--                                                            src="/lims/static/src/img/results/passed.png"-->
-<!--                                                        />-->
-<!--                                                    </t>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
-<!--                                </tbody>-->
-<!--                            </t>-->
-<!--                        </table>-->
                         <div
-                            style="page-break-after:always;display:block;clear:both;margin-top:5px;margin-bottom:15px;width:100%;height:15px;background-color:#129067;"
+                            style="display:block;clear:both;margin-top:5px;margin-bottom:15px;width:100%;height:15px;background-color:#129067;"
                         >
                         </div>
                         <!-- Fin Resultados -->
@@ -1289,7 +694,7 @@
                         >
                             <!-- Etiqueta Dictamen final -->
                             <div
-                                style="display:block;width:100%;height:60px;clear:both;"
+                                style="display:block;width:100%;height:40px;clear:both;"
                             >
                                 <div style="width:7%;margin-left:1%;float:left;">
                                     <figure style="width:100%;">
@@ -1304,132 +709,14 @@
                                 >
                                     <span
                                         style="font-size:1.4em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                    >FINAL OPINION</span>
+                                    >DICTAMEN FINAL</span>
                                 </div>
                             </div>
                             <!--  fin Etiqueta Dictamen final -->
-                            <!-- Leyenda resultados -->
-                        <div
-                                style="display:block;clear:both;width:97%;height:35px;margin-left:1.5%;"
-                            >
-                            <!--No Aplica -->
-                            <div
-                                    style="width:20%;background-color: #f2f1f0;height:35px;float:left;"
-                                >
-                                <figure
-                                        style="width:14%;height:35px;float:left;margin-left:1%;"
-                                    >
-                                    <img
-                                            style="width:100%;height:25px;margin-top:5px;"
-                                            src="/lims/static/src/img/results/not_apply.png"
-                                        />
-                                </figure>
-                                <div
-                                        style="width:85%;display:table;float:left;height:35px"
-                                    >
-                                    <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                        Not Apply
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin No Aplica -->
-                            <!--Recomendación -->
-                            <div
-                                    style="width:20%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;margin-bottom:5px;"
-                                >
-                                <figure
-                                        style="width:14%;height:35px;float:left;margin-left:1%;"
-                                    >
-                                    <img
-                                            style="width:100%;height:25px;margin-top:5px;"
-                                            src="/lims/static/src/img/results/recommendation.png"
-                                        />
-                                </figure>
-                                <div
-                                        style="width:85%;display:table;float:left;height:35px"
-                                    >
-                                    <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                        Recommendation
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Recomendación -->
-                            <!--Correcto -->
-                            <div
-                                    style="width:19.5%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;"
-                                >
-                                <figure
-                                        style="width:14%;height:35px;float:left;margin-left:1%;"
-                                    >
-                                    <img
-                                            style="width:100%;height:25px;margin-top:5px;"
-                                            src="/lims/static/src/img/results/passed.png"
-                                        />
-                                </figure>
-                                <div
-                                        style="width:85%;display:table;float:left;height:35px"
-                                    >
-                                    <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                        Correct
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Correcto -->
-                            <!--Aviso -->
-                            <div
-                                    style="width:18.5%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;"
-                                >
-                                <figure
-                                        style="width:14%;height:35px;float:left;margin-left:1%;"
-                                    >
-                                    <img
-                                            style="width:100%;height:25px;margin-top:5px;"
-                                            src="/lims/static/src/img/results/warning.png"
-                                        />
-                                </figure>
-                                <div
-                                        style="width:85%;display:table;float:left;height:35px"
-                                    >
-                                    <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                        Warning
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Aviso -->
-                            <!--Incorrecto -->
-                            <div
-                                    style="width:19.5%;background-color: #f2f1f0;height:35px;margin-left:0.5%;float:left;"
-                                >
-                                <figure
-                                        style="width:14%;height:35px;float:left;margin-left:1%;"
-                                    >
-                                    <img
-                                            style="width:100%;height:25px;margin-top:5px;"
-                                            src="/lims/static/src/img/results/not_pass.png"
-                                        />
-                                </figure>
-                                <div
-                                        style="width:85%;display:table;float:left;height:35px"
-                                    >
-                                    <span
-                                            style="display:table-cell;vertical-align: middle;"
-                                        >
-                                        Not correct
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Fin Incorrecto -->
+
                         </div>
-                        <!-- FIN Leyenda resultados -->
-                            <span style="display:block;" />
+                        <div>
+                             <span t-field="doc.note" style="display:block;width:90%;margin-right:5%;" />
                         </div>
                         <!-- Fin Dictamen final -->
                     </div>
