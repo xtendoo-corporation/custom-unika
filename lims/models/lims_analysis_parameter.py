@@ -40,13 +40,6 @@ class LimsAnalysisParameter(models.Model):
     change_value_for_comment = fields.Boolean(string="Cambiar valor por comentario", store=True)
 
 
-    @api.onchange('change_value_for_comment')
-    def _onchange_change_value_for_comment(self):
-        if self.change_value_for_comment:
-            self.required_comment = True
-        else:
-            self.required_comment = False
-
     def _is_code_in_use(self, code):
         parameter = self.env['lims.analysis.parameter'].search(
             [
@@ -66,6 +59,14 @@ class LimsAnalysisParameter(models.Model):
                     ], )
                 if parameter:
                     raise UserError(_("La referencia debe ser única por parámetro"))
+        if vals.get('name'):
+            for method in self.analytical_method_price_ids:
+                method.write(
+                    {
+                        'name': vals['name'] + " - " + method.analytical_method_id.name,
+                        'display_name': vals['name'] + " - " + method.analytical_method_id.name,
+                    }
+                )
         return super(LimsAnalysisParameter, self).write(vals)
 
     @api.model
@@ -125,6 +126,15 @@ class LimsAnalysisParameter(models.Model):
                 )
                 res['analytical_method_price_ids'] = new_method
                 method_ids = method_ids + (new_method.id,)
+                method_udm = self.env['parameter.analytical.method.price.uom'].search(
+                    [("analytical_method_id", "=", new_method.id), ('parent_id', '=', False)])
+                if not method_udm:
+                    self.env['parameter.analytical.method.price.uom'].create(
+                        {
+                            'analytical_method_id': new_method.id,
+                            'parent_id': None,
+                        }
+                    )
             new_methods = self.env['analytical.method.price'].search([("id", "in", method_ids)])
             res['analytical_method_price_ids'] = new_methods
         else:
@@ -136,6 +146,14 @@ class LimsAnalysisParameter(models.Model):
                         'display_name': res.name + " - " + method.analytical_method_id.name,
                     }
                 )
+                method_udm = self.env['parameter.analytical.method.price.uom'].search([("analytical_method_id", "=", method.id),('parent_id', '=', False)])
+                if not method_udm:
+                    self.env['parameter.analytical.method.price.uom'].create(
+                        {
+                            'analytical_method_id': method.id,
+                            'parent_id': None,
+                        }
+                    )
         return res
 
     def _get_limit_value_char(self, limits):

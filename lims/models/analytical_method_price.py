@@ -26,10 +26,6 @@ class ParameterAnalyticalMethodRel(models.Model):
     def get_display_name(self):
         for register in self:
             register.display_name = register.parameter_id.name + " - " + register.analytical_method_id.name
-            # if self.env.context.get("params"):
-            #     register.display_name = register.analytical_method_id.name
-            # else:
-            #     register.display_name = register.name
     display_name = fields.Char(string="Display Name", compute="get_display_name", store=True)
 
     def _get_company_id(self):
@@ -51,6 +47,7 @@ class ParameterAnalyticalMethodRel(models.Model):
             return
         self.name = _("%s - %s", self.parameter_id.name, self.analytical_method_id.name)
         self.display_name = _("%s - %s", self.parameter_id.name, self.analytical_method_id.name)
+
 
 
 
