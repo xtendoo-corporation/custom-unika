@@ -118,8 +118,8 @@
                 <field name="required_comment" invisible="1" string="required_comment" />
                 <field name="change_value_for_comment" invisible="1"/>
                 <field name="valor_informe" optional="show" string="Valor informe" attrs="{'required': [('change_value_for_comment', '=', True)]}" />
-                <field name="valor_potencia" optional="show" string="Valor Potencia"/>
-                <field name="valor_exponente" optional="show" string="Valor Exponente"/>
+                <field name="valor_potencia" optional="show" string="Valor Potencia" invisible="1"/>
+                <field name="valor_exponente" optional="show" string="Valor Exponente" invisible="1"/>
                 <field name="value" optional="show" string="value" />
                 <field name="is_present" optional="show" string="Present" />
                 <field name="is_correct" optional="show" string="Correct" />

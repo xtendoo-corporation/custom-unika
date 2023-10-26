@@ -138,6 +138,7 @@ class LimsAnalysisNumericalResult(models.Model):
 
     @api.onchange("value")
     def _onchange_value(self):
+        self._compute_valor_potencia()
         for line in self:
             if self.is_correct:
                 print("*" * 50)
