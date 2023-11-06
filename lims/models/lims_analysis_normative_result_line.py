@@ -67,8 +67,6 @@ class LimsAnalysisParameterNormativeResultLine(models.Model):
             vals["parent_id"] = self.env.context.get("parent_id")
             if not vals.get("required_comment"):
                 vals["required_comment"] = self.env.context.get("required_comment")
-                print("*"*50)
-                print("vals:", vals)
         return super(LimsAnalysisParameterNormativeResultLine, self).create(vals)
 
     def _get_required_comment(self):
@@ -153,8 +151,6 @@ class LimsAnalysisParameterNormativeResultLine(models.Model):
 
     def get_result_when_limit(self, value):
         result = ""
-        print("*" * 150)
-        print("value", value)
         if self.operator_from is not False:
             if self.operator_from == ">" and value > self.limit_value_from:
                 result = self.state
@@ -169,7 +165,6 @@ class LimsAnalysisParameterNormativeResultLine(models.Model):
                 result = self.state
             if self.operator_to == "=" and value == self.limit_value_to:
                 result = self.state
-        print("result", result)
         return result
 
     def get_result_when_ispresent(self, value):

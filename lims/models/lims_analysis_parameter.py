@@ -38,6 +38,7 @@ class LimsAnalysisParameter(models.Model):
     required_comment = fields.Boolean(string="Required Commentary", store=True)
     show_potency = fields.Boolean(string="Mostrar en potencia", store=True)
     change_value_for_comment = fields.Boolean(string="Cambiar valor por comentario", store=True)
+    show_description = fields.Boolean(string="Mostrar descripción", store=True)
 
 
     def _is_code_in_use(self, code):

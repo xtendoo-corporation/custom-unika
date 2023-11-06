@@ -438,9 +438,6 @@ class SaleOrderLine(models.Model):
 
                 for parameter in self.parameter_ids:
                     if parameter not in self.analysis_group_ids.parameter_method_ids:
-                        print("*"*50)
-                        print("parametro fuera de paquete")
-                        print("*" * 50)
                         parameter_id = self.env["analytical.method.price"].search(
                             [("name", "=", parameter.name)], limit=1
                         )

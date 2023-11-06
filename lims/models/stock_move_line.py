@@ -58,9 +58,6 @@ class StockMoveLine(models.Model):
 
     @api.onchange("lot_id")
     def onchange_lot_id(self):
-        print("*" * 120)
-        print("Entra en domain")
-        print("*" * 120)
         domain = {}
         for record in self:
             # lot_id_can_use = self.env['stock.production.lot'].search([
@@ -71,13 +68,11 @@ class StockMoveLine(models.Model):
             partner_id = record.move_id.picking_id.partner_id
             if record.move_id.picking_id.partner_id.parent_id:
                 partner_id = record.move_id.picking_id.partner_id.parent_id
-            print("partner_id ", partner_id)
             lot_id_can_use = self.env['stock.production.lot'].search([
                 ('product_id', '=', False),
                 ('company_id', '=', record.company_id.id),
                 ('partner_id', 'in', [partner_id.id, False])
 
             ], order="partner_id ASC, id DESC")
-            print("lots", lot_id_can_use)
             domain['lot_id'] = [('id', 'in', lot_id_can_use.ids)]
         return {"domain": domain}

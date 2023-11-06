@@ -245,11 +245,14 @@
                                         <span style="display:table-cell;vertical-align: middle;">
                                             <span t-field="doc.customer_id.street"/> <br/>
                                             <span t-field="doc.customer_id.zip"/>
-                                            -<span t-field="doc.customer_id.city" />
-                                            (
-                                            <span t-field="doc.customer_id.state_id.name"/>
-                                            )
-
+                                            <t t-if="doc.customer_id.city">
+                                                -<span t-field="doc.customer_id.city" />
+                                                <t t-if="doc.customer_id.state_id.name">
+                                                    (
+                                                    <span t-field="doc.customer_id.state_id.name"/>
+                                                    )
+                                                </t>
+                                            </t>
                                         </span>
                                     </div>
                                     <!-- Fin Dirección -->
@@ -346,10 +349,16 @@
                                     <!--Fin entrada -->
                                 </div>
                                 <!--  FinControl fechas -->
-                            </div>
+                                <t t-set="show_legislation" t-value="0" />
+                            <t t-foreach="doc.numerical_result" t-as="result_line">
+                                    <t t-if="result_line.legislation_used_name != ''">
+                                         <t t-set="show_legislation" t-value="1" />
+                                    </t>
+                                </t>
                             <div style="display:block;width:100%;">
                                 <!-- Datos producto -->
-                                <div
+                                <t t-if="show_legislation == 1">
+                                    <div
                                     style="display:block;width:100%;float:left;margin-right:1%;"
                                 >
                                     <div style="height:45px;">
@@ -379,313 +388,328 @@
 
                                     </table>
                                 </div>
+                                </t>
+
                             </div>
+                            </div>
+
                         </div>
                         <!-- Resultados -->
                         <t t-foreach="doc.parameter_type_in_lims" t-as="type">
+
                               <t
                             t-set="parameters_grouped"
                             t-value="doc.numerical_result.filtered(lambda l: l.type_tags.id == type.id)"/>
-                             <t t-set="last_type" t-value="" />
-                        <table name="analysis_line_table" style="width:100%;margin-top:0px;">
-                            <t t-foreach="parameters_grouped" t-as="line">
-                                <t t-set="l" t-value="line" />
-                                <t t-set="actual_type" t-value="line.type_tags" />
-                                <t t-if="actual_type != last_type">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <t t-if="last_type">
-                                                    <div
-                                                        style="display:block;clear:both;margin-top:5px;margin-bottom:15px;width:100%;height:15px;background-color:#129067;"
-                                                    >
-                                                    </div>
+                            <t t-if="parameters_grouped">
+                                <h1 style="clear:both;color:white;font-size:0.6em">test <span t-esc="type.name"></span></h1>
+                                <t t-set="last_type" t-value="" />
+                                <table name="analysis_line_table" style="width:100%;margin-top:0px;clear:both;">
+                                    <t t-foreach="parameters_grouped" t-as="line">
+                                        <t t-set="l" t-value="line" />
+                                        <t t-set="actual_type" t-value="line.type_tags" />
+                                        <t t-if="actual_type != last_type">
+                                            <thead style="clear:both">
+                                                <tr>
+                                                    <th>
+                                                        <t t-if="last_type">
+                                                            <div
+                                                                style="display:block;clear:both;margin-top:5px;margin-bottom:15px;width:100%;height:15px;background-color:#129067;"
+                                                            >
+                                                            </div>
 
-                                                </t>
-                                                <!-- Etiqueta analisis tipo -->
-                                                <div
-                                                    style="display:block;width:100%;background-color:#129067;height:60px;clear:both;"
-                                                >
-                                                    <div
-                                                        style="width:7%;margin-left:1%;float:left;"
-                                                    >
-                                                        <figure style="width:100%;">
-                                                            <img
-                                                                style="width:100%;height:50px;margin-top:5px;"
-                                                                src="/lims/static/src/img/type_legend.png"
-                                                            />
-                                                        </figure>
-                                                    </div>
-                                                    <div
-                                                        style="width:91%;margin-left:0.5%;float:left;display:table;height:60px;"
-                                                    >
-                                                        <span
-                                                            t-field="line.parameter_ids.type_tags.description"
-                                                            style="font-size:1.4em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <!--  fin Etiqueta analisis tipo -->
-                                                <!--Cabecera -->
-                                                <div
-                                                    style="display:block;width:100%;clear:both;"
-                                                >
-                                                    <div
-                                                        style="width:5.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            <strong>CD</strong>
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:18%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            <strong>Parámetros</strong>
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:7.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            Uds.
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:11.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            F. técnica
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:11.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            Legislación
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:16%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            Resultado
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:15.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            Método
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style="width:11%;float:left;background-color:#d0d7e1;height:35px;display:table;margin-bottom:5px;"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                        >
-                                                            Evaluación
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!--Fin Cabecera -->
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                </t>
-                                <t t-set="last_type" t-value="actual_type" />
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div
-                                                style="display:block;width:100%;clear:both;font-size:0.9em;"
-                                            >
-                                                <div
-                                                    style="width:5.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
-                                                >
-                                                    <span
-                                                        t-field="line.parameter_ids.default_code"
-                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                    />
-                                                </div>
-                                                <div
-                                                    style="width:18%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
-                                                >
-                                                    <span
-                                                        t-field="line.parameter_ids.name"
-                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                    />
-                                                </div>
-                                                <div
-                                                    style="width:7.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
-                                                >
-                                                    <span
-                                                        t-field="line.parameter_uom"
-                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                    />
-                                                </div>
-                                                <div
-                                                    style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
-                                                >
-                                                    <t t-if="line.data_sheet == 'Present'">
-                                                         <span style="padding-left:5px;display:table-cell;vertical-align: middle">
-                                                            Presente
-                                                         </span>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <t t-if="line.data_sheet == 'Not Present'">
-                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle">
-                                                            No presente
-                                                         </span>
                                                         </t>
-                                                        <t t-else="">
-                                                             <span t-field="line.data_sheet"
-                                                          style="padding-left:5px;display:table-cell;vertical-align: middle"/>
-                                                        </t>
-                                                    </t>
-                                                </div>
-                                                <div
-                                                    style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
-                                                >
-                                                      <t t-if="line.legislation_value == 'Present'">
-                                                         <span style="padding-left:5px;display:table-cell;vertical-align: middle">
-                                                            Presente
-                                                         </span>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <t t-if="line.legislation_value == 'Not Present'">
-                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle">
-                                                            No presente
-                                                         </span>
-                                                        </t>
-                                                        <t t-else="">
-                                                             <span t-field="line.legislation_value"
-                                                          style="padding-left:5px;display:table-cell;vertical-align: middle"/>
-                                                        </t>
-                                                    </t>
-                                                </div>
-                                                <div
-                                                    style="width:16%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
-                                                >
-                                                    <t
-                                                        t-if="line.data_sheet == 'Present'"
-                                                    >
-                                                        <span
-                                                            style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                        <!-- Etiqueta analisis tipo -->
+                                                        <div
+                                                            style="display:block;width:100%;background-color:#129067;height:60px;clear:both;"
                                                         >
-                                                            Presente
-                                                        </span>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <t
-                                                            t-if="line.data_sheet == 'Not Present'"
+                                                            <div
+                                                                style="width:7%;margin-left:1%;float:left;"
+                                                            >
+                                                                <figure style="width:100%;">
+                                                                    <img
+                                                                        style="width:100%;height:50px;margin-top:5px;"
+                                                                        src="/lims/static/src/img/type_legend.png"
+                                                                    />
+                                                                </figure>
+                                                            </div>
+                                                            <div
+                                                                style="width:91%;margin-left:0.5%;float:left;display:table;height:60px;"
+                                                            >
+                                                                <span
+                                                                    t-field="line.parameter_ids.type_tags.description"
+                                                                    style="font-size:1.4em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <!--  fin Etiqueta analisis tipo -->
+                                                        <!--Cabecera -->
+                                                        <div
+                                                            style="display:block;width:100%;clear:both;"
+                                                        >
+                                                            <div
+                                                                style="width:7.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    <strong>CD</strong>
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:18%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    <strong>Parámetros</strong>
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:7.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    Uds.
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:11.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    F. técnica
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:11.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    Legislación
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:14%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    Resultado
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:15.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:35px;display:table;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    Método
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                style="width:11%;float:left;background-color:#d0d7e1;height:35px;display:table;margin-bottom:5px;"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    Evaluación
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!--Fin Cabecera -->
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </t>
+                                        <t t-set="last_type" t-value="actual_type" />
+                                        <tbody style="clear:both">
+                                            <tr>
+                                                <td>
+                                                    <div
+                                                        style="display:block;width:100%;clear:both;font-size:0.75em;"
+                                                    >
+                                                        <div
+                                                            style="width:7.5%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
                                                         >
                                                             <span
-                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                            >
-                                                                No presente
-                                                            </span>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-if="line.change_value_for_comment">
-                                                                <span
-                                                                t-field="line.valor_informe"
+                                                                t-field="line.parameter_ids.default_code"
                                                                 style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                             />
+                                                        </div>
+                                                        <div
+                                                            style="width:18%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
+                                                        >
+                                                            <span
+                                                                t-field="line.parameter_ids.name"
+                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            style="width:7.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
+                                                        >
+                                                            <span
+                                                                t-field="line.parameter_uom"
+                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
+                                                        >
+                                                            <t t-if="line.data_sheet == 'Present'">
+                                                                 <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                                    Presente
+                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <t t-if="line.show_potency">
+                                                                <t t-if="line.data_sheet == 'Not Present'">
                                                                     <span style="padding-left:5px;display:table-cell;vertical-align: middle">
-                                                                        <span t-esc="line.valor_potencia"/>
-                                                                        <span>x10 <sup><span t-esc="line.valor_exponente"/></sup></span>
+                                                                    No presente
+                                                                 </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                     <span t-field="line.data_sheet"
+                                                                  style="padding-left:5px;display:table-cell;vertical-align: middle"/>
+                                                                </t>
+                                                            </t>
+                                                        </div>
+                                                        <div
+                                                            style="width:11.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
+                                                        >
+                                                              <t t-if="line.legislation_value == 'Present'">
+                                                                 <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                                    Presente
+                                                                 </span>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-if="line.legislation_value == 'Not Present'">
+                                                                    <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                                    No presente
+                                                                 </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                     <span t-field="line.legislation_value"
+                                                                  style="padding-left:5px;display:table-cell;vertical-align: middle"/>
+                                                                </t>
+                                                            </t>
+                                                        </div>
+                                                        <div
+                                                            style="width:14%;margin-right:0.5%;float:left;background-color:#d0d7e1;height:45px;display:table;"
+                                                        >
+                                                            <t
+                                                                t-if="line.data_sheet == 'Present'"
+                                                            >
+                                                                <span
+                                                                    style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                >
+                                                                    Presente
+                                                                </span>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-if="line.data_sheet == 'Not Present'"
+                                                                >
+                                                                    <span
+                                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                    >
+                                                                        No presente
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                     <span
-                                                                        t-field="line.value"
+                                                                    <t t-if="line.change_value_for_comment">
+                                                                        <span
+                                                                        t-field="line.valor_informe"
                                                                         style="padding-left:5px;display:table-cell;vertical-align: middle"
                                                                     />
-                                                                </t>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-if="line.show_potency">
+                                                                            <t t-set="valor_exponente" t-value="line.valor_exponente"/>
+                                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle">
+                                                                                <t t-if="valor_exponente.find('+') == 0">
+                                                                                    <t t-set="valor_exponente" t-value="valor_exponente[1:]"/>
+                                                                                    <t t-if="valor_exponente.find('0') == 0">
+                                                                                        <t t-set="valor_exponente" t-value="valor_exponente[1:]"/>
+                                                                                    </t>
+                                                                                </t>
+                                                                                <span t-esc="line.valor_potencia"/>
+                                                                                <span>x10 <sup><span t-esc="line.valor_exponente"/></sup></span>
+                                                                            </span>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                             <span
+                                                                                t-field="line.value"
+                                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                                            />
+                                                                        </t>
 
+                                                                    </t>
+
+                                                                </t>
                                                             </t>
 
-                                                        </t>
-                                                    </t>
-
-                                                </div>
-                                                <div
-                                                    style="width:15.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
-                                                >
-                                                    <span
-                                                        t-field="line.analytical_method_id.name"
-                                                        style="padding-left:5px;display:table-cell;vertical-align: middle"
-                                                    />
-                                                </div>
-                                                <div
-                                                    style="width:5.5%;float:left;background-color:#f2f1f0;height:45px;display:table;margin-bottom:5px;"
-                                                >
-                                                    <t t-if="line.result_datasheet == 'fail'">
-                                                        <img
-                                                            style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
-                                                            src="/lims/static/src/img/results/not_pass.png"
-                                                        />
-                                                    </t>
-                                                    <t t-if="line.result_datasheet == 'warning'">
-                                                        <img
-                                                            style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
-                                                            src="/lims/static/src/img/results/warning.png"
-                                                        />
-                                                    </t>
-                                                    <t t-if="line.result_datasheet == 'pass'">
-                                                        <img
-                                                            style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
-                                                            src="/lims/static/src/img/results/passed.png"
-                                                        />
-                                                    </t>
-                                                </div>
-                                                <div
-                                                    style="width:5.5%;float:left;background-color:#f2f1f0;height:45px;display:table;margin-bottom:5px;"
-                                                >
-                                                     <t t-if="line.result_legislation == 'fail'">
-                                                        <img
-                                                            style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
-                                                            src="/lims/static/src/img/results/not_pass.png"
-                                                        />
-                                                    </t>
-                                                    <t t-if="line.result_legislation == 'warning'">
-                                                        <img
-                                                            style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
-                                                            src="/lims/static/src/img/results/warning.png"
-                                                        />
-                                                    </t>
-                                                    <t t-if="line.result_legislation == 'pass'">
-                                                        <img
-                                                            style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
-                                                            src="/lims/static/src/img/results/passed.png"
-                                                        />
-                                                    </t>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                                        </div>
+                                                        <div
+                                                            style="width:15.5%;margin-right:0.5%;float:left;background-color:#f2f1f0;height:45px;display:table;"
+                                                        >
+                                                            <span
+                                                                t-field="line.analytical_method_id.name"
+                                                                style="padding-left:5px;display:table-cell;vertical-align: middle"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            style="width:5.5%;float:left;background-color:#f2f1f0;height:45px;max-height:45px;display:table;margin-bottom:5px;"
+                                                        >
+                                                            <t t-if="line.result_datasheet == 'fail'">
+                                                                <img
+                                                                    style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
+                                                                    src="/lims/static/src/img/results/not_pass.png"
+                                                                />
+                                                            </t>
+                                                            <t t-if="line.result_datasheet == 'warning'">
+                                                                <img
+                                                                    style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
+                                                                    src="/lims/static/src/img/results/warning.png"
+                                                                />
+                                                            </t>
+                                                            <t t-if="line.result_datasheet == 'pass'">
+                                                                <img
+                                                                    style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
+                                                                    src="/lims/static/src/img/results/passed.png"
+                                                                />
+                                                            </t>
+                                                        </div>
+                                                        <div
+                                                            style="width:5.5%;float:left;background-color:#f2f1f0;height:45px;max-height:45px;display:table;margin-bottom:5px;"
+                                                        >
+                                                             <t t-if="line.result_legislation == 'fail'">
+                                                                <img
+                                                                    style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
+                                                                    src="/lims/static/src/img/results/not_pass.png"
+                                                                />
+                                                            </t>
+                                                            <t t-if="line.result_legislation == 'warning'">
+                                                                <img
+                                                                    style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
+                                                                    src="/lims/static/src/img/results/warning.png"
+                                                                />
+                                                            </t>
+                                                            <t t-if="line.result_legislation == 'pass'">
+                                                                <img
+                                                                    style="padding-left:5px;width:100%;height:35px;margin-top:5px;"
+                                                                    src="/lims/static/src/img/results/passed.png"
+                                                                />
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </t>
+                                </table>
                             </t>
-                        </table>
                         </t>
                         <div
                             style="display:block;clear:both;margin-top:5px;margin-bottom:15px;width:100%;height:15px;background-color:#129067;"
@@ -719,8 +743,8 @@
                             <!--  fin Etiqueta Dictamen final -->
 
                         </div>
-                        <div>
-                             <span t-field="doc.note" style="display:block;width:90%;margin-right:5%;" />
+                        <div style="clear:both;display:block;width:95%;margin-left:2.5%;">
+                             <span t-field="doc.note"/>
                         </div>
                         <!-- Fin Dictamen final -->
                     </div>

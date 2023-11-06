@@ -30,6 +30,7 @@
                     <group string="Informe">
                         <field name="show_potency" string="Mostrar como potencia"/>
                         <field name="change_value_for_comment" string="Cambiar valor por comentario"/>
+                        <field name="show_description" string="Mostrar descripción"/>
                     </group>
                 </group>
                 <notebook>

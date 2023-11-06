@@ -53,9 +53,6 @@ class StockPicking(models.Model):
                 for (
                     analytical_method
                 ) in line.move_id.purchase_line_id.sale_line_id.parameter_ids:
-                    print("*" * 80)
-                    print(analytical_method.parameter_id.name)
-                    print("*" * 80)
                     if not self.env["lims.analysis.line"].search(
                         [
                             ("stock_move_line_id", "=", line.id),

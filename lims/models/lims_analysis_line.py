@@ -260,6 +260,8 @@ class LimsAnalysisLine(models.Model):
             vals["previous_analysis_result"] = self.get_previous_analysis_result(vals.get("product_id"), vals.get("customer_id"))
 
             result = super(LimsAnalysisLine, self).create(vals)
+            result_comment = ""
+            technical_result = None
             for parameter_method in parameter_method_ids:
                 result_comment = ""
                 is_correct_default = False
@@ -337,24 +339,10 @@ class LimsAnalysisLine(models.Model):
                     legislation_comment = parameter._get_limit_comment(
                         limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
                         is_present_default)
-                    # etiquetado
-                    # label_limit = ""
-                    # label_comment = ""
-                    # for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'label'):
-                    #     for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                    #         label_limit = limit_line_ids.get_correct_limit()
-                    # label_result = parameter.get_anlysis_result(
-                    #     limit_ids_filter.filtered(lambda r: r.type == 'label'), 0.00, is_correct_default,
-                    #     is_present_default)
-                    # label_comment = parameter._get_limit_comment(
-                    #     limit_ids_filter.filtered(lambda r: r.type == 'label'), 0.00, is_correct_default,
-                    #     is_present_default)
                     if parameter.required_comment:
                         result_comment = technical_comment
                         if legislation_result != 'pass' or legislation_result is not None:
                             result_comment = legislation_comment
-                        # elif label_result != 'pass' or label_result is not None:
-                        #     result_comment = label_comment
                     self.env["lims.analysis.numerical.result"].create(
                         {
                             "analysis_ids": result.id,
@@ -375,26 +363,7 @@ class LimsAnalysisLine(models.Model):
                             "use_normative": use_normative,
                         }
                     )
-                    # self.env["lims.analysis.numerical.result"].create(
-                    #     {
-                    #         "analysis_ids": result.id,
-                    #         "parameter_ids": parameter_method.parameter_id.id,
-                    #         "parameter_uom": parameter_method.uom_id.id,
-                    #         "value": 0.00,
-                    #         "data_sheet": technical_limit,
-                    #         "legislation_value": legislation_limit,
-                    #         "labeled": label_limit,
-                    #         "is_present": is_present_default,
-                    #         "is_correct": is_correct_default,
-                    #         "result_legislation": legislation_result,
-                    #         "result_label": label_result,
-                    #         "result_datasheet": technical_result,
-                    #         "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
-                    #         "to_invoice": False,
-                    #         "comment": result_comment,
-                    #     }
-                    # )
-        return result
+            return result
 
     def unlink(self):
         if self.filtered(lambda a: a.state not in ["cancel"]):

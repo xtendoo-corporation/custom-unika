@@ -68,8 +68,6 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
             vals["parent_id"] = self.env.context.get("parent_id")
             if not vals.get("required_comment"):
                 vals["required_comment"] = self.env.context.get("required_comment")
-                print("*"*50)
-                print("vals:", vals)
         return super(LimsAnalysisParameterLimitResultLine, self).create(vals)
 
     def _get_required_comment(self):
@@ -154,8 +152,6 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
 
     def get_result_when_limit(self, value):
         result = ""
-        print("*" * 150)
-        print("value", value)
         if self.operator_from is not False:
             if self.operator_from == ">" and value > self.limit_value_from:
                 result = self.state
@@ -170,7 +166,6 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 result = self.state
             if self.operator_to == "=" and value == self.limit_value_to:
                 result = self.state
-        print("result", result)
         return result
 
     def get_result_when_ispresent(self, value):
@@ -257,7 +252,7 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
 
     def _get_limit_value_char(self):
         limit_char = ""
-
+        value = ""
         if self.operator_from not in ('', False):
 
             limit_char = (
@@ -266,20 +261,68 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 operator_from=self.operator_from,
                 value_from=self.limit_value_from,
             )
+            value = self.limit_value_from
         if self.operator_to not in ('', False):
 
             limit_char = ("{operator_to} {value_to: .2f}").format(
                 operator_to=self.operator_to,
                 value_to=self.limit_value_to,
             )
+            value = self.limit_value_to
+        if self.parent_id.parameter_ids.show_potency:
+            superindice_unicode = str.maketrans("0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻")
+            value = (f"{value:.1E}")
+            exponent_position = value.find("E")
+            parte_entera = value[0:exponent_position]
+            exponente = value[exponent_position + 1:]
+            if exponente.find("+") == 0:
+                exponente = exponente[1:]
+                if exponente.find("0") == 0:
+                    exponente = exponente[1:]
+            exponente_superindice = exponente.translate(superindice_unicode)
+            value = "{}x10{}".format(parte_entera, exponente_superindice)
+            limit_char = ("{operator_to} {value_to:}").format(
+                operator_to=self.operator_to,
+                value_to=value,
+            )
+
         return limit_char
 
     def _get_between_limit_value(self):
-        between_limit_result = ("{operator_from} {value_from: .2f} y {operator_to} {value_to: .2f}").format(
-            operator_from=self.operator_from,
-            value_from=self.limit_value_from,
-            operator_to=self.operator_to,
-            value_to=self.limit_value_to,
-        )
+        if self.parent_id.parameter_ids.show_potency:
+            superindice_unicode = str.maketrans("0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻")
+            value_from = (f"{self.limit_value_from:.1E}")
+            exponent_position = value_from.find("E")
+            parte_entera_from = value_from[0:exponent_position]
+            exponente_from = value_from[exponent_position+1:]
+            if exponente_from.find("+") == 0:
+                exponente_from = exponente_from[1:]
+                if exponente_from.find("0") == 0:
+                    exponente_from = exponente_from[1:]
+            exponente_superindice_from = exponente_from.translate(superindice_unicode)
+            value_from = "{}x10{}".format(parte_entera_from, exponente_superindice_from)
+            value_to = (f"{self.limit_value_to:.1E}")
+            exponent_position = value_to.find("E")
+            parte_entera_to = value_to[0:exponent_position]
+            exponente_to = value_to[exponent_position+1:]
+            if exponente_to.find("+") == 0:
+                exponente_to = exponente_to[1:]
+                if exponente_to.find("0") == 0:
+                    exponente_to = exponente_to[1:]
+            exponente_superindice_to = exponente_to.translate(superindice_unicode)
+            value_to = "{}x10{}".format(parte_entera_to, exponente_superindice_to)
+            between_limit_result = ("{operator_from} {value_from} y {operator_to} {value_to}").format(
+                operator_from=self.operator_from,
+                value_from=value_from,
+                operator_to=self.operator_to,
+                value_to=value_to,
+            )
+        else:
+            between_limit_result = ("{operator_from} {value_from: .2f} y {operator_to} {value_to: .2f}").format(
+                operator_from=self.operator_from,
+                value_from=self.limit_value_from,
+                operator_to=self.operator_to,
+                value_to=self.limit_value_to,
+            )
         return between_limit_result
 

@@ -68,6 +68,7 @@ class LimsAnalysisNumericalResult(models.Model):
     valor_exponente = fields.Char(string="Valor Potencia", compute="_compute_valor_potencia")
     required_comment = fields.Boolean(related="parameter_ids.required_comment", store=True)
     show_potency = fields.Boolean(related="parameter_ids.show_potency", store=True)
+    show_description = fields.Boolean(related="parameter_ids.show_description", store=True)
     change_value_for_comment = fields.Boolean(related="parameter_ids.change_value_for_comment", store=True)
     analytical_method_id = fields.Many2one(
         "lims.analytical.method", string="Método", ondelete="cascade", required=True
@@ -83,17 +84,6 @@ class LimsAnalysisNumericalResult(models.Model):
         default="none",
         store=True,
     )
-    # result_label = fields.Selection(
-    #     [
-    #         ("none", "Unrealized"),
-    #         ("pass", "Approved"),
-    #         ("fail", "Failed"),
-    #         ("warning", "Warning"),
-    #     ],
-    #     string="Result label",
-    #     default="none",
-    #     store=True,
-    # )
     result_datasheet = fields.Selection(
         [
             ("none", "Unrealized"),
@@ -141,9 +131,6 @@ class LimsAnalysisNumericalResult(models.Model):
         self._compute_valor_potencia()
         for line in self:
             if self.is_correct:
-                print("*" * 50)
-                print("hay correct")
-                print("*" * 50)
                 if self.data_sheet:
                     line.result_datasheet = "pass"
                 if self.legislation_value:
@@ -199,9 +186,6 @@ class LimsAnalysisNumericalResult(models.Model):
         technical_comment = ""
         for line in self:
             if self.is_correct:
-                print("*" * 50)
-                print("hay correct")
-                print("*" * 50)
                 if self.data_sheet:
                     line.result_datasheet = "pass"
                 if self.legislation_value:
@@ -252,9 +236,6 @@ class LimsAnalysisNumericalResult(models.Model):
 
         for line in self:
             if self.is_correct:
-                print("*" * 50)
-                print("hay correct")
-                print("*" * 50)
                 if self.data_sheet:
                     line.result_datasheet = "pass"
                 if self.legislation_value:
