@@ -26,6 +26,8 @@
                         />
                         <field name="parameter_uom" string="Unit of meassure" widget="many2many_tags"/>
                         <field name="required_comment" string="Comment required"/>
+                        <field name="max_samples_permitted"/>
+                        <field name="max_samples_number"/>
                     </group>
                     <group string="Informe">
                         <field name="show_potency" string="Mostrar como potencia"/>

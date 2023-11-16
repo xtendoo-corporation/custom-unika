@@ -7,12 +7,7 @@ from odoo import fields, models
 class LimsAnalysisLimsAnalysisParameterMethodRel(models.Model):
     _name = "lims.analysis.lims.analysis.parameter.method.rel"
     _description = "Analysis parameter REL LIMS"
-    # parameter_id = fields.Many2one(
-    #     "analytical.method.price", string="Parameter", ondelete="cascade", required=True
-    # )
-    # analysis_id = fields.Many2one(
-    #     "lims.analysis", string="Analysis", ondelete="cascade", required=True
-    # )
+
     name = fields.Char(String="parameter_id.name")
 
     analysis_id = fields.Many2one(

@@ -18,9 +18,11 @@
                     domain="[('product_id', '=', False), ('company_id', '=', company_id)]"
                     context="{'active_picking_id': picking_id,'default_company_id': parent.company_id,}"
                 />
+                 <field name="sample_sub_number"/>
             </xpath>
             <xpath expr="//tree/field[@name='qty_done']" position="after">
                 <field name="is_product_sample" invisible="1" />
+
                 <button
                     class="btn btn-link"
                     type="object"

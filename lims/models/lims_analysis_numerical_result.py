@@ -38,29 +38,42 @@ class LimsAnalysisNumericalResult(models.Model):
     is_correct = fields.Boolean(string="Is Correct", store=True)
     legislation_value = fields.Char(string="Corrected Value", store=True)
     data_sheet = fields.Char(string="Data sheet", store=True)
-    # labeled = fields.Char(string="Labeled", store=True)
-    # loq = fields.Float(string="LOQ", store=True)
-    # corrected_loq = fields.Float(string="Corrected LOQ", store=True)
-    # dil_fact = fields.Float(string="Dil. Fact.", store=True)
     reason = fields.Char(string="Reason", store=True)
     comment = fields.Char(string="Comment", store=True)
     valor_informe = fields.Char(string="Valor informe", store=True)
+    lot_name = fields.Char(
+        string="Lote",
+        copy=False,
+    )
+    sample_sub_number = fields.Integer(string="SubNúmero de muestra", store=True)
 
-    @api.depends("value")
+    # @api.depends("value")
+    # def _compute_valor_potencia(self):
+    #     for line in self:
+    #         valor_potencia = ""
+    #         valor_exponente = ""
+    #         if not line.show_potency:
+    #             valor_potencia = ""
+    #         else:
+    #             if line.value != 0.0:
+    #                 valor_potencia = (f"{line.value:.1E}")
+    #                 valor_potencia = str(valor_potencia)
+    #                 if valor_potencia.find("E") != -1:
+    #                     valor_exponente = valor_potencia[valor_potencia.find("E")+1:]
+    #                 if valor_potencia.find("E") != -1:
+    #                     valor_potencia = valor_potencia[:valor_potencia.find("E")]
+    #         line.valor_potencia = valor_potencia
+    #         line.valor_exponente = valor_exponente
+    @api.depends("value", "show_potency")
     def _compute_valor_potencia(self):
         for line in self:
             valor_potencia = ""
             valor_exponente = ""
-            if not line.show_potency:
-                valor_potencia = ""
-            else:
-                if line.value != 0.0:
-                    valor_potencia = (f"{line.value:.1E}")
-                    valor_potencia = str(valor_potencia)
-                    if valor_potencia.find("E") != -1:
-                        valor_exponente = valor_potencia[valor_potencia.find("E")+1:]
-                    if valor_potencia.find("E") != -1:
-                        valor_potencia = valor_potencia[:valor_potencia.find("E")]
+            if line.show_potency and line.value != 0.0:
+                valor_potencia = f"{line.value:.1E}"
+                valor_potencia = str(valor_potencia)
+                if "E" in valor_potencia:
+                    valor_exponente = valor_potencia.split("E")[1]
             line.valor_potencia = valor_potencia
             line.valor_exponente = valor_exponente
 
@@ -95,6 +108,17 @@ class LimsAnalysisNumericalResult(models.Model):
         default="none",
         store=True,
     )
+    global_result = fields.Selection(
+        [
+            ("none", "Unrealized"),
+            ("pass", "Approved"),
+            ("fail", "Failed"),
+            ("warning", "Warning"),
+        ],
+        string="Global Result",
+        default="none",
+        store=True,
+    )
     legislation_used_name = fields.Char(
         string="Legislación",
     )
@@ -105,17 +129,10 @@ class LimsAnalysisNumericalResult(models.Model):
     use_normative = fields.Boolean(string="Use normative", store=True)
 
     def _get_parameter_values(self, vals):
-        result_value = ""
-        parameter = self.env["lims.analysis.parameter"].search(
-            [("id", "=", vals.get("parameter_ids"))]
-        )
+        parameter = self.env["lims.analysis.parameter"].browse(vals.get("parameter_ids"))
         result_value = parameter._get_parameter_analysis_result(vals.get("value"))
-        if result_value == "warning":
-            result_value = "warning"
-        if result_value == "not_conform":
-            result_value = "fail"
-        if result_value == "conform":
-            result_value = "pass"
+        if result_value in ["warning", "not_conform", "conform"]:
+            result_value = {"warning": "warning", "not_conform": "fail", "conform": "pass"}.get(result_value, "")
         return result_value
 
     def _get_value_result(self, value, use_legislation):
@@ -167,19 +184,51 @@ class LimsAnalysisNumericalResult(models.Model):
                 legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation, value=line.value)
                 if legislation_result != "":
                     line.result_legislation = legislation_result
-                # #Label
-                # limit_ids_label = limit_ids_filter.filtered(lambda r: r.type == 'label')
-                # label_result = line.parameter_ids.get_anlysis_result(limit_ids_label, value=line.value)
-                # label_comment = line.parameter_ids._get_limit_comment(limit_ids_label, value=line.value)
-                # if label_result != "":
-                #     line.result_label = label_result
-                # comment = technical_comment
-                # if legislation_result in ('fail', 'warning', None):
-                #     comment = legislation_comment
-                # elif label_result in ('fail', 'warning', None):
-                #     comment = label_comment
-                # if line.parameter_ids.required_comment:
-                #     line.comment = comment
+                    line.comment = legislation_comment
+
+    def _update_global_result(self, result):
+        analysis_id = str(self.analysis_ids.id)
+        partes = analysis_id.split("_")
+        analysis_id = partes[-1]
+        analysis_id = int(analysis_id)
+        related_lines = self.env['lims.analysis.numerical.result'].search([
+            ('parameter_ids', '=', self.parameter_ids.id),
+            ('analysis_ids', '=', analysis_id),
+        ])
+        for line in related_lines:
+            line.global_result = result
+
+    def get_fail_sample_num(self):
+        analysis_id = str(self.analysis_ids.id)
+        partes = analysis_id.split("_")
+        analysis_id = partes[-1]
+        analysis_id = int(analysis_id)
+        line_id = str(self.id)
+        partes_line = line_id.split("_")
+        line_id = partes_line[-1]
+        line_id = int(line_id)
+        related_lines = self.env['lims.analysis.numerical.result'].search([
+            ('parameter_ids', '=', self.parameter_ids.id),
+            ('analysis_ids', '=', analysis_id),
+            ('id', '!=', line_id)
+        ])
+        fail_num = sum(1 for line in related_lines if line.result_legislation == 'fail')
+        return fail_num
+
+
+    @api.model
+    def write(self, vals):
+        if vals.get('result_legislation'):
+            fail_sample = self.get_fail_sample_num()
+            max_permitted = self.parameter_ids.max_samples_permitted
+            if vals['result_legislation'] == 'fail':
+                fail_sample = fail_sample + 1
+            if fail_sample <= max_permitted:
+                self._update_global_result('pass')
+            else:
+                self._update_global_result('fail')
+        result = super(LimsAnalysisNumericalResult, self).write(vals)
+        return result
 
     @api.onchange("is_present")
     def _onchange_is_present(self):
@@ -226,7 +275,7 @@ class LimsAnalysisNumericalResult(models.Model):
                                                                                             ispresent_value=line.is_present)
                                 if legislation_result != "":
                                     line.result_legislation = legislation_result
-                                    if legislation_result in ('fail', 'warning', None):
+                                    if legislation_result in ('fail', 'warning', None, 'pass'):
                                         comment = legislation_comment
                             if line.parameter_ids.required_comment:
                                 line.comment = comment
@@ -246,18 +295,8 @@ class LimsAnalysisNumericalResult(models.Model):
 
     @api.model
     def create(self, vals):
-        parameter = self.env["lims.analysis.parameter"].search(
-            [("id", "=", vals.get("parameter_ids"))]
-        )
-        # if not vals["result"]:
-        #     vals["result"] = self._get_parameter_values(vals)
-        # if not vals["limit_value_char"]:
-        #     vals["limit_value_char"] = parameter._get_limit_value_char()
-        # if not vals["legislation_limit_value"]:
-        #     vals["legislation_limit_value"] = parameter._get_between_limit_value()
         result = super(LimsAnalysisNumericalResult, self).create(vals)
         return result
-
     def get_result_when_limit(self, parameter_result, value):
         result = ""
         if parameter_result.operator_from is not False:

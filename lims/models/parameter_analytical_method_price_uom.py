@@ -16,10 +16,6 @@ class ParameterAnalyticalMethodUomRel(models.Model):
     analytical_method_id = fields.Many2one(
         "analytical.method.price", string="Method", ondelete="cascade", required=True
     )
-    # analysis_id = fields.Many2one(
-    #     comodel_name="lims.analysis",
-    #     string="Analysis_id",
-    # )
     name = fields.Char(related="analytical_method_id.name")
     parameter_id = fields.Many2one(
         related="analytical_method_id.parameter_id"

@@ -41,6 +41,7 @@
                     attrs="{'invisible': [('is_product_sample', '!=', True)]}"
                 >
                     <group>
+                        <field name="number_of_samples"/>
                         <field name="analysis_ids" widget="res_partner_many2one"/>
                     </group>
                     <group colspan="2" col="2">

@@ -152,7 +152,7 @@
                     </group>
                     <notebook>
                         <page string="Resultados" name="numerical_results">
-                            <field name="numerical_result" widget="one2many_list" attrs="{'readonly': [('state', 'in', ('received','complete','validated','issued'))]}"/>
+                            <field name="numerical_result" widget="one2many_list" attrs="{'readonly': [('state', 'in', ('received','complete','validated','issued'))]}" context="{'default_numerical_result_id': active_id}"/>
                         </page>
                         <page string="Otra Información" name="other_info">
                             <group>

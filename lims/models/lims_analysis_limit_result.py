@@ -12,10 +12,6 @@ class LimsAnalysisParameterLimitResult(models.Model):
         "lims.analysis.parameter",
         "Analysis lims parameter",
     )
-    # product_ids = fields.Many2one(
-    #     "product.template",
-    #     "Product",
-    # )
     limit_result_line_ids = fields.One2many(
         "lims.analysis.limit.result.line",
         "limit_result_id",

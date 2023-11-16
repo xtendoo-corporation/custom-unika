@@ -56,18 +56,19 @@ class LimsAnalysis(models.Model):
     @api.model
     def create(self, vals):
         res = super(LimsAnalysis, self).create(vals)
+
         if self.parameter_method_ids and res:
-            for parameter in self.parameter_method_ids:
-                parameter_to_create = self.env['parameter.analytical.method.price.uom'].create(
-                    {
-                        'parent_id': res.id,
-                        'analytical_method_id': parameter.analytical_method_id.id,
-                        'uom_id': parameter.uom_id.id,
-                        'use_acreditation': parameter.use_acreditation,
-                        'used_acreditation': parameter.used_acreditation,
-                        'use_normative': parameter.use_normative,
-                        'used_normative': parameter.used_normative,
-                    }
-                )
+            parameter_values = [{
+                'parent_id': res.id,
+                'analytical_method_id': parameter.analytical_method_id.id,
+                'uom_id': parameter.uom_id.id,
+                'use_acreditation': parameter.use_acreditation,
+                'used_acreditation': parameter.used_acreditation,
+                'use_normative': parameter.use_normative,
+                'used_normative': parameter.used_normative,
+            } for parameter in self.parameter_method_ids]
+
+            self.env['parameter.analytical.method.price.uom'].create(parameter_values)
+
         return res
 

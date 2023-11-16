@@ -18,41 +18,6 @@ class LimsAnalysisNormative(models.Model):
     limit_result_line_ids = fields.One2many('lims.analysis.normative.result.line', 'parent_id', string='Limits Line')
     is_acreditation = fields.Boolean(string="Is Acreditation", store=True)
 
-    # @api.constrains('parameter_ids', 'type', 'uom_id')
-    # def _check_no_repeat(self):
-    #     for record in self:
-    #         ids = self.env['lims.analysis.limit'].search([('parameter_ids', '=', record.parameter_ids.id),('type', '=', record.type),('uom_id', '=', record.uom_id.id)])
-    #         if ids:
-    #             for id in ids:
-    #                 if id.id != record.id:
-    #                     uom_name = "Without UDM"
-    #                     if id.uom_id:
-    #                         uom_name = id.uom_id.name
-    #                     raise ValidationError(
-    #                     _('A combination already exists with the parameter %s, type %s y %s', id.parameter_ids.name, id.type, uom_name))
-    #
-    #
-    # def open_limits_form(self):
-    #     action = self.env["ir.actions.act_window"]._for_xml_id(
-    #         "lims.open_limits_form"
-    #     )
-    #     action["context"] = {
-    #         "parent_id": self.id,
-    #         "required_comment": self.parameter_ids.required_comment,
-    #     }
-    #     action["domain"] = [('parent_id', '=', self.id)]
-    #     if not self.uom_id.name:
-    #         action["display_name"] = _("%s", self.type)
-    #         return action
-    #     type_text = self.type
-    #     if self.type == 'technical':
-    #         type_text = 'Ficha técnica'
-    #     if self.type == 'legislation':
-    #         type_text = 'Legislación'
-    #     # if self.type == 'label':
-    #     #     type_text = 'Etiquetado'
-    #     action["display_name"] = _("%s -> %s", type_text, self.uom_id.name)
-    #     return action
 
 
 

@@ -22,6 +22,8 @@ class ProductTemplate(models.Model):
         default='no-message',
         help=WARNING_HELP_ANALYSIS)
 
+    number_of_samples = fields.Integer(default=1, string="Número de muestras", store=True)
+
     @api.depends("analysis_warn")
     def _compute_analysis_warn_msg(self):
         analysis_warn_msg = False
@@ -35,11 +37,6 @@ class ProductTemplate(models.Model):
         string="Is a product sample",
         default=False,
     )
-
-    # limit_ids = fields.Many2many(
-    #     comodel_name="lims.analysis.limit.result",
-    #     string="Limits",
-    # )
     analysis_ids = fields.Many2many(
         "lims.analysis",
         "product_template_lims_analysis_rel",
@@ -55,12 +52,8 @@ class ProductTemplate(models.Model):
 
     @api.onchange("analysis_ids")
     def _onchange_analysis_ids(self):
-        product_price = 0.00
-        for analysis in self.analysis_ids:
-            if analysis.price > 0.00:
-                product_price += analysis.price
-        if product_price > 0.00:
-            self.list_price = product_price
+        product_price = sum(analysis.price for analysis in self.analysis_ids if analysis.price > 0.00)
+        self.list_price = product_price if product_price > 0.00 else 0.00
 
     @api.constrains("is_product_sample", "type")
     def _check_is_product_sample(self):
@@ -83,6 +76,7 @@ class ProductTemplate(models.Model):
         action = {
             "res_model": "lims.analysis.line",
             "type": "ir.actions.act_window",
+            "view_mode": "tree,form",
         }
         if len(analysis_line_ids) == 1:
             action.update(
@@ -96,7 +90,6 @@ class ProductTemplate(models.Model):
                 {
                     "name": _("Analysis from Product %s", self.name),
                     "domain": [("id", "in", analysis_line_ids)],
-                    "view_mode": "tree,form",
                 }
             )
         return action
@@ -116,20 +109,13 @@ class ProductProduct(models.Model):
         action = {
             "res_model": "lims.analysis.line",
             "type": "ir.actions.act_window",
+            "view_mode": "form" if len(analysis_line_ids) == 1 else "tree,form",
         }
-        if len(analysis_line_ids) == 1:
-            action.update(
-                {
-                    "view_mode": "form",
-                    "res_id": analysis_line_ids[0],
-                }
-            )
-        else:
+        if len(analysis_line_ids) != 1:
             action.update(
                 {
                     "name": _("Analysis from Product %s", self.name),
                     "domain": [("id", "in", analysis_line_ids)],
-                    "view_mode": "tree,form",
                 }
             )
         return action

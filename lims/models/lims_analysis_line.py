@@ -18,19 +18,13 @@ class LimsAnalysisLine(models.Model):
         "state", "product_id.analysis_warn", "image_ids"
     )
     def _compute_analysis_warn_msg(self):
-
         for analysis in self:
-            if analysis.state in ["cancel", "validated", "issued"]:
+            if analysis.state in ["cancel", "validated", "issued"] or not analysis.product_id:
                 analysis.analysis_warn_msg = False
-                return
-            if not self.product_id:
+            elif analysis.product_id.analysis_warn == 'required_images' and len(analysis.image_ids.ids) > 0:
                 analysis.analysis_warn_msg = False
-                return
-            if self.product_id.analysis_warn == 'required_images':
-                if len(self.image_ids.ids) > 0:
-                    analysis.analysis_warn_msg = False
-                    return
-            analysis.analysis_warn_msg = self.product_id.analysis_warn_msg
+            else:
+                analysis.analysis_warn_msg = analysis.product_id.analysis_warn_msg
 
     image_ids = fields.One2many(
         "sample.image",
@@ -118,11 +112,6 @@ class LimsAnalysisLine(models.Model):
         default=lambda self: self.env.context.get("lot_id"),
         tracking=True,
     )
-    # Campo matrix indicara el conjunto de test al que pertenede
-    # Matrix
-
-    # Campo para registrar la regulacion
-    # Regulation
 
     # General Information
     laboratory_id = fields.Many2one(
@@ -173,11 +162,7 @@ class LimsAnalysisLine(models.Model):
         store=True,
         tracking=True,
     )
-    # Ver que tags llevaran a que tabla conectarlo
-    # tag_ids = fields.Many2one(
-    #    comodel_name="",
-    #    string="Tag",
-    # )
+
     # Sampling information
     date_issue = fields.Date(
         string="Date Issue",
@@ -238,8 +223,6 @@ class LimsAnalysisLine(models.Model):
         default=lambda self: self._get_parameters_type(),
     )
 
-
-
     @api.model
     def create(self, vals):
         if vals.get("name", "New") == "New":
@@ -262,224 +245,373 @@ class LimsAnalysisLine(models.Model):
             result = super(LimsAnalysisLine, self).create(vals)
             result_comment = ""
             technical_result = None
-            for parameter_method in parameter_method_ids:
+            if move_line_id.product_id.number_of_samples > 1:
                 result_comment = ""
                 is_correct_default = False
                 is_present_default = False
                 use_acreditation = False
                 use_normative = False
-                for parameter in parameter_method.parameter_id:
-                    limit_ids_filter = parameter.limits_ids.filtered(lambda r: r.uom_id == parameter_method.uom_id)
-                    # ficha tecnica, Elegimos acreditado o no y si usa normativa.
-                    technical_limit = ""
-                    if parameter_method.use_acreditation:
-                        use_acreditation = True
-                        acreditation_ids_filter = self.env["lims.analysis.normative"].search(
-                            [
-                                ("parameter_ids", "=", parameter.id),
-                                ("is_acreditation", "=", True),
-                                ("uom_id", "=", parameter_method.uom_id.id)
-                            ]
-                        )
-                        for line in acreditation_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                            technical_limit = line.get_correct_limit()
+                for parameter_method in parameter_method_ids:
+                    move_line_ids = self.env["stock.move.line"].search(
+                        [
+                            ("picking_id", "=", move_line_id.picking_id.id),
+                            ("product_id", "=", move_line_id.product_id.id),
+                        ]
+                    )
+                    for line_parameter in move_line_ids:
+                        for parameter in parameter_method.parameter_id:
+                            limit_ids_filter = parameter.limits_ids.filtered(
+                                lambda r: r.uom_id == parameter_method.uom_id)
+                            # ficha tecnica, Elegimos acreditado o no y si usa normativa.
+                            technical_limit = ""
+                            if parameter_method.use_acreditation:
+                                use_acreditation = True
+                                acreditation_ids_filter = self.env["lims.analysis.normative"].search(
+                                    [
+                                        ("parameter_ids", "=", parameter.id),
+                                        ("is_acreditation", "=", True),
+                                        ("uom_id", "=", parameter_method.uom_id.id)
+                                    ]
+                                )
+                                for line in acreditation_ids_filter.limit_result_line_ids.filtered(
+                                        lambda r: r.state == 'conform'):
+                                    technical_limit = line.get_correct_limit()
 
-                            if technical_limit == "Present":
-                                is_present_default = True
-                            if technical_limit == "Correct":
-                                is_correct_default = True
-                            technical_result = parameter.get_anlysis_result(
-                                acreditation_ids_filter, 0.00, is_correct_default,
+                                    if technical_limit == "Present":
+                                        is_present_default = True
+                                    if technical_limit == "Correct":
+                                        is_correct_default = True
+                                    technical_result = parameter.get_anlysis_result(
+                                        acreditation_ids_filter, 0.00, is_correct_default,
+                                        is_present_default)
+                                    technical_comment = parameter._get_limit_comment(
+                                        acreditation_ids_filter, 0.00, is_correct_default,
+                                        is_present_default)
+                            elif parameter_method.use_normative:
+                                use_normative = True
+                                normative_ids_filter = self.env["lims.analysis.normative"].search(
+                                    [
+                                        ("parameter_ids", "=", parameter.id),
+                                        ("is_acreditation", "=", False),
+                                        ("uom_id", "=", parameter_method.uom_id.id)
+                                    ]
+                                )
+                                for line in normative_ids_filter.limit_result_line_ids.filtered(
+                                        lambda r: r.state == 'conform'):
+                                    technical_limit = line.get_correct_limit()
+                                    if technical_limit == "Present":
+                                        is_present_default = True
+                                    if technical_limit == "Correct":
+                                        is_correct_default = True
+                                    technical_result = parameter.get_anlysis_result(
+                                        normative_ids_filter, 0.00, is_correct_default,
+                                        is_present_default)
+                                    technical_comment = parameter._get_limit_comment(
+                                        normative_ids_filter, 0.00, is_correct_default,
+                                        is_present_default)
+                            else:
+                                for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
+                                    for limit_line_ids in limits_id.limit_result_line_ids.filtered(
+                                            lambda r: r.state == 'conform'):
+                                        technical_limit = limit_line_ids.get_correct_limit()
+                                        if technical_limit == "Present":
+                                            is_present_default = True
+                                        if technical_limit == "Correct":
+                                            is_correct_default = True
+                                technical_result = parameter.get_anlysis_result(
+                                    limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00,
+                                    is_correct_default, is_present_default)
+                                technical_comment = parameter._get_limit_comment(
+                                    limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00,
+                                    is_correct_default, is_present_default)
+                            # legislacion
+                            legislation_limit = ""
+                            legislation_comment = ""
+                            legislation_name = ""
+                            for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
+                                legislation_name = limits_id.legislation_name
+                                for limit_line_ids in limits_id.limit_result_line_ids.filtered(
+                                        lambda r: r.state == 'conform'):
+                                    legislation_limit = limit_line_ids.get_correct_limit()
+                            legislation_result = parameter.get_anlysis_result(
+                                limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
                                 is_present_default)
-                            technical_comment = parameter._get_limit_comment(
-                                acreditation_ids_filter, 0.00, is_correct_default,
+                            legislation_comment = parameter._get_limit_comment(
+                                limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
                                 is_present_default)
-                    elif parameter_method.use_normative:
-                        use_normative = True
-                        normative_ids_filter = self.env["lims.analysis.normative"].search(
-                            [
-                                ("parameter_ids", "=", parameter.id),
-                                ("is_acreditation", "=", False),
-                                ("uom_id", "=", parameter_method.uom_id.id)
-                            ]
-                        )
-                        for line in normative_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                            technical_limit = line.get_correct_limit()
-                            if technical_limit == "Present":
-                                is_present_default = True
-                            if technical_limit == "Correct":
-                                is_correct_default = True
-                            technical_result = parameter.get_anlysis_result(
-                                normative_ids_filter, 0.00, is_correct_default,
-                                is_present_default)
-                            technical_comment = parameter._get_limit_comment(
-                                normative_ids_filter, 0.00, is_correct_default,
-                                is_present_default)
-                    else:
-                        for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
-                            for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                                technical_limit = limit_line_ids.get_correct_limit()
+                            if parameter.required_comment:
+                                result_comment = technical_comment
+                                if legislation_result != 'pass' or legislation_result is not None:
+                                    result_comment = legislation_comment
+                            if not parameter.required_comment:
+                                result_comment = ""
+                            self.env["lims.analysis.numerical.result"].create(
+                                {
+                                    "analysis_ids": result.id,
+                                    "parameter_ids": parameter_method.parameter_id.id,
+                                    "parameter_uom": parameter_method.uom_id.id,
+                                    "value": 0.00,
+                                    "data_sheet": technical_limit,
+                                    "legislation_value": legislation_limit,
+                                    "is_present": is_present_default,
+                                    "is_correct": is_correct_default,
+                                    "result_legislation": legislation_result,
+                                    "result_datasheet": technical_result,
+                                    "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
+                                    "legislation_used_name": legislation_name,
+                                    "to_invoice": False,
+                                    "comment": result_comment,
+                                    "use_acreditation": use_acreditation,
+                                    "use_normative": use_normative,
+                                    "lot_name": line_parameter.lot_name,
+                                    "sample_sub_number": line_parameter.sample_sub_number,
+                                    "global_result": "",
+                                }
+                            )
+            else:
+                for parameter_method in parameter_method_ids:
+                    result_comment = ""
+                    is_correct_default = False
+                    is_present_default = False
+                    use_acreditation = False
+                    use_normative = False
+                    for parameter in parameter_method.parameter_id:
+                        limit_ids_filter = parameter.limits_ids.filtered(lambda r: r.uom_id == parameter_method.uom_id)
+                        # ficha tecnica, Elegimos acreditado o no y si usa normativa.
+                        technical_limit = ""
+                        if parameter_method.use_acreditation:
+                            use_acreditation = True
+                            acreditation_ids_filter = self.env["lims.analysis.normative"].search(
+                                [
+                                    ("parameter_ids", "=", parameter.id),
+                                    ("is_acreditation", "=", True),
+                                    ("uom_id", "=", parameter_method.uom_id.id)
+                                ]
+                            )
+                            for line in acreditation_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                technical_limit = line.get_correct_limit()
+
                                 if technical_limit == "Present":
                                     is_present_default = True
                                 if technical_limit == "Correct":
                                     is_correct_default = True
-                        technical_result = parameter.get_anlysis_result(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
-                        technical_comment = parameter._get_limit_comment(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
-                    #legislacion
-                    legislation_limit = ""
-                    legislation_comment =""
-                    legislation_name=""
-                    for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
-                        legislation_name = limits_id.legislation_name
-                        for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                            legislation_limit = limit_line_ids.get_correct_limit()
-                    legislation_result = parameter.get_anlysis_result(
-                        limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
-                        is_present_default)
-                    legislation_comment = parameter._get_limit_comment(
-                        limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
-                        is_present_default)
-                    if parameter.required_comment:
-                        result_comment = technical_comment
-                        if legislation_result != 'pass' or legislation_result is not None:
-                            result_comment = legislation_comment
-                    self.env["lims.analysis.numerical.result"].create(
-                        {
-                            "analysis_ids": result.id,
-                            "parameter_ids": parameter_method.parameter_id.id,
-                            "parameter_uom": parameter_method.uom_id.id,
-                            "value": 0.00,
-                            "data_sheet": technical_limit,
-                            "legislation_value": legislation_limit,
-                            "is_present": is_present_default,
-                            "is_correct": is_correct_default,
-                            "result_legislation": legislation_result,
-                            "result_datasheet": technical_result,
-                            "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
-                            "legislation_used_name": legislation_name,
-                            "to_invoice": False,
-                            "comment": result_comment,
-                            "use_acreditation": use_acreditation,
-                            "use_normative": use_normative,
-                        }
-                    )
+                                technical_result = parameter.get_anlysis_result(
+                                    acreditation_ids_filter, 0.00, is_correct_default,
+                                    is_present_default)
+                                technical_comment = parameter._get_limit_comment(
+                                    acreditation_ids_filter, 0.00, is_correct_default,
+                                    is_present_default)
+                        elif parameter_method.use_normative:
+                            use_normative = True
+                            normative_ids_filter = self.env["lims.analysis.normative"].search(
+                                [
+                                    ("parameter_ids", "=", parameter.id),
+                                    ("is_acreditation", "=", False),
+                                    ("uom_id", "=", parameter_method.uom_id.id)
+                                ]
+                            )
+                            for line in normative_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                technical_limit = line.get_correct_limit()
+                                if technical_limit == "Present":
+                                    is_present_default = True
+                                if technical_limit == "Correct":
+                                    is_correct_default = True
+                                technical_result = parameter.get_anlysis_result(
+                                    normative_ids_filter, 0.00, is_correct_default,
+                                    is_present_default)
+                                technical_comment = parameter._get_limit_comment(
+                                    normative_ids_filter, 0.00, is_correct_default,
+                                    is_present_default)
+                        else:
+                            for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
+                                for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                    technical_limit = limit_line_ids.get_correct_limit()
+                                    if technical_limit == "Present":
+                                        is_present_default = True
+                                    if technical_limit == "Correct":
+                                        is_correct_default = True
+                            technical_result = parameter.get_anlysis_result(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
+                            technical_comment = parameter._get_limit_comment(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
+                        #legislacion
+                        legislation_limit = ""
+                        legislation_comment =""
+                        legislation_name=""
+                        for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
+                            legislation_name = limits_id.legislation_name
+                            for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                legislation_limit = limit_line_ids.get_correct_limit()
+                        legislation_result = parameter.get_anlysis_result(
+                            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+                            is_present_default)
+                        legislation_comment = parameter._get_limit_comment(
+                            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+                            is_present_default)
+                        if parameter.required_comment:
+                            result_comment = technical_comment
+                            if legislation_result != 'pass' or legislation_result is not None:
+                                result_comment = legislation_comment
+                        self.env["lims.analysis.numerical.result"].create(
+                            {
+                                "analysis_ids": result.id,
+                                "parameter_ids": parameter_method.parameter_id.id,
+                                "parameter_uom": parameter_method.uom_id.id,
+                                "value": 0.00,
+                                "data_sheet": technical_limit,
+                                "legislation_value": legislation_limit,
+                                "is_present": is_present_default,
+                                "is_correct": is_correct_default,
+                                "result_legislation": legislation_result,
+                                "result_datasheet": technical_result,
+                                "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
+                                "legislation_used_name": legislation_name,
+                                "to_invoice": False,
+                                "comment": result_comment,
+                                "use_acreditation": use_acreditation,
+                                "use_normative": use_normative,
+                                "lot_name": move_line_id.lot_name,
+                                "sample_sub_number": move_line_id.sample_sub_number,
+                                "global_result": "",
+                            }
+                        )
             return result
 
     def unlink(self):
-        if self.filtered(lambda a: a.state not in ["cancel"]):
-            raise UserError(_("You only can delete Cancel analysis"))
-        analysis_line = self.env["lims.analysis.numerical.result"].search(
-            [
-                ("analysis_ids", "=", self.id),
-            ]
-        )
-        if analysis_line:
-            for line in analysis_line:
-                line.unlink()
-        return super().unlink()
+        if any(analysis.state not in ["cancel"] for analysis in self):
+            raise UserError(_("You can only delete Cancel analyses."))
+        analysis_lines = self.env["lims.analysis.numerical.result"].search([
+            ("analysis_ids", "in", self.ids),
+        ])
+        if analysis_lines:
+            analysis_lines.unlink()
+        return super(LimsAnalysisLine, self).unlink()
 
     def toggle_active(self):
+        if any(record.state != "cancel" for record in self):
+            raise UserError(_("Only 'Canceled' records can be archived"))
         res = super().toggle_active()
-        if self.filtered(lambda so: so.state not in ["cancel"]):
-            raise UserError(_("Only 'Canceled' orders can be archived"))
         return res
 
     def action_cancel(self):
-        if self.filtered(lambda self: self.state in ["cancel"]):
-            raise UserError(_("You can't cancel Cancel analysis"))
-        res = self.write(
-            {
+        if any(analysis.state == "cancel" for analysis in self):
+            raise UserError(_("You can't cancel already canceled analyses."))
+        analyses_to_cancel = self.filtered(lambda analysis: analysis.state != "cancel")
+        if analyses_to_cancel:
+            analyses_to_cancel.write({
                 "state": "cancel",
                 "result": "none"
-            }
-        )
-        return res
-
+            })
+        return True
     def action_draft(self):
-        if self.filtered(lambda self: self.state not in ["cancel"]):
-            raise UserError(_("You can draft only Cancel analysis"))
-        res = self.write({"state": "draft"})
-        return res
+        if any(analysis.state != "cancel" for analysis in self):
+            raise UserError(_("You can only draft canceled analyses."))
+        analyses_to_draft = self.filtered(lambda analysis: analysis.state == "cancel")
+        if analyses_to_draft:
+            analyses_to_draft.write({"state": "draft"})
+        return True
 
     def action_received(self):
-        if self.filtered(lambda self: self.state != "draft"):
-            raise UserError(_("You can only received a draft analysis"))
-        res = self.write(
-            {"state": "received", "date_sample_receipt": datetime.datetime.now()}
-        )
-        return res
-
+        if any(analysis.state != "draft" for analysis in self):
+            raise UserError(_("You can only receive drafts analyses."))
+        analyses_to_receive = self.filtered(lambda analysis: analysis.state == "draft")
+        if analyses_to_receive:
+            analyses_to_receive.write({"state": "received", "date_sample_receipt": fields.Datetime.now()})
+        return True
     def action_start_analysis(self):
-        if self.filtered(lambda self: self.state != "received"):
-            raise UserError(_("You can only Start Analysis a received analysis"))
-        res = self.write(
-            {"state": "started", "date_sample_begin": datetime.datetime.now()}
-        )
-        return res
-
+        if any(analysis.state != "received" for analysis in self):
+            raise UserError(_("You can only start the analysis for received analyses."))
+        analyses_to_start = self.filtered(lambda analysis: analysis.state == "received")
+        if analyses_to_start:
+            analyses_to_start.write({"state": "started", "date_sample_begin": fields.Datetime.now()})
+        return True
     def action_complete(self):
-        if self.filtered(lambda self: self.state != "started"):
-            raise UserError(_("You can only Complete a started analysis"))
-        if self.product_id.analysis_warn == 'required_images':
-            if len(self.image_ids.ids) == 0:
-                raise UserError(_("Image/s are required for complete the anañysis"))
-        # TO-DO: Realizar el analisis y cambiar el result.
-        analysis_result = "pass"
-        result_value = []
-        for result in self.numerical_result:
-            result_value.append(result.result_datasheet)
-            result_value.append(result.result_legislation)
-            # result_value.append(result.result_label)
+        if any(analysis.state != "started" for analysis in self):
+            raise UserError(_("You can only complete started analyses."))
 
-        for line in result_value:
-            if line == "fail":
-                analysis_result = line
-                break
-            if line == "warning":
-                analysis_result = line
-        res = self.write(
-            {
-                "state": "complete",
-                "result": analysis_result,
-                "date_complete": datetime.datetime.now(),
-            }
-        )
-        return res
+        analyses_to_complete = self.filtered(lambda analysis: analysis.state == "started")
+
+        if analyses_to_complete:
+            for analysis in analyses_to_complete:
+                if analysis.product_id.analysis_warn == 'required_images' and not analysis.image_ids:
+                    raise UserError(_("Image/s are required to complete the analysis."))
+
+                # TO-DO: Realizar el análisis y cambiar el result.
+                analysis_result = "pass"
+                result_value = []
+
+                for result in analysis.numerical_result:
+                    if result.parameter_ids.max_samples_number > 1:
+                        result_value.append(result.global_result)
+                    else:
+                        result_value.append(result.result_datasheet)
+                        result_value.append(result.result_legislation)
+
+                for line in result_value:
+                    if line == "fail":
+                        analysis_result = line
+                        break
+                    if line == "warning":
+                        analysis_result = line
+
+                analysis.write({
+                    "state": "complete",
+                    "result": analysis_result,
+                    "date_complete": fields.Datetime.now(),
+                })
+
+        return True
 
     def action_validate(self):
-        if self.filtered(lambda self: self.state != "complete"):
-            raise UserError(_("You can only Validate  a complete analysis"))
-        res = self.write({"state": "validated", "date_due": datetime.datetime.now()})
-        return res
+        if any(analysis.state != "complete" for analysis in self):
+            raise UserError(_("You can only validate complete analyses."))
+        analyses_to_validate = self.filtered(lambda analysis: analysis.state == "complete")
+        if analyses_to_validate:
+            analyses_to_validate.write({
+                "state": "validated",
+                "date_due": fields.Datetime.now(),
+            })
+        return True
 
     def action_issue(self):
-        if self.filtered(lambda self: self.state != "validated"):
-            raise UserError(_("You can only Issue a validated analysis"))
-        res = self.write({"state": "issued", "date_issue": datetime.datetime.now()})
-        return res
+        if any(analysis.state != "validated" for analysis in self):
+            raise UserError(_("You can only issue validated analyses."))
+        analyses_to_issue = self.filtered(lambda analysis: analysis.state == "validated")
+        if analyses_to_issue:
+            analyses_to_issue.write({
+                "state": "issued",
+                "date_issue": fields.Datetime.now(),
+            })
+        return True
 
+    @api.model
     def _get_parameters_type(self):
-        type=self.env["lims.analysis.parameter.type.tags"].search([('id', '>', 0)])
-        return type
+        return self.env["lims.analysis.parameter.type.tags"].search([('id', '>', 0)])
 
+    @api.model
     def get_previous_analysis_date(self, product_id, partner_id):
-        previous_analysis = self.env["lims.analysis.line"].search(
-            [
-                ("product_id", "=", product_id),
-                ("customer_id", "=", partner_id),
-            ], order="date_complete DESC", limit=1
-        )
-        if previous_analysis:
-            return previous_analysis.date_complete
-        return
+        try:
+            previous_analysis = self.env["lims.analysis.line"].search(
+                [
+                    ("product_id", "=", product_id),
+                    ("customer_id", "=", partner_id),
+                ], order="date_complete DESC", limit=1
+            )
+            if previous_analysis:
+                return previous_analysis.date_complete
+            return None  # Devuelve None si no hay análisis previos
+        except Exception as e:
+            raise UserError(_("Error fetching previous analysis date: %s" % e))
 
+    @api.model
     def get_previous_analysis_result(self, product_id, partner_id):
-        previous_analysis = self.env["lims.analysis.line"].search(
-            [
-                ("product_id", "=", product_id),
-                ("customer_id", "=", partner_id),
-            ], order="date_complete DESC", limit=1
-        )
-        if previous_analysis:
-            return previous_analysis.result
-        return
+        try:
+            previous_analysis = self.env["lims.analysis.line"].search(
+                [
+                    ("product_id", "=", product_id),
+                    ("customer_id", "=", partner_id),
+                ], order="date_complete DESC", limit=1
+            )
+            if previous_analysis:
+                return previous_analysis.result
+            return None  # Devuelve None si no hay análisis previos
+        except Exception as e:
+            raise UserError(_("Error fetching previous analysis result: %s" % e))

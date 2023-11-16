@@ -4,7 +4,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="analysis_numerical_resutl_form" model="ir.ui.view">
         <field name="name">analysis.numerical.result.form</field>
         <field name="model">lims.analysis.numerical.result</field>
@@ -26,7 +25,7 @@
                 />
                 <br />
                 <label for="value"/>
-                <field name="value" optional="show" string="value" />
+                <field name="value" optional="show" string="value"/>
                 <br />
                 <label for="is_present"/>
                 <field name="is_present" optional="show" string="Present" />
@@ -102,8 +101,10 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree editable="bottom" multi_edit="1">
-                <field name="analysis_ids" readonly="1" invisible="1" />
+                <field name="analysis_ids" readonly="1" />
                 <field name="lot_id" optional="hide"/>
+                <field name="sample_sub_number" optional="hide"/>
+                <field name="lot_name" optional="hide"/>
                 <field name="parameter_ids" optional="show" string="Parámetro" />
                 <field name="use_acreditation" optional="hidden" string="Use acreditation"  readonly="1"/>
                 <field name="use_normative" optional="hidden" string="Use normative" readonly="1"/>
@@ -121,7 +122,7 @@
                 <field name="valor_informe" optional="show" string="Valor informe" attrs="{'required': [('change_value_for_comment', '=', True)]}" />
                 <field name="valor_potencia" optional="show" string="Valor Potencia" invisible="1"/>
                 <field name="valor_exponente" optional="show" string="Valor Exponente" invisible="1"/>
-                <field name="value" optional="show" string="value" />
+                <field name="value" optional="show" string="value" on_change="onValueChange(value)"/>
                 <field name="is_present" optional="show" string="Present" />
                 <field name="is_correct" optional="show" string="Correct" />
                 <field name="data_sheet" optional="show" string="Data sheet" readonly="1"/>
@@ -145,6 +146,15 @@
                     widget="badge"
                     optional="show"
                     string="Result Le."
+                /><field
+                    name="global_result"
+                    decoration-success="global_result == 'pass'"
+                    decoration-warning="global_result == 'warning'"
+                    decoration-danger="global_result == 'fail'"
+                    decoration-info="global_result == 'none'"
+                    widget="badge"
+                    optional="show"
+                    string="Result Global"
                 />
 <!--                <field name="labeled" optional="show" string="Labeled" />-->
 <!--                 <field-->

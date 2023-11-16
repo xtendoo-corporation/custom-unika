@@ -17,6 +17,7 @@
         "sale_purchase",
         "product_brand",
         "uom",
+        "web",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -50,6 +51,11 @@
         # js
         #"templates/assets.xml",
     ],
+    # 'assets' : {
+    #      'web.assets_' : [
+    #          'lims/static/src/js/global_result.js' ,
+    #     ],
+    # },
     "images": ["static/description/banner.png"],
     "application": True,
 }

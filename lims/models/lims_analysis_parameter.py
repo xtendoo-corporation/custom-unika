@@ -39,6 +39,8 @@ class LimsAnalysisParameter(models.Model):
     show_potency = fields.Boolean(string="Mostrar en potencia", store=True)
     change_value_for_comment = fields.Boolean(string="Cambiar valor por comentario", store=True)
     show_description = fields.Boolean(string="Mostrar descripción", store=True)
+    max_samples_number = fields.Integer(string="Número de muestras usado", store=True)
+    max_samples_permitted = fields.Integer(string="Número de muestras permitidas", store=True)
 
 
     def _is_code_in_use(self, code):

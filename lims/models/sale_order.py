@@ -311,6 +311,8 @@ class SaleOrderLine(models.Model):
         )
         price_unit = 0.0
         date_planned = datetime.datetime.now()
+        if self.product_id.number_of_samples != purchase_qty_uom:
+            purchase_qty_uom = self.product_id.number_of_samples
         return {
             "name": "[%s] %s" % (self.product_id.default_code, self.name)
             if self.product_id.default_code

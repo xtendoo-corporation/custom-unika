@@ -25,6 +25,12 @@ class StockMoveLine(models.Model):
         check_company=True,
     )
 
+    lot_name = fields.Char(
+        string="Lote",
+        copy=False,
+    )
+    sample_sub_number = fields.Integer(string="SubNúmero de muestra", store=True)
+
     def create_new_analysis(self):
         if self.picking_id.state != "done":
             raise ValidationError(_("You must first validate the picking"))

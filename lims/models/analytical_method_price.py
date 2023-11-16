@@ -24,8 +24,8 @@ class ParameterAnalyticalMethodRel(models.Model):
     )
 
     def get_display_name(self):
-        for register in self:
-            register.display_name = register.parameter_id.name + " - " + register.analytical_method_id.name
+
+        self.display_name = self.display_name = f"{self.parameter_id.name} - {self.analytical_method_id.name}"
     display_name = fields.Char(string="Display Name", compute="get_display_name", store=True)
 
     def _get_company_id(self):
