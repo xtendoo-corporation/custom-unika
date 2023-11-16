@@ -46,24 +46,6 @@ class LimsAnalysisNumericalResult(models.Model):
         copy=False,
     )
     sample_sub_number = fields.Integer(string="SubNúmero de muestra", store=True)
-
-    # @api.depends("value")
-    # def _compute_valor_potencia(self):
-    #     for line in self:
-    #         valor_potencia = ""
-    #         valor_exponente = ""
-    #         if not line.show_potency:
-    #             valor_potencia = ""
-    #         else:
-    #             if line.value != 0.0:
-    #                 valor_potencia = (f"{line.value:.1E}")
-    #                 valor_potencia = str(valor_potencia)
-    #                 if valor_potencia.find("E") != -1:
-    #                     valor_exponente = valor_potencia[valor_potencia.find("E")+1:]
-    #                 if valor_potencia.find("E") != -1:
-    #                     valor_potencia = valor_potencia[:valor_potencia.find("E")]
-    #         line.valor_potencia = valor_potencia
-    #         line.valor_exponente = valor_exponente
     @api.depends("value", "show_potency")
     def _compute_valor_potencia(self):
         for line in self:

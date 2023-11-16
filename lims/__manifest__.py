@@ -37,7 +37,6 @@
         "views/analysis_normative_view.xml",
         "views/lims_analysis_line_views.xml",
         "views/res_config_settings.xml",
-        # "views/lims_analysis_group_views.xml",
         "views/stock_picking_view.xml",
         "wizards/wizard_lot.xml",
         "views/stock_production_lot_view.xml",
@@ -47,15 +46,8 @@
         # Formatos
         "views/label/label_print.xml",
         "report/analysis_report_unika.xml",
-        #"report/analysis_report.xml",
-        # js
-        #"templates/assets.xml",
+
     ],
-    # 'assets' : {
-    #      'web.assets_' : [
-    #          'lims/static/src/js/global_result.js' ,
-    #     ],
-    # },
     "images": ["static/description/banner.png"],
     "application": True,
 }
