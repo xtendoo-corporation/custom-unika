@@ -154,7 +154,7 @@
                     decoration-info="global_result == 'none'"
                     widget="badge"
                     optional="show"
-                    string="Result Global"
+                    string="Resultado Global"
                 />
 <!--                <field name="labeled" optional="show" string="Labeled" />-->
 <!--                 <field-->
