@@ -101,7 +101,7 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree editable="bottom" multi_edit="1">
-                <field name="analysis_ids" readonly="1" />
+                <field name="analysis_ids" readonly="1" invisible="1"/>
                 <field name="lot_id" optional="hide"/>
                 <field name="sample_sub_number" optional="hide"/>
                 <field name="lot_name" optional="hide"/>
@@ -173,7 +173,7 @@
                 <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
                 <field name="to_invoice" optional="show" string="To invoice" />
                 <field name="show_in_report" optional="show" string="Show in report" />
-                <field name="price" />
+<!--                <field name="price" />-->
             </tree>
         </field>
     </record>

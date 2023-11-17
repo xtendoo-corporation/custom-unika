@@ -200,15 +200,20 @@ class LimsAnalysisNumericalResult(models.Model):
 
     @api.model
     def write(self, vals):
+        print("*" * 100)
+        print("self.parameter_ids.max_sample_number: ", self.parameter_ids.max_samples_number)
+        print("self.analysis_ids.product_id.numer_if_samples: ", self.analysis_ids.product_id.number_of_samples)
+        print("*" * 100)
         if vals.get('result_legislation'):
-            fail_sample = self.get_fail_sample_num()
-            max_permitted = self.parameter_ids.max_samples_permitted
-            if vals['result_legislation'] == 'fail':
-                fail_sample = fail_sample + 1
-            if fail_sample <= max_permitted:
-                self._update_global_result('pass')
-            else:
-                self._update_global_result('fail')
+            if self.parameter_ids.max_samples_number == self.analysis_ids.product_id.number_of_samples:
+                fail_sample = self.get_fail_sample_num()
+                max_permitted = self.parameter_ids.max_samples_permitted
+                if vals['result_legislation'] == 'fail':
+                    fail_sample = fail_sample + 1
+                if fail_sample <= max_permitted:
+                    self._update_global_result('pass')
+                else:
+                    self._update_global_result('fail')
         result = super(LimsAnalysisNumericalResult, self).write(vals)
         return result
 
