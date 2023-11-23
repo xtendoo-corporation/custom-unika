@@ -14,7 +14,6 @@
                 <label for="parameter_ids"/>
                 <field name="parameter_ids" optional="show" string="Parámetro" />
                 <br />
-<!--                <field name="type_tags" widget="many2many_tags" no_create="0" readonly="1" optional="show" string="type_tags" />-->
                 <field name="parameter_uom_all" string="UdM_all" invisible="1" />
                 <label for="parameter_uom"/>
                 <field
@@ -63,17 +62,6 @@
                     string="Result Le."
                 />
                 <br />
-<!--                <field name="labeled" optional="show" string="Labeled" />-->
-<!--                 <field-->
-<!--                    name="result_label"-->
-<!--                    decoration-success="result_label == 'pass'"-->
-<!--                    decoration-warning="result_label == 'warning'"-->
-<!--                    decoration-danger="result_label == 'fail'"-->
-<!--                    decoration-info="result_label == 'none'"-->
-<!--                    widget="badge"-->
-<!--                    optional="show"-->
-<!--                    string="Result L."-->
-<!--                />-->
                 <label for="reason"/>
                 <field name="reason" optional="show" string="Reason" />
                 <br />
@@ -122,6 +110,7 @@
                 <field name="valor_informe" optional="show" string="Valor informe" attrs="{'required': [('change_value_for_comment', '=', True)]}" />
                 <field name="valor_potencia" optional="show" string="Valor Potencia" invisible="1"/>
                 <field name="valor_exponente" optional="show" string="Valor Exponente" invisible="1"/>
+                <field name="eval_in_group" invisible="1" string="eval_in_group"/>
                 <field name="value" optional="show" string="value" on_change="onValueChange(value)"/>
                 <field name="is_present" optional="show" string="Present" />
                 <field name="is_correct" optional="show" string="Correct" />
@@ -156,24 +145,12 @@
                     optional="show"
                     string="Resultado Global"
                 />
-<!--                <field name="labeled" optional="show" string="Labeled" />-->
-<!--                 <field-->
-<!--                    name="result_label"-->
-<!--                    decoration-success="result_label == 'pass'"-->
-<!--                    decoration-warning="result_label == 'warning'"-->
-<!--                    decoration-danger="result_label == 'fail'"-->
-<!--                    decoration-info="result_label == 'none'"-->
-<!--                    widget="badge"-->
-<!--                    optional="show"-->
-<!--                    string="Result L."-->
-<!--                />-->
                 <field name="reason" optional="show" string="Reason" />
                 <field name="show_potency" invisible="1"/>
                 <field name="legislation_used_name" optional="show" />
                 <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
                 <field name="to_invoice" optional="show" string="To invoice" />
                 <field name="show_in_report" optional="show" string="Show in report" />
-<!--                <field name="price" />-->
             </tree>
         </field>
     </record>

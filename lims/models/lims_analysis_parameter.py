@@ -275,10 +275,11 @@ class LimsAnalysisParameter(models.Model):
         between_result = ""
         is_present_result = ""
         is_correct_result = ""
+        eval_in_group = False
         if value is None and iscorrect_value is None and ispresent_value is None:
-            return
+            return result, eval_in_group
         if not limit_ids:
-            return
+            return result, eval_in_group
         for parameter_result in limit_ids.limit_result_line_ids:
             limit_result_line = ""
             between_result_line = ""
@@ -289,9 +290,13 @@ class LimsAnalysisParameter(models.Model):
                 if limit_result_line != "":
                     limit_result = limit_result_line
             if parameter_result.type == "BETWEEN":
+                print("/"*100)
+                print("BETWEEN")
+                print("/"*100)
                 between_result_line = parameter_result.get_result_when_between(value)
                 if between_result_line != "":
                     between_result = between_result_line
+                    eval_in_group = True
             if parameter_result.type == "ISPRESENT":
                 is_present_result_line = parameter_result.get_result_when_ispresent(
                     ispresent_value
@@ -316,7 +321,11 @@ class LimsAnalysisParameter(models.Model):
             result = "pass"
         if result == "not_conform":
             result = "fail"
-        return result
+        print("*"*100)
+        print("eval_in_group", eval_in_group)
+        print("result", result)
+        print("*"*100)
+        return result, eval_in_group
 
     def _get_parameter_analysis_result(self, value=None, use_legislation=False):
         if value is None:

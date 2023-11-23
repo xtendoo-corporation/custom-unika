@@ -265,6 +265,7 @@ class LimsAnalysisLine(models.Model):
                             # ficha tecnica, Elegimos acreditado o no y si usa normativa.
                             technical_limit = ""
                             if parameter_method.use_acreditation:
+                                eval_in_group = False
                                 use_acreditation = True
                                 acreditation_ids_filter = self.env["lims.analysis.normative"].search(
                                     [
@@ -281,7 +282,7 @@ class LimsAnalysisLine(models.Model):
                                         is_present_default = True
                                     if technical_limit == "Correct":
                                         is_correct_default = True
-                                    technical_result = parameter.get_anlysis_result(
+                                    technical_result, eval_in_group = parameter.get_anlysis_result(
                                         acreditation_ids_filter, 0.00, is_correct_default,
                                         is_present_default)
                                     technical_comment = parameter._get_limit_comment(
@@ -303,7 +304,7 @@ class LimsAnalysisLine(models.Model):
                                         is_present_default = True
                                     if technical_limit == "Correct":
                                         is_correct_default = True
-                                    technical_result = parameter.get_anlysis_result(
+                                    technical_result, eval_in_group = parameter.get_anlysis_result(
                                         normative_ids_filter, 0.00, is_correct_default,
                                         is_present_default)
                                     technical_comment = parameter._get_limit_comment(
@@ -318,7 +319,7 @@ class LimsAnalysisLine(models.Model):
                                             is_present_default = True
                                         if technical_limit == "Correct":
                                             is_correct_default = True
-                                technical_result = parameter.get_anlysis_result(
+                                technical_result, eval_in_group = parameter.get_anlysis_result(
                                     limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00,
                                     is_correct_default, is_present_default)
                                 technical_comment = parameter._get_limit_comment(
@@ -333,7 +334,7 @@ class LimsAnalysisLine(models.Model):
                                 for limit_line_ids in limits_id.limit_result_line_ids.filtered(
                                         lambda r: r.state == 'conform'):
                                     legislation_limit = limit_line_ids.get_correct_limit()
-                            legislation_result = parameter.get_anlysis_result(
+                            legislation_result, eval_in_group = parameter.get_anlysis_result(
                                 limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
                                 is_present_default)
                             legislation_comment = parameter._get_limit_comment(
@@ -366,6 +367,7 @@ class LimsAnalysisLine(models.Model):
                                     "lot_name": line_parameter.lot_name,
                                     "sample_sub_number": line_parameter.sample_sub_number,
                                     "global_result": "",
+                                    "eval_in_group": eval_in_group,
                                 }
                             )
             else:
@@ -395,7 +397,7 @@ class LimsAnalysisLine(models.Model):
                                     is_present_default = True
                                 if technical_limit == "Correct":
                                     is_correct_default = True
-                                technical_result = parameter.get_anlysis_result(
+                                technical_result, eval_in_group = parameter.get_anlysis_result(
                                     acreditation_ids_filter, 0.00, is_correct_default,
                                     is_present_default)
                                 technical_comment = parameter._get_limit_comment(
@@ -416,7 +418,7 @@ class LimsAnalysisLine(models.Model):
                                     is_present_default = True
                                 if technical_limit == "Correct":
                                     is_correct_default = True
-                                technical_result = parameter.get_anlysis_result(
+                                technical_result, eval_in_group = parameter.get_anlysis_result(
                                     normative_ids_filter, 0.00, is_correct_default,
                                     is_present_default)
                                 technical_comment = parameter._get_limit_comment(
@@ -430,7 +432,7 @@ class LimsAnalysisLine(models.Model):
                                         is_present_default = True
                                     if technical_limit == "Correct":
                                         is_correct_default = True
-                            technical_result = parameter.get_anlysis_result(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
+                            technical_result, eval_in_group = parameter.get_anlysis_result(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
                             technical_comment = parameter._get_limit_comment(limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default, is_present_default)
                         #legislacion
                         legislation_limit = ""
@@ -440,7 +442,7 @@ class LimsAnalysisLine(models.Model):
                             legislation_name = limits_id.legislation_name
                             for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
                                 legislation_limit = limit_line_ids.get_correct_limit()
-                        legislation_result = parameter.get_anlysis_result(
+                        legislation_result, eval_in_group = parameter.get_anlysis_result(
                             limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
                             is_present_default)
                         legislation_comment = parameter._get_limit_comment(
@@ -471,10 +473,41 @@ class LimsAnalysisLine(models.Model):
                                 "lot_name": move_line_id.lot_name,
                                 "sample_sub_number": move_line_id.sample_sub_number,
                                 "global_result": "",
+                                "eval_in_group": eval_in_group,
                             }
                         )
             return result
 
+    def write(self, vals):
+        print("*"*100)
+        print("Write analysis", vals)
+        result = super(LimsAnalysisLine, self).write(vals)
+        parameters = []
+        for line in self.numerical_result:
+            print("line parameter", line.parameter_ids.name)
+            if line.parameter_ids.max_samples_number > 1 and line.parameter_ids not in parameters:
+                parameters.append(line.parameter_ids)
+        print("parameters", parameters)
+        for parameter in parameters:
+            print("parameter", parameter)
+            fail_num = sum(1 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id) if line.result_legislation == 'fail')
+            print("fail_num", fail_num)
+            if fail_num > 0:
+                for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id):
+                    print("line r", line)
+                    line.global_result = 'fail'
+            else:
+                between_limit = sum(1 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id) if line.eval_in_group == True)
+                print("between_limit", between_limit)
+                max_permited = parameter.max_samples_permitted
+                print("max_permited", max_permited)
+                for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id):
+                    if between_limit > max_permited:
+                        line.global_result = 'fail'
+                    else:
+                        line.global_result = 'pass'
+        print("*"*100)
+        return result
     def unlink(self):
         if any(analysis.state not in ["cancel"] for analysis in self):
             raise UserError(_("You can only delete Cancel analyses."))

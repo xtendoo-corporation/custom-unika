@@ -109,6 +109,7 @@ class LimsAnalysisNumericalResult(models.Model):
     price = fields.Float("Price", store=True)
     use_acreditation = fields.Boolean(string="Use acreditation", store=True)
     use_normative = fields.Boolean(string="Use normative", store=True)
+    eval_in_group = fields.Boolean(string="Eval in group", store=True)
 
     def _get_parameter_values(self, vals):
         parameter = self.env["lims.analysis.parameter"].browse(vals.get("parameter_ids"))
@@ -156,29 +157,37 @@ class LimsAnalysisNumericalResult(models.Model):
                     )
                 else:
                     limit_ids_technical = limit_ids_filter.filtered(lambda r: r.type == 'technical')
-                technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical, value=line.value)
+                technical_result, eval_in_group = (line.parameter_ids.get_anlysis_result(limit_ids_technical, value=line.value))
                 technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical, value=line.value)
                 if technical_result != "":
                     line.result_datasheet = technical_result
+
                 #legislation
                 limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
-                legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation, value=line.value)
+                legislation_result, eval_in_group = (line.parameter_ids.get_anlysis_result(limit_ids_legislation, value=line.value))
                 legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation, value=line.value)
                 if legislation_result != "":
                     line.result_legislation = legislation_result
                     line.comment = legislation_comment
+                    line.eval_in_group = eval_in_group
 
     def _update_global_result(self, result):
         analysis_id = str(self.analysis_ids.id)
         partes = analysis_id.split("_")
         analysis_id = partes[-1]
         analysis_id = int(analysis_id)
+        line_id = str(self.id)
+        partes_line = line_id.split("_")
+        line_id = partes_line[-1]
+        line_id = int(line_id)
         related_lines = self.env['lims.analysis.numerical.result'].search([
             ('parameter_ids', '=', self.parameter_ids.id),
             ('analysis_ids', '=', analysis_id),
+            ('id', '!=', line_id)
         ])
         for line in related_lines:
-            line.global_result = result
+            if line.global_result != result:
+                line.global_result = result
 
     def get_fail_sample_num(self):
         analysis_id = str(self.analysis_ids.id)
@@ -194,28 +203,95 @@ class LimsAnalysisNumericalResult(models.Model):
             ('analysis_ids', '=', analysis_id),
             ('id', '!=', line_id)
         ])
-        fail_num = sum(1 for line in related_lines if line.result_legislation == 'fail')
+        fail_num = sum(1 for line in related_lines if line.eval_in_group == True)
         return fail_num
 
 
-    @api.model
-    def write(self, vals):
-        print("*" * 100)
-        print("self.parameter_ids.max_sample_number: ", self.parameter_ids.max_samples_number)
-        print("self.analysis_ids.product_id.numer_if_samples: ", self.analysis_ids.product_id.number_of_samples)
-        print("*" * 100)
-        if vals.get('result_legislation'):
-            if self.parameter_ids.max_samples_number == self.analysis_ids.product_id.number_of_samples:
-                fail_sample = self.get_fail_sample_num()
-                max_permitted = self.parameter_ids.max_samples_permitted
-                if vals['result_legislation'] == 'fail':
-                    fail_sample = fail_sample + 1
-                if fail_sample <= max_permitted:
-                    self._update_global_result('pass')
-                else:
-                    self._update_global_result('fail')
-        result = super(LimsAnalysisNumericalResult, self).write(vals)
-        return result
+    # @api.model
+    # def write(self, vals):
+    #     print("*" * 100)
+    #     print("vals: ", vals)
+    #     result = super(LimsAnalysisNumericalResult, self).write(vals)
+    #     print("result: ", result)
+    #     print(self.eval_in_group)
+    #
+    #     max_samples = self.parameter_ids.max_samples_permitted
+    #     max_samples_act = self.get_fail_sample_num()
+    #     if self.eval_in_group:
+    #         max_samples_act = max_samples_act + 1
+    #     self._set_global_result(max_samples, max_samples_act)
+    #     print("max_samples: ", max_samples)
+    #     print("max_samples_act: ", max_samples_act)
+    #     print("*" * 100)
+    #
+    #     return result
+
+    def _set_global_result(self, max_samples, max_samples_act):
+        analysis_id = str(self.analysis_ids.id)
+        partes = analysis_id.split("_")
+        analysis_id = partes[-1]
+        analysis_id = int(analysis_id)
+        line_id = str(self.id)
+        partes_line = line_id.split("_")
+        line_id = partes_line[-1]
+        line_id = int(line_id)
+        related_lines = self.env['lims.analysis.numerical.result'].search([
+            ('parameter_ids', '=', self.parameter_ids.id),
+            ('analysis_ids', '=', analysis_id),
+            ('id', '!=', line_id)
+        ])
+        print("related_lines", related_lines)
+        print("max_samples_act > max_samples", max_samples_act > max_samples)
+        for line in related_lines:
+            if max_samples_act > max_samples:
+                line.global_result = 'fail'
+            else:
+                line.global_result = 'pass'
+
+                    # self._update_global_result('fail')
+        # if vals.get('result_legislation'):
+        #     print("vals['result_legislation']: ", vals['result_legislation'])
+        #     if vals.get('result_legislation') == 'fail':
+        #         self._update_global_result('fail')
+        #     else:
+        #         eval_sample_num = self.get_fail_sample_num()
+        #         print("eval_sample_num: ", eval_sample_num)
+        #         print("vals: ", vals)
+        #         if vals.get('eval_in_group') or self.eval_in_group:
+        #             eval_sample_num = eval_sample_num + 1
+        #         print("eval_sample_num: ", eval_sample_num)
+        #         print("eval_sample_num >= self.parameter_ids.max_samples_permitted", eval_sample_num >= self.parameter_ids.max_samples_permitted)
+        #         if eval_sample_num >= self.parameter_ids.max_samples_permitted:
+        #             self._update_global_result('fail')
+        #         else:
+        #             self._update_global_result('pass')
+            # if self.parameter_ids.max_samples_number == self.analysis_ids.product_id.number_of_samples:
+            #     fail_sample = self.get_fail_sample_num()
+            #     max_permitted = self.parameter_ids.max_samples_permitted
+            #     if vals['result_legislation'] == 'fail':
+            #         fail_sample = fail_sample + 1
+            #     if fail_sample <= max_permitted:
+            #         self._update_global_result('pass')
+            #     else:
+            #         self._update_global_result('fail')
+
+        # print("*" * 100)
+        # print("self.parameter_ids.max_sample_number: ", self.parameter_ids.max_samples_number)
+        # print("self.parameter_ids.name: ", self.parameter_ids.name)
+        # print("self.analysis_ids.product_id.numer_of_samples: ", self.analysis_ids.product_id.number_of_samples)
+        # print("*" * 100)
+        # if vals.get('result_legislation'):
+        #     if self.parameter_ids.max_samples_number == self.analysis_ids.product_id.number_of_samples:
+        #         fail_sample = self.get_fail_sample_num()
+        #         max_permitted = self.parameter_ids.max_samples_permitted
+        #         if vals['result_legislation'] == 'fail':
+        #             fail_sample = fail_sample + 1
+        #         if fail_sample <= max_permitted:
+        #             self._update_global_result('pass')
+        #         else:
+        #             self._update_global_result('fail')
+        # result = super(LimsAnalysisNumericalResult, self).write(vals)
+        # return result
 
     @api.onchange("is_present")
     def _onchange_is_present(self):
@@ -240,7 +316,7 @@ class LimsAnalysisNumericalResult(models.Model):
                             )
 
                             if limits_technical and limits_technical[0].type == 'ISPRESENT':
-                                technical_result = line.parameter_ids.get_anlysis_result(limit_ids_technical,
+                                technical_result, eval_in_group = line.parameter_ids.get_anlysis_result(limit_ids_technical,
                                                                                          ispresent_value=line.is_present)
                                 technical_comment = line.parameter_ids._get_limit_comment(limit_ids_technical,
                                                                                           ispresent_value=line.is_present)
@@ -256,7 +332,7 @@ class LimsAnalysisNumericalResult(models.Model):
                                 ]
                             )
                             if limits_legislation and limits_legislation[0].type == 'ISPRESENT':
-                                legislation_result = line.parameter_ids.get_anlysis_result(limit_ids_legislation,
+                                legislation_result, eval_in_group = line.parameter_ids.get_anlysis_result(limit_ids_legislation,
                                                                            ispresent_value=line.is_present)
                                 legislation_comment = line.parameter_ids._get_limit_comment(limit_ids_legislation,
                                                                                             ispresent_value=line.is_present)
