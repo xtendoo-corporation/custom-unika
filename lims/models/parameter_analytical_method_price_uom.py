@@ -28,6 +28,7 @@ class ParameterAnalyticalMethodUomRel(models.Model):
     company_id = fields.Many2one(
         related="analytical_method_id.company_id"
     )
+    parameter_description = fields.Text(string="Descripción", store=True, related="analytical_method_id.parameter_id.description")
 
     @api.depends('parameter_uom')
     def _compute_required_uom(self):

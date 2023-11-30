@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="analytical_method_id" string="Parameter and method"/>
+                <field name="parameter_description" string="Descripción"/>
                 <field name="parameter_id" string="Parameter" invisible="1"/>
                 <field name="uom_id" string="Unit of meassure" domain="[('id', '=', parameter_uom)]"/>
                 <field name="parameter_uom" invisible="1"/>
