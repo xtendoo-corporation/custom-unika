@@ -42,7 +42,6 @@ class LimsAnalysisParameter(models.Model):
     max_samples_number = fields.Integer(string="Número de muestras usado", store=True)
     max_samples_permitted = fields.Integer(string="Número de muestras permitidas", store=True)
 
-
     def _is_code_in_use(self, code):
         parameter = self.env['lims.analysis.parameter'].search(
             [
@@ -53,6 +52,7 @@ class LimsAnalysisParameter(models.Model):
         return False
 
     def write(self, vals):
+        #Comprobamos si el codigo esta en uso, si lo esta y no es el mismo que el que ya tenia, lanzamos error
         if vals.get('default_code'):
             if vals['default_code']:
                 parameter = self.env['lims.analysis.parameter'].search(
@@ -62,6 +62,7 @@ class LimsAnalysisParameter(models.Model):
                     ], )
                 if parameter:
                     raise UserError(_("La referencia debe ser única por parámetro"))
+        #Si se cambia el nombre, actualizamos el nombre de los metodos
         if vals.get('name'):
             for method in self.analytical_method_price_ids:
                 method.write(
@@ -74,6 +75,7 @@ class LimsAnalysisParameter(models.Model):
 
     @api.model
     def create(self, vals):
+        #Comprobamos si el codigo esta en uso, si lo esta y no es el mismo que el que ya tenia, lanzamos error
         if vals['default_code'] and vals['default_code'] != '':
             is_in_use = self._is_code_in_use(vals['default_code'])
             if is_in_use:
@@ -81,7 +83,9 @@ class LimsAnalysisParameter(models.Model):
                     raise UserError(_("La referencia debe ser única por parámetro"))
                 else:
                     vals['default_code'] = ''
+        #Creación del parámetro
         res = super(LimsAnalysisParameter, self).create(vals)
+        #si hay límites, los creamos
         if self.limits_ids and res:
             for limit in self.limits_ids:
                 limit_to_create = self.env['lims.analysis.limit'].create(
@@ -93,6 +97,7 @@ class LimsAnalysisParameter(models.Model):
                         'limit_result_line_ids': None,
                     }
                 )
+                #si hay líneas de límites, las creamos
                 for limit_line in limit.limit_result_line_ids:
                     self.env['lims.analysis.limit.result.line'].create(
                         {
@@ -110,11 +115,14 @@ class LimsAnalysisParameter(models.Model):
                             'message': limit_line.message,
                         }
                     )
+        #si hay métodos, borramos los que tenemos en res y creamos los nuevos
         if self.analytical_method_price_ids and res:
             methods = res['analytical_method_price_ids']
+            #Eliminamos los métodos que ya teníamos
             res['analytical_method_price_ids'] = [(5, 0, 0)]
             method_ids = ()
             for method in methods:
+                #Creamos el method
                 new_method = self.env['analytical.method.price'].create(
                     {
                         'analytical_method_id': method.analytical_method_id.id,
@@ -129,15 +137,30 @@ class LimsAnalysisParameter(models.Model):
                 )
                 res['analytical_method_price_ids'] = new_method
                 method_ids = method_ids + (new_method.id,)
-                method_udm = self.env['parameter.analytical.method.price.uom'].search(
-                    [("analytical_method_id", "=", new_method.id), ('parent_id', '=', False)])
-                if not method_udm:
-                    self.env['parameter.analytical.method.price.uom'].create(
-                        {
-                            'analytical_method_id': new_method.id,
-                            'parent_id': None,
-                        }
-                    )
+                #Por cada UDM, creamos un registo en parameter.analytical.method.price.uom, si no hay, genereamos uno si no existe
+                if not self.parameter_uom:
+                    method_udm = self.env['parameter.analytical.method.price.uom'].search(
+                        [("analytical_method_id", "=", new_method.id), ('uom_id', '=', False)])
+                    if not method_udm:
+                        self.env['parameter.analytical.method.price.uom'].create(
+                            {
+                                'analytical_method_id': new_method.id,
+                                'uom_id': None,
+                                'parent_id': None,
+                            }
+                        )
+                else:
+                    for udm in self.parameter_uom:
+                        method_udm = self.env['parameter.analytical.method.price.uom'].search(
+                            [("analytical_method_id", "=", new_method.id), ('uom_id', '=', udm.id)])
+                        if not method_udm:
+                            self.env['parameter.analytical.method.price.uom'].create(
+                                {
+                                    'analytical_method_id': new_method.id,
+                                    'uom_id': udm.id,
+                                    'parent_id': None,
+                                }
+                            )
             new_methods = self.env['analytical.method.price'].search([("id", "in", method_ids)])
             res['analytical_method_price_ids'] = new_methods
         else:
@@ -149,14 +172,29 @@ class LimsAnalysisParameter(models.Model):
                         'display_name': res.name + " - " + method.analytical_method_id.name,
                     }
                 )
-                method_udm = self.env['parameter.analytical.method.price.uom'].search([("analytical_method_id", "=", method.id),('parent_id', '=', False)])
-                if not method_udm:
-                    self.env['parameter.analytical.method.price.uom'].create(
-                        {
-                            'analytical_method_id': method.id,
-                            'parent_id': None,
-                        }
-                    )
+                if not self.parameter_uom:
+                    method_udm = self.env['parameter.analytical.method.price.uom'].search(
+                        [("analytical_method_id", "=", method.id), ('uom_id', '=', False)])
+                    if not method_udm:
+                        self.env['parameter.analytical.method.price.uom'].create(
+                            {
+                                'analytical_method_id': method.id,
+                                'uom_id': None,
+                                'parent_id': None,
+                            }
+                        )
+                else:
+                    for udm in self.parameter_uom:
+                        method_udm = self.env['parameter.analytical.method.price.uom'].search(
+                            [("analytical_method_id", "=", method.id), ('uom_id', '=', udm.id)])
+                        if not method_udm:
+                            self.env['parameter.analytical.method.price.uom'].create(
+                                {
+                                    'analytical_method_id': method.id,
+                                    'uom_id': udm.id,
+                                    'parent_id': None,
+                                }
+                            )
         return res
 
     def _get_limit_value_char(self, limits):
