@@ -42,7 +42,11 @@ class StockMoveLine(models.Model):
             "lot_id": self.lot_id.id,
             "customer_id": self.picking_id.partner_id.id,
             "product_id": self.product_id.product_tmpl_id.id,
+            "lot_name": self.lot_name,
         }
+        print("*/"*20)
+        print("action['context']: ", action["context"])
+        print("*/"*20)
         return action
 
     @api.constrains("lot_id", "product_id")

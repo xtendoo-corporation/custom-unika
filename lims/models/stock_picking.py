@@ -10,6 +10,13 @@ class StockPicking(models.Model):
         "Number of Analysis Generated",
         compute="_compute_analysis_count",
     )
+    def _compute_lot_name(self):
+        for order in self:
+            order.lot_name = order.move_line_ids_without_package[0].lot_name
+    lot_name = fields.Char(
+        string="Lote",
+        compute="_compute_lot_name",
+    )
 
     def _compute_analysis_count(self):
         for order in self:
@@ -61,6 +68,7 @@ class StockPicking(models.Model):
                             "customer_contact_id": self.partner_id.id,
                             "lot_id": line.lot_id.id,
                             "pricelist_id": self.get_pricelist_id(line),
+                            "lot_name": line.lot_name,
                         }
                     )
                     return

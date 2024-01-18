@@ -31,7 +31,7 @@ class LimsAnalysisLine(models.Model):
         "analysis_id",
         string="Extra Sample Media",
     )
-
+    lot_name = fields.Char(string="Lote", store=True, tracking=True)
     name = fields.Char(string="Name", store=True, readonly="1")
     analysis_id = fields.Many2one(
         "lims.analysis",
@@ -101,8 +101,23 @@ class LimsAnalysisLine(models.Model):
         store=True,
         tracking=True,
     )
+    analysis_name = fields.Char(
+        string="Análisis de",
+        store=True,
+        tracking=True,
+    )
     description = fields.Char(
         string="Description",
+        store=True,
+        tracking=True,
+    )
+    capture_place = fields.Char(
+        string="Lugar de recogida",
+        store=True,
+        tracking=True,
+    )
+    presentation = fields.Char(
+        string="Presentación",
         store=True,
         tracking=True,
     )
@@ -168,6 +183,10 @@ class LimsAnalysisLine(models.Model):
         string="Date Issue",
         tracking=True,
     )
+    date_expired = fields.Date(
+        string="Caducidad",
+        tracking=True,
+    )
     date_due = fields.Date(
         string="Date due",
         tracking=True,
@@ -192,6 +211,10 @@ class LimsAnalysisLine(models.Model):
         string="Previous Analysis Date",
     )
 
+    date_exit = fields.Date(
+        string="Fecha de salida",
+        tracking=True,
+    )
     previous_analysis_result = fields.Selection(
         [
             ("none", "Unrealized"),
@@ -200,6 +223,13 @@ class LimsAnalysisLine(models.Model):
             ("warning", "Warning"),
         ],
         "Result Previous",
+    )
+    temperature = fields.Selection(
+        [
+            ("ambient", "Ambiente"),
+            ("refrigered", "Refrigerado"),
+        ],
+        "Temperatura",
     )
 
     sampler = fields.Many2one(

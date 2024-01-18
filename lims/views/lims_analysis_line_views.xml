@@ -117,8 +117,14 @@
                                 name="product_id"
                                 domain="[('is_product_sample', '=', True)]"
                             />
+                            <field name="analysis_name"/>
                             <field name="description"/>
+                            <field name="temperature"/>
+                            <field name="capture_place"/>
+                            <field name="lot_name"/>
+                            <field name="date_expired"/>
                             <field name="lot_id"/>
+                            <field name="presentation"/>
                             <field
                                 name="priority"
                                 class="oe_inline"
@@ -147,6 +153,7 @@
                             <field name="date_sample_receipt" readonly="0"/>
                             <field name="date_sample_begin"/>
                             <field name="date_complete"/>
+                            <field name="date_exit"/>
                             <field name="sampler"/>
                         </group>
                     </group>
