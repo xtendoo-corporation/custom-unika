@@ -157,7 +157,17 @@ class LimsAnalysisLine(models.Model):
         tracking=True,
     )
     note = fields.Text(
-        string="Note",
+        string="Comentarios",
+        store=True,
+        tracking=True,
+    )
+    observations = fields.Text(
+        string="Observaciones",
+        store=True,
+        tracking=True,
+    )
+    applied_legislation = fields.Text(
+        string="Legislaciones aplicadas",
         store=True,
         tracking=True,
     )
@@ -394,7 +404,7 @@ class LimsAnalysisLine(models.Model):
                                     "comment": result_comment,
                                     "use_acreditation": use_acreditation,
                                     "use_normative": use_normative,
-                                    "lot_name": line_parameter.lot_name,
+                                    "lot_name": line_parameter.lot_name_sample,
                                     "sample_sub_number": line_parameter.sample_sub_number,
                                     "global_result": "",
                                     "eval_in_group": eval_in_group,
@@ -524,6 +534,7 @@ class LimsAnalysisLine(models.Model):
             print("fail_num", fail_num)
             if fail_num > 0:
                 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id):
+                    # line.eval_in_group = True
                     print("line r", line)
                     line.global_result = 'fail'
             else:

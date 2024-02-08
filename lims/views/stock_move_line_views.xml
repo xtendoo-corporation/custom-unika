@@ -9,16 +9,38 @@
         <field name="model">stock.move.line</field>
         <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree" />
         <field name="arch" type="xml">
-<!--             <xpath expr="//tree/field[@name='lot_name']" position="replace">-->
-<!--            </xpath>-->
+             <xpath expr="//tree/field[@name='lot_name']" position="replace">
+                 <field name="is_product_sample" invisible="1" />
+                 <field name="lot_name" widget="text"
+                        groups="stock.group_production_lot"
+                        placeholder="Write your SN/LN one by one or copy paste a list."
+                        attrs="{'readonly': ['&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)]}"
+                        invisible="context.get('is_product_sample')"
+                 />
+
+            </xpath>
              <xpath expr="//tree/field[@name='lot_id']" position="replace">
-                <field
+                 <field name="is_product_sample" invisible="1" />
+                 <field
                     name="lot_id"
+                    string="Número de muestra"
                     attrs="{'readonly': ['&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)]}"
                     domain="[('product_id', '=', False), ('company_id', '=', company_id)]"
-                    context="{'active_picking_id': picking_id,'default_company_id': parent.company_id,}"
+                    context="{'active_picking_id': picking_id,'default_company_id': parent.company_id, 'default_is_sample_number': is_product_sample}"
+                    invisible="not context.get('is_product_sample')"
+                    options="{'create': true, 'create_edit': true}"
                 />
-                 <field name="sample_sub_number"/>
+                <field
+                    name="lot_id"
+                    string="Lote"
+                    attrs="{'readonly': ['&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)]}"
+                    domain="[('company_id', '=', company_id),('is_sample_number', '=', False)]"
+                    context="{'active_picking_id': picking_id,'default_company_id': parent.company_id,'default_is_sample_number': is_product_sample}"
+                    invisible="context.get('is_product_sample')"
+                    options="{'create': true, 'create_edit': true}"
+                />
+                 <field name="sample_sub_number" invisible="not context.get('is_product_sample')"/>
+                 <field name="lot_name_sample" string="Lote" invisible="not context.get('is_product_sample')"/>
             </xpath>
             <xpath expr="//tree/field[@name='qty_done']" position="after">
                 <field name="is_product_sample" invisible="1" />

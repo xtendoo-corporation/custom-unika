@@ -198,12 +198,40 @@
                             </group>
                         </page>
                     </notebook>
-                    <group name="note_group" col="6" class="mt-2 mt-md-0">
-                        <group colspan="4">
+                    <group name="comment_group" col="6" class="mt-2 mt-md-0">
+                        <group>
+                            <label for="note" string="Comentarios"/>
+                        </group>
+                        <group colspan="6">
                             <field
                                 name="note"
                                 nolabel="1"
-                                placeholder="Nota..."
+                                string="Comentarios"
+                                placeholder="Comentarios..."
+                            />
+                        </group>
+                    </group>
+                    <group name="observation_group" col="6" class="mt-2 mt-md-0">
+                        <group>
+                            <label for="observations"/>
+                        </group>
+                        <group colspan="6">
+                            <field
+                                name="observations"
+                                nolabel="1"
+                                placeholder="Obeservaciones..."
+                            />
+                        </group>
+                    </group>
+                    <group name="comment_group" col="6" class="mt-2 mt-md-0">
+                        <group>
+                            <label for="applied_legislation"/>
+                        </group>
+                        <group colspan="6">
+                            <field
+                                name="applied_legislation"
+                                nolabel="1"
+                                placeholder="Legislaciones aplicadas..."
                             />
                         </group>
                     </group>

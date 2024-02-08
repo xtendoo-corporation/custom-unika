@@ -26,6 +26,21 @@ class ProductionLot(models.Model):
         ]
     )
 
+    is_sample_number = fields.Boolean(default=False)
+
+    def _get_default_lot_serial(self):
+        print("self.env.context: ", self.env.context.get('is_product_samplecd ud'))
+        is_sample = self.env.context.get('default_is_sample_number')
+        if is_sample:
+            return self.env['ir.sequence'].next_by_code('stock.lot.serial')
+        else:
+            return self.env['ir.sequence'].next_by_code('stock.lot.no.sample')
+
+    name = fields.Char(
+        'Lot/Serial Number', default=lambda self: self._get_default_lot_serial(),
+        required=True, help="Unique Lot/Serial Number", index=True)
+
+
     # lot_image_ids = fields.One2many(
     #     "sample.image",
     #     "lot_id",

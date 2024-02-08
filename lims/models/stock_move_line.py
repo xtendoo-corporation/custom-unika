@@ -25,11 +25,14 @@ class StockMoveLine(models.Model):
         check_company=True,
     )
 
-    lot_name = fields.Char(
+    lot_name_sample = fields.Char(
         string="Lote",
         copy=False,
     )
     sample_sub_number = fields.Integer(string="SubNúmero de muestra", store=True)
+
+
+
 
     def create_new_analysis(self):
         if self.picking_id.state != "done":
@@ -81,8 +84,10 @@ class StockMoveLine(models.Model):
             lot_id_can_use = self.env['stock.production.lot'].search([
                 ('product_id', '=', False),
                 ('company_id', '=', record.company_id.id),
-                ('partner_id', 'in', [partner_id.id, False])
+                ('partner_id', 'in', [partner_id.id, False]),
+                ('is_sample_number', '=', self.is_product_sample),
 
             ], order="partner_id ASC, id DESC")
             domain['lot_id'] = [('id', 'in', lot_id_can_use.ids)]
+            print(domain['lot_id'], "domain['lot_id']")
         return {"domain": domain}

@@ -90,7 +90,7 @@
                                             <t t-if="doc.temperature == 'ambient'">
                                                 <span style="font-size:1.1em;font-weight:bolder;">Ambiente</span>
                                             </t>
-                                            <t t-if="doc.temperature == 'refrigerated'">
+                                            <t t-if="doc.temperature == 'refrigered'">
                                                 <span style="font-size:1.1em;font-weight:bolder;">Refrigerada</span>
                                             </t>
                                         </div>
@@ -519,25 +519,67 @@
 <!--                        >-->
 <!--                        </div>-->
                         <!-- Fin Resultados -->
-                        <!-- Dictamen final -->
-                        <div
-                                style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
-                        >
-                            <!-- Etiqueta Dictamen final -->
-                                <div
-                                        style="width:100%;margin-left:0.5%;display:table;height:28px;"
-                                >
-                                    <span
-                                            style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                    >DICTAMEN FINAL</span>
+                        <!-- Comentarios -->
+                        <div t-if="doc.note">
+                            <div
+                                    style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
+                            >
+                                <!-- Etiqueta Comentarios -->
+                                    <div
+                                            style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                    >
+                                        <span
+                                                style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                        >Comemtarios</span>
+                                    </div>
                                 </div>
+                                <!--  fin Etiqueta Comentarios -->
                             </div>
-                            <!--  fin Etiqueta Dictamen final -->
-                        </div>
-                        <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.9em;">
-                            <span t-field="doc.note"/>
-                        </div>
-                        <!-- Fin Dictamen final -->
+                            <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                                <span t-field="doc.note"/>
+                            </div>
+                            <!-- Fin Comentarios -->
+                        <!-- observations -->
+                        <div t-if="doc.observations">
+                            <div
+                                    style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
+                            >
+                                <!-- Etiqueta observations -->
+                                    <div
+                                            style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                    >
+                                        <span
+                                                style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                        >Observaciones</span>
+                                    </div>
+                                </div>
+                                <!--  fin Etiqueta observations -->
+                            </div>
+                            <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                                <span t-field="doc.observations"/>
+                            </div>
+                            <!-- Fin observations -->
+                        <!-- applied_legislation -->
+                        <div t-if="doc.applied_legislation">
+                            <div
+                                    style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
+                            >
+                                <!-- Etiqueta applied_legislation -->
+                                    <div
+                                            style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                    >
+                                        <span
+                                                style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                        >Legislaciones aplicadas</span>
+                                    </div>
+                                </div>
+                                <!--  fin Etiqueta applied_legislation -->
+                            </div>
+                            <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                                <span t-field="doc.applied_legislation"/>
+                            </div>
+                            <!-- Fin applied_legislation -->
+                    </div>
                     <!--                    <div class="page">-->
                     <!--                        <style>-->
                     <!--                            .table-striped>tbody>tr:nth-child(odd)>td,-->

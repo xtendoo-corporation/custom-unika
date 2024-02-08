@@ -86,7 +86,8 @@ class LimsAnalysisParameter(models.Model):
         #Creación del parámetro
         res = super(LimsAnalysisParameter, self).create(vals)
         #si hay límites, los creamos
-        if self.limits_ids and res:
+        if res and (self.limits_ids or res['limits_ids']):
+            print("Añade limites")
             for limit in self.limits_ids:
                 limit_to_create = self.env['lims.analysis.limit'].create(
                     {
@@ -116,7 +117,7 @@ class LimsAnalysisParameter(models.Model):
                         }
                     )
         #si hay métodos, borramos los que tenemos en res y creamos los nuevos
-        if self.analytical_method_price_ids and res:
+        if res and (self.analytical_method_price_ids or res['analytical_method_price_ids']):
             methods = res['analytical_method_price_ids']
             #Eliminamos los métodos que ya teníamos
             res['analytical_method_price_ids'] = [(5, 0, 0)]
@@ -138,7 +139,7 @@ class LimsAnalysisParameter(models.Model):
                 res['analytical_method_price_ids'] = new_method
                 method_ids = method_ids + (new_method.id,)
                 #Por cada UDM, creamos un registo en parameter.analytical.method.price.uom, si no hay, genereamos uno si no existe
-                if not self.parameter_uom:
+                if not self.parameter_uom and not res['parameter_uom']:
                     method_udm = self.env['parameter.analytical.method.price.uom'].search(
                         [("analytical_method_id", "=", new_method.id), ('uom_id', '=', False)])
                     if not method_udm:
@@ -150,7 +151,11 @@ class LimsAnalysisParameter(models.Model):
                             }
                         )
                 else:
-                    for udm in self.parameter_uom:
+                    if res['parameter_uom']:
+                        udms = res['parameter_uom']
+                    else:
+                        udms = self.parameter_uom
+                    for udm in udms:
                         method_udm = self.env['parameter.analytical.method.price.uom'].search(
                             [("analytical_method_id", "=", new_method.id), ('uom_id', '=', udm.id)])
                         if not method_udm:
@@ -332,9 +337,9 @@ class LimsAnalysisParameter(models.Model):
                 print("BETWEEN")
                 print("/"*100)
                 between_result_line = parameter_result.get_result_when_between(value)
+                # eval_in_group = True
                 if between_result_line != "":
                     between_result = between_result_line
-                    eval_in_group = True
             if parameter_result.type == "ISPRESENT":
                 is_present_result_line = parameter_result.get_result_when_ispresent(
                     ispresent_value
