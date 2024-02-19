@@ -10,9 +10,9 @@
             <field name="margin_bottom">0</field>
             <field name="margin_right">1.5</field>
             <field name="margin_left">1.5</field>
-            <field name="page_height">30</field>
-            <field name="page_width">50</field>
-            <field name="orientation">Portrait</field>
+            <field name="page_height">60</field>
+            <field name="page_width">80</field>
+            <field name="orientation">Landscape</field>
             <field name="header_line">False</field>
             <field name="header_spacing">500</field>
             <field name="dpi">90</field>
@@ -40,34 +40,131 @@
 
         <template id="lims.report_label_lot_document_lims">
             <t t-name="report_label_lot_document_lims">
-                <t t-call="web.basic_layout">
+                <t t-call="web.basic_layout" >
                     <div class="page">
-                        <div class="oe_structure" />
-                        <table
-                            class="table table-condensed"
-                            style="border-bottom: 0px solid white !important;width: 3in;"
-                        >
-                            <!--<tr>
-                                <th style="text-align: left;">
-                                    <span t-field="o.product_id.display_name"/>
-                                </th>
-                            </tr> -->
-                            <tr style="text-align:center;" name="lot_name">
-                                <td style="font-size:1.5em;font-weight:bolder;">
-                                    <span>Sample:</span>
-                                    <span t-field="o.name" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <img
-                                        t-if="o.name"
-                                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 150)"
-                                        style="width:100%;height:20%;"
-                                    />
-                                </td>
-                            </tr>
-                        </table>
+                        <div style="-webkit-transform: rotate(-90deg);position: relative;top: 50px;">
+                        <div class="oe_structure"/>
+                        <img
+                                style="width:15%;"
+                                src="/lims/static/src/img/VERDE_BMP.bmp"
+                        />
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-6">
+                                <b><span>
+                                    Cód Muestra:
+                                </span></b>
+                            </div>
+                            <div class="col-6">
+                                <span>
+                                    <t t-esc="o.name" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-8">
+                                <b><span>
+                                    Fecha y hora recepción:
+                                </span></b>
+                            </div>
+                            <div class="col-4">
+
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-6">
+                                <b><span>
+                                    Muestreo por:
+                                </span></b>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-8">
+                                <b><span>
+                                    Fecha y hora recepción:
+                                </span></b>
+                            </div>
+                            <div class="col-4">
+
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-8">
+                                <b><span>
+                                    Condiciones de recepción:
+                                </span></b>
+                            </div>
+                            <div class="col-4">
+
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-4">
+                                <b><span>
+                                    Cliente:
+                                </span></b>
+                            </div>
+                            <div class="col-8">
+                                <t t-if="o.partner_id">
+                                    <span>
+                                        <t t-esc="o.partner_id.name" />
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-12">
+                                <b><span>
+                                    Descripción de la muestra:
+                                </span></b>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-12" style="height:18px;">
+
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-6">
+                                <b><span>
+                                    Envase/material:
+                                </span></b>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:0.8em;">
+                            <div class="col-6">
+                                <b><span>
+                                    Peso/volumen:
+                                </span></b>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
+<!--                        <table-->
+<!--                            class="table table-condensed"-->
+<!--                            style="border-bottom: 0px solid white !important;width: 3in;"-->
+<!--                        >-->
+<!--                            <tr>-->
+<!--                                <td>-->
+<!--                                    <img-->
+<!--                                                    style="width:20%;"-->
+<!--                                                    src="/lims/static/src/img/VERDE_BMP.bmp"-->
+<!--                                            />-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>-->
+<!--                                    -->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+                        </div>
                     </div>
                 </t>
             </t>

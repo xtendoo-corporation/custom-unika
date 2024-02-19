@@ -514,71 +514,117 @@
                                 </table>
                             </t>
                         </t>
-<!--                        <div-->
-<!--                                style="display:block;clear:both;margin-top:2px;margin-bottom:15px;width:100%;height:10px;background-color:grey;"-->
-<!--                        >-->
-<!--                        </div>-->
+                        <!--                        <div-->
+                        <!--                                style="display:block;clear:both;margin-top:2px;margin-bottom:15px;width:100%;height:10px;background-color:grey;"-->
+                        <!--                        >-->
+                        <!--                        </div>-->
                         <!-- Fin Resultados -->
                         <!-- Comentarios -->
-                        <div t-if="doc.note">
+                        <table t-if="doc.note">
+                            <tr>
+                                <td>
+                                    <div t-if="doc.note">
                             <div
                                     style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
                             >
                                 <!-- Etiqueta Comentarios -->
-                                    <div
-                                            style="width:100%;margin-left:0.5%;display:table;height:28px;"
-                                    >
-                                        <span
-                                                style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                        >Comemtarios</span>
-                                    </div>
+                                <div
+                                        style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                >
+                                    <span
+                                            style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                    >Comentarios
+                                    </span>
                                 </div>
-                                <!--  fin Etiqueta Comentarios -->
                             </div>
-                            <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
-                                <span t-field="doc.note"/>
-                            </div>
-                            <!-- Fin Comentarios -->
-                        <!-- observations -->
-                        <div t-if="doc.observations">
+                            <!--  fin Etiqueta Comentarios -->
+                        </div>
+                        <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                            <span t-field="doc.note"/>
+                        </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Fin Comentarios -->
+                        <!-- applied_legislation -->
+                        <table t-if="doc.applied_legislation">
+                            <tr>
+                                <td>
+                                    <div t-if="doc.applied_legislation">
                             <div
                                     style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
                             >
                                 <!-- Etiqueta observations -->
-                                    <div
-                                            style="width:100%;margin-left:0.5%;display:table;height:28px;"
-                                    >
-                                        <span
-                                                style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                        >Observaciones</span>
-                                    </div>
+                                <div
+                                        style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                >
+                                    <span
+                                            style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                    >Legislaciones Aplicadas
+                                    </span>
                                 </div>
-                                <!--  fin Etiqueta observations -->
                             </div>
-                            <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
-                                <span t-field="doc.observations"/>
+                            <!--  fin Etiqueta observations -->
+                        </div>
+                        <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                            <span t-field="doc.observations"/>
+                        </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Fin applied_legislation -->
+                        <!-- Firma -->
+                        <div class="row">
+                            <div class="col-8"></div>
+                            <div class="col-4">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <b>
+                                                <span style="display:block;width:100%;text-align:center;">Responsable
+                                                    Técnico UNIKALAB
+                                                </span>
+                                            </b>
+                                            <span style="display:block;width:100%;text-align:center;">Rocío Delgado
+                                                Perez
+                                            </span>
+                                            <img
+                                                    style="width:80%;margin-left:10%;"
+                                                    src="/lims/static/src/img/firma_boletin.png"
+                                            />
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <!-- Fin observations -->
-                        <!-- applied_legislation -->
-                        <div t-if="doc.applied_legislation">
+                        </div>
+                        <!-- Fin Firma -->
+                        <!-- observations -->
+                        <table t-if="doc.observations" stle="margin-top:10px;">
+                            <tr>
+                                <td>
+                                    <div t-if="doc.observations">
                             <div
                                     style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
                             >
-                                <!-- Etiqueta applied_legislation -->
-                                    <div
-                                            style="width:100%;margin-left:0.5%;display:table;height:28px;"
-                                    >
-                                        <span
-                                                style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                        >Legislaciones aplicadas</span>
-                                    </div>
+                                <!-- Etiqueta observations -->
+                                <div
+                                        style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                >
+                                    <span
+                                            style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                    >Observaciones
+                                    </span>
                                 </div>
-                                <!--  fin Etiqueta applied_legislation -->
                             </div>
-                            <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
-                                <span t-field="doc.applied_legislation"/>
-                            </div>
-                            <!-- Fin applied_legislation -->
+                            <!--  fin Etiqueta observations -->
+                        </div>
+                        <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                            <span t-field="doc.observations"/>
+                        </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Fin observations -->
                     </div>
                     <!--                    <div class="page">-->
                     <!--                        <style>-->
