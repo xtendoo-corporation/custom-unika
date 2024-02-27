@@ -519,35 +519,36 @@
                         <!--                        >-->
                         <!--                        </div>-->
                         <!-- Fin Resultados -->
+                        <div style="clear:both;"/>
                         <!-- Comentarios -->
-                        <table t-if="doc.note">
+                        <table t-if="doc.note" style="width:100%;">
                             <tr>
                                 <td>
                                     <div t-if="doc.note">
-                            <div
-                                    style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
-                            >
-                                <!-- Etiqueta Comentarios -->
-                                <div
-                                        style="width:100%;margin-left:0.5%;display:table;height:28px;"
-                                >
-                                    <span
-                                            style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
-                                    >Comentarios
-                                    </span>
-                                </div>
-                            </div>
-                            <!--  fin Etiqueta Comentarios -->
-                        </div>
-                        <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
-                            <span t-field="doc.note"/>
-                        </div>
+                                        <div
+                                                style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
+                                        >
+                                            <!-- Etiqueta Comentarios -->
+                                            <div
+                                                    style="width:100%;margin-left:0.5%;display:table;height:28px;"
+                                            >
+                                                <span
+                                                   style="font-size:1.1em;display:table-cell;vertical-align: middle;color:white;font-weight:bolder;"
+                                                >Comentarios
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!--  fin Etiqueta Comentarios -->
+                                    </div>
+                                    <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
+                                        <span t-field="doc.note"/>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
                         <!-- Fin Comentarios -->
                         <!-- applied_legislation -->
-                        <table t-if="doc.applied_legislation">
+                        <table t-if="doc.applied_legislation" style="width:100%;">
                             <tr>
                                 <td>
                                     <div t-if="doc.applied_legislation">
@@ -567,39 +568,14 @@
                             <!--  fin Etiqueta observations -->
                         </div>
                         <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
-                            <span t-field="doc.observations"/>
+                            <span t-field="doc.applied_legislation"/>
                         </div>
                                 </td>
                             </tr>
                         </table>
                         <!-- Fin applied_legislation -->
-                        <!-- Firma -->
-                        <div class="row">
-                            <div class="col-8"></div>
-                            <div class="col-4">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <b>
-                                                <span style="display:block;width:100%;text-align:center;">Responsable
-                                                    Técnico UNIKALAB
-                                                </span>
-                                            </b>
-                                            <span style="display:block;width:100%;text-align:center;">Rocío Delgado
-                                                Perez
-                                            </span>
-                                            <img
-                                                    style="width:80%;margin-left:10%;"
-                                                    src="/lims/static/src/img/firma_boletin.png"
-                                            />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- Fin Firma -->
                         <!-- observations -->
-                        <table t-if="doc.observations" stle="margin-top:10px;">
+                        <table t-if="doc.observations" style="width:100%;">
                             <tr>
                                 <td>
                                     <div t-if="doc.observations">
@@ -625,6 +601,31 @@
                             </tr>
                         </table>
                         <!-- Fin observations -->
+                        <!-- Firma -->
+                        <div class="row">
+                            <div class="col-8"></div>
+                            <div class="col-4">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <b>
+                                                <span style="display:block;width:100%;text-align:center;">Responsable
+                                                    Técnico UNIKALAB
+                                                </span>
+                                            </b>
+                                            <span style="display:block;width:100%;text-align:center;">Rocío Delgado
+                                                Perez
+                                            </span>
+                                            <img
+                                                    style="width:80%;margin-left:10%;"
+                                                    src="/lims/static/src/img/firma_boletin.png"
+                                            />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Fin Firma -->
                     </div>
                     <!--                    <div class="page">-->
                     <!--                        <style>-->
