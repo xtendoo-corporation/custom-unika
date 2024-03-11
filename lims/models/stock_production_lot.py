@@ -7,6 +7,22 @@ class ProductionLot(models.Model):
     _inherit = "stock.production.lot"
     _order = "partner_id ASC"
 
+
+    #Campos etiquetado
+    take_for = fields.Char(string="Muestreo por")
+    conditions = fields.Selection(
+        [
+            ("ambient", "Ambiente"),
+            ("refrigered", "Refrigerado"),
+        ],
+        "Temperatura",
+    )
+    description = fields.Char(string="Descripción")
+    container = fields.Char(string="Envase/material")
+    weight = fields.Float(string="Peso/volumen")
+    collection_date = fields.Datetime(string="Fecha de recogida")
+    recepcion_date = fields.Datetime(string="Fecha de recepción")
+
     product_id = fields.Many2one(
         "product.product",
         "Product",
@@ -29,7 +45,7 @@ class ProductionLot(models.Model):
     is_sample_number = fields.Boolean(default=False)
 
     def _get_default_lot_serial(self):
-        print("self.env.context: ", self.env.context.get('is_product_samplecd ud'))
+        print("self.env.context: ", self.env.context.get('is_product_sample'))
         is_sample = self.env.context.get('default_is_sample_number')
         if is_sample:
             return self.env['ir.sequence'].next_by_code('stock.lot.serial')

@@ -124,7 +124,7 @@
                             <field name="lot_name"/>
                             <field name="date_expired"/>
                             <field name="lot_id"/>
-                            <field name="presentation"/>
+                            <field name="presentation" string="Envase/material"/>
                             <field
                                 name="priority"
                                 class="oe_inline"

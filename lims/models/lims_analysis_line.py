@@ -281,11 +281,20 @@ Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, seg
             parameter_method_ids = (
                 move_line_id.move_id.purchase_line_id.sale_line_id.parameter_ids
             )
-            vals["date_sample_receipt"] = datetime.datetime.now()
+            vals["date_sample_receipt"] = move_line_id.move_id.picking_id.date_done
             #Buscamos analysis anterior
             vals["previous_analysis_date"] = self.get_previous_analysis_date(vals.get("product_id"), vals.get("customer_id"))
             vals["previous_analysis_result"] = self.get_previous_analysis_result(vals.get("product_id"), vals.get("customer_id"))
-
+            if move_line_id.lot_id:
+                print("*" * 100)
+                print("Cogemos los datos de la etiqueta", move_line_id.lot_id)
+                print("*" * 100)
+                if move_line_id.lot_id.container:
+                    vals["presentation"] = move_line_id.lot_id.container
+                    if move_line_id.lot_id.description:
+                        vals["description"] = move_line_id.lot_id.description
+                    if move_line_id.lot_id.conditions:
+                        vals["temperature"] = move_line_id.lot_id.conditions
             result = super(LimsAnalysisLine, self).create(vals)
             result_comment = ""
             technical_result = None

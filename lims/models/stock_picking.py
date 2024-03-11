@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, fields, models
+import datetime as dt
 
 
 class StockPicking(models.Model):
@@ -17,6 +18,21 @@ class StockPicking(models.Model):
         string="Lote",
         compute="_compute_lot_name",
     )
+    def button_validate(self):
+        date_validate = dt.datetime.now()
+        format = "%Y-%m-%d %H:%M:%S"
+        date_validate.strftime(format)
+        partner_id = self.partner_id.id
+        for line in self.move_line_ids_without_package:
+            self.env["stock.production.lot"].search(
+                [("id", "=", line.lot_id.id)]
+            ).write(
+                {
+                    "recepcion_date": date_validate,
+                    "partner_id": partner_id,
+                }
+            )
+        return super(StockPicking, self).button_validate()
 
     def _compute_analysis_count(self):
         for order in self:
@@ -53,6 +69,7 @@ class StockPicking(models.Model):
 
     def create_all_analysis(self):
         for line in self.move_line_ids_without_package:
+
             if line.product_id.number_of_samples:
                 if not self.env["lims.analysis.line"].search(
                         [

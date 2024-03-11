@@ -20,7 +20,17 @@
         <field name="model">stock.production.lot</field>
         <field name="inherit_id" ref="stock.view_production_lot_form" />
         <field name="arch" type="xml">
-<!--             <xpath expr="//notebook/page[@name='description']" position="after">-->
+             <xpath expr="//group[@name='main_group']/group[2]" position="replace">
+                 <group>
+                     <field name="take_for"/>
+                     <field name="conditions"/>
+                     <field name="description"/>
+                     <field name="container"/>
+                     <field name="weight"/>
+                     <field name="collection_date"/>
+                     <field name="recepcion_date"/>
+                 </group>
+             </xpath>
 <!--                 <page string="Media" name="media">-->
 <!--                     <group>-->
 <!--                    &lt;!&ndash;<field name="lot_img" widget='image' />&ndash;&gt;-->

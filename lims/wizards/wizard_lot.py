@@ -45,7 +45,8 @@ class LotWiward(models.TransientModel):
                         "name": self.env["ir.sequence"].next_by_code("stock.lot.serial")
                         or "/",
                         "company_id": self.env.company.id,
-                        "partner_id": partner_id
+                        "partner_id": partner_id,
+                        "is_sample_number": True,
                     }
                 )
             )

@@ -5,7 +5,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class StockMoveLine(models.Model):
+class StockMove(models.Model):
     _inherit = "stock.move"
 
     def action_show_details(self):
