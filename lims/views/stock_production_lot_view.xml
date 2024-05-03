@@ -27,25 +27,12 @@
                      <field name="description"/>
                      <field name="container"/>
                      <field name="weight"/>
+                     <field name="udm" string="Unidad de medida"/>
                      <field name="collection_date"/>
                      <field name="recepcion_date"/>
+                     <field name="place"/>
                  </group>
              </xpath>
-<!--                 <page string="Media" name="media">-->
-<!--                     <group>-->
-<!--                    &lt;!&ndash;<field name="lot_img" widget='image' />&ndash;&gt;-->
-<!--                     <group name="lot_image_ids" string="Media">-->
-<!--                        <field-->
-<!--                                name="lot_image_ids"-->
-<!--                                context="{'name': name}"-->
-<!--                                mode="kanban"-->
-<!--                                options="{'create_text':'Add a Media'}"-->
-<!--                                nolabel="1"-->
-<!--                            />-->
-<!--                    </group>-->
-<!--                     </group>-->
-<!--                 </page>-->
-<!--             </xpath>-->
             <xpath expr="//group[@name='main_group']/group/field[@name='company_id']" position="after">
                     <field name="partner_id"/>
                     <field name="is_sample_number" string="Es número de muestra" optional="show"/>

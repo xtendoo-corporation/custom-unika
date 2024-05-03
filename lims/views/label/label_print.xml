@@ -114,7 +114,7 @@
                                     <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
                                         <b>
                                             <span>
-                                                Tempratura de recepción:
+                                                Tempratura  de recepción:
                                             </span>
                                         </b>
                                     </div>
@@ -176,6 +176,7 @@
                                     </div>
                                     <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
                                         <span t-if="o.weight" t-field="o.weight" style="font-size:0.9em;"></span>
+                                        <span t-if="o.udm" t-field="o.udm.name" style="font-size:0.9em;"></span>
                                     </div>
                                 </div>
                                 <!-- Fin Peso/volumen -->

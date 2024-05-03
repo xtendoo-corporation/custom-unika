@@ -245,6 +245,7 @@ class LimsAnalysisParameter(models.Model):
                         limit_result_char = "Correct"
                     else:
                         limit_result_char = "Not correct"
+
         return limit_result_char
 
     def _get_limit_value(self):
@@ -265,6 +266,13 @@ class LimsAnalysisParameter(models.Model):
                     value_from=parameter_line.limit_value_from,
                     value_to=parameter_line.limit_value_to,
                 )
+        return between_limit_result
+
+    def _get_between_limit_value_char(self, limit):
+        between_limit_result = ("Entre {value_from: .2f} y {value_to: .2f}").format(
+                value_from=limit.limit_value_from,
+                value_to=limit.limit_value_to,
+            )
         return between_limit_result
 
     def _get_limit_comment(self, limit_ids, value=None, iscorrect_value=None, ispresent_value=None):

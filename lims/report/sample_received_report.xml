@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <report
+                id="lims.sample_received_print_report"
+                string="Muestra recivida"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="lims.sample_received_report"
+        />
+        <template id="lims.sample_received_report">
+            <t t-name="lims.sample_received_report">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="doc">
+                        <t
+                                t-call="lims.sample_received_report_document"
+                                t-lang="doc.partner_id.lang"
+                        />
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="lims.sample_received_report_document">
+            <t t-name="lims.sample_received_report_document">
+                <!-- seteamos variables de cabecera -->
+                <t t-set="company" t-value="doc.company_id"/>
+<!--                <t t-set="product_name" t-value="doc.product_id.name"/>-->
+                <t t-set="doc_name" t-value="doc.name"/>
+                <t t-set="doc_id" t-value="doc.id"/>
+<!--                <t t-set="doc_complete_date" t-value="doc.date_complete"/>-->
+                <t t-call="lims.external_layout_boxed_sample_received">
+                    <div class="page">
+                        <style>
+                            .table-striped>tbody>tr:nth-child(odd)>td,
+                            .table-striped>tbody>tr:nth-child(odd)>th {
+                            background-color: #d0d7e1;
+                            }
+                            .table-striped>tbody>tr{
+                            background-color: #f2f1f0;
+                            }
+                        </style>
+                        <div class="oe_structure"/>
+                        <div class="row" style="font-size:1.2em;">
+                            <div class="col-6">
+                                <t t-if="doc.partner_id">
+                                    <t t-if="doc.partner_id.name">
+                                        <b>
+                                            <span t-esc="doc.partner_id.name"/><br></br>
+                                        </b>
+                                    </t>
+                                    <t t-if="doc.partner_id.street">
+                                        <span t-esc="doc.partner_id.street"/><br></br>
+                                    </t>
+                                    <t t-if="doc.partner_id.street2">
+                                        <span t-esc="doc.partner_id.street2"/><br></br>
+                                    </t>
+                                    <t t-if="doc.partner_id.zip">
+                                        <span t-esc="doc.partner_id.zip"/> <span t-esc="doc.partner_id.city"/> <span t-esc="doc.partner_id.state_id.name"/><br></br>
+                                    </t>
+                                    <t t-if="doc.partner_id.vat">
+                                        <b>
+                                            <span>
+                                                (CIF <span t-esc="doc.partner_id.vat"/> )
+                                            </span>
+                                        </b>
+                                    </t>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <b>
+                                <span t-esc="company.name"/><br></br>
+                                </b>
+                                <span t-esc="company.street"></span><br></br>
+                                <span t-esc="company.street2"></span><br></br>
+                                <span t-esc="company.zip"/> <span t-esc="company.city"/> <span t-esc="company.state_id.name"/><br></br>
+                                <b>
+                                    <span>
+                                        (CIF <span t-esc="company.vat"/> )
+                                    </span>
+                                </b>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;font-size:1.1em;">
+                            <div class="col-4">
+                                <span>Estimado cliente, con fecha </span><br></br>
+                            </div>
+                            <div class="col-2">
+                                <b>
+                                    <span t-field="doc.date_done" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                </b>
+                            </div>
+                            <div class="col-6">
+                                <span>se ha recibido en nuestras instalaciones</span><br></br>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:1.1em;">
+                            <div class="col-4">
+                                <span>una muestra de </span><br></br>
+                            </div>
+                            <div class="col-8">
+                                <b>
+                                    <span t-esc="doc.move_ids_without_package[0].product_id.name"/>
+                                </b>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size:1.1em;">
+                            <div class="col-4">
+                                <span>a nombre de </span><br></br>
+                            </div>
+                            <div class="col-8">
+                                <b>
+                                    <span t-esc="doc.partner_id.name"/>
+                                </b>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size:1.1em;">
+                            <div class="col-4">
+                                <span>con referencia </span><br></br>
+                            </div>
+                            <div class="col-8">
+                                <b>
+                                    <span t-esc="doc.move_ids_without_package[0].product_id.default_code"/>
+                                </b>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size:1.1em;">
+                            <div class="col-4">
+                                <span>Otros datos </span><br></br>
+                            </div>
+                            <div class="col-8">
+                                <b>
+                                    <span>Muestra tomada por: </span>
+                                    <span t-esc="doc.move_line_nosuggest_ids[0].lot_id.take_for"/>
+                                </b>
+                            </div>
+                        </div>
+
+                         <div class="row" style="font-size:1.1em;">
+                            <div class="col-4">
+                                <span>La muestra queda registrada con </span><br></br>
+                            </div>
+                            <div class="col-2">
+                                <b>
+                                    <span style="font-size:0.9em;" t-field="doc.move_line_nosuggest_ids[0].lot_id.name"/>
+                                </b>
+                            </div>
+                            <div class="col-6">
+                                <span>para la determinación de los siguientes ensayos:</span><br></br>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border-bottom:1px solid black;margin-top:20px;">
+                            <div class="col-3">
+
+                                    <b>
+                                            <span>Parámetro</span>
+                                            <br></br>
+                                             <em>
+                                                <span style="font-size:0.9em;">Analyte</span>
+                                             </em>
+                                        </b>
+
+                            </div>
+                            <div class="col-6">
+
+                                    <b>
+                                            <span>Método de trabajo</span>
+                                            <br></br>
+                                            <em>
+                                                <span style="font-size:0.9em;">Test procedure</span>
+                                            </em>
+                                        </b>
+
+                            </div>
+                            <div class="col-3">
+                                    <b>
+                                            <span>Límite Cuantificación</span>
+                                            <br></br>
+                                            <em>
+                                                <span style="font-size:0.9em;">Limit</span>
+                                            </em>
+                                        </b>
+                            </div>
+                        </div>
+                        <t t-foreach="doc.purchase_id.order_line" t-as="line">
+                            <t t-foreach="line.sale_line_id.parameter_ids" t-as="parameter">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span t-esc="parameter.parameter_id.name"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="parameter.analytical_method_id.analytical_method_id.name"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <span t-esc="doc._get_correct_value(parameter.parameter_id, parameter.uom_id )"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                    <div id="informations" style="margin-top:20px;">
+                        <span><b>Lea con atención que los datos registrados son correctos.</b> Si existiera algún error, rogamos háganoslo saber.</span><br></br>
+                        <span>Para conformidad del presente pedido, remitan firmado el documento a unika@unikagm.com. Al no recibir comunicación en 24 horas desde la entrada de la muestra se entenderá aceptado. En caso de no existir presupuesto previo, se considera aceptada la tarifa general vigente.</span><br></br>
+                        <span>La información relativa a los trabajos realizados será absolutamente confidencial (salvo requerimiento legal o autorización expresa del cliente), y estarán a disposición del cliente durante 4 años.</span>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

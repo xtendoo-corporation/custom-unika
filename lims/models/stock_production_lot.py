@@ -18,8 +18,10 @@ class ProductionLot(models.Model):
         "Temperatura",
     )
     description = fields.Char(string="Descripción")
+    place = fields.Char(string="Lugar de recogida")
     container = fields.Char(string="Envase/material")
     weight = fields.Float(string="Peso/volumen")
+    udm = fields.Many2one("uom.uom", string="UdM")
     collection_date = fields.Datetime(string="Fecha de recogida")
     recepcion_date = fields.Datetime(string="Fecha de recepción")
 
@@ -57,8 +59,4 @@ class ProductionLot(models.Model):
         required=True, help="Unique Lot/Serial Number", index=True)
 
 
-    # lot_image_ids = fields.One2many(
-    #     "sample.image",
-    #     "lot_id",
-    #     string="Extra Sample Media",
-    # )
+

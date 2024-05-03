@@ -299,6 +299,12 @@ Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, seg
                     vals["lot_name"] = move_line_id.lot_name_sample
                 if move_line_id.lot_id.expiration_date:
                     vals["date_expired"] = move_line_id.lot_id.expiration_date
+                if move_line_id.lot_id.place:
+                    vals["capture_place"] = move_line_id.lot_id.place
+                if move_line_id.lot_id.expiration_date:
+                    vals["date_expired"] = move_line_id.lot_id.expiration_date
+                if move_line_id.product_id:
+                    vals["analysis_name"] = move_line_id.product_id.name
             result = super(LimsAnalysisLine, self).create(vals)
             result_comment = ""
             technical_result = None

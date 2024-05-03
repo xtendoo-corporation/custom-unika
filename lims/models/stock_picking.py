@@ -1,8 +1,10 @@
 # Copyright 2021 - Manuel Calero <https://xtendoo.es>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import _, fields, models, api
 import datetime as dt
+from jinja2 import Template
+from odoo.exceptions import UserError, AccessError
 
 
 class StockPicking(models.Model):
@@ -11,6 +13,8 @@ class StockPicking(models.Model):
         "Number of Analysis Generated",
         compute="_compute_analysis_count",
     )
+
+    email_to_send = fields.Char()
     def _compute_lot_name(self):
         for order in self:
             order.lot_name = order.move_line_ids_without_package[0].lot_name
@@ -32,7 +36,9 @@ class StockPicking(models.Model):
                     "partner_id": partner_id,
                 }
             )
-        return super(StockPicking, self).button_validate()
+        res = super(StockPicking, self).button_validate()
+        self.send_recepcion_email()
+        return res
 
     def _compute_analysis_count(self):
         for order in self:
@@ -122,3 +128,51 @@ class StockPicking(models.Model):
             return self.partner_id.pricelist_id.id
         else:
             return 1  # Buscar tarifa publica para evitar usar el id
+
+
+    #Envio automatico de email.
+    # @api.onchange('stage_id')
+
+    def set_email_to_send(self):
+        email = self.partner_id.email
+        if self.partner_id.child_ids:
+            for child in self.partner_id.child_ids:
+                if child.type == 'other':
+                    email = child.email
+                    break
+        self.email_to_send = email
+    def send_recepcion_email(self):
+        self.set_email_to_send()
+        self.ensure_one()
+        template = self.env.ref('lims.email_template_reception')
+        email_message = template.with_context(mail_notify_force_send=True).send_mail(self.id)
+        return email_message
+
+    def _get_correct_value(self, parameter, uom):
+        value = ""
+        if parameter:
+            limits = self.env["lims.analysis.limit"].search(
+                [
+                    ("parameter_ids", "=", parameter.id),
+                    ("uom_id", "=", uom.id),
+                ]
+            )
+
+            if limits:
+                limit_result = limits.limit_result_line_ids.filtered(
+                    lambda r: r.state == "conform"
+                )
+                if limit_result:
+                    if limit_result[0].type == 'LIMIT':
+                        value = parameter._get_limit_value_char(limit_result)
+                    if limit_result[0].type == 'BETWEEN':
+                        value = parameter._get_between_limit_value_char(limit_result)
+                    if limit_result[0].type == 'ISPRESENT':
+                        if limit_result[0].is_present:
+                            value = "Presencia"
+                        else:
+                            value = "Ausencia"
+
+            return value
+
+
