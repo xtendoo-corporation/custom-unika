@@ -14,6 +14,10 @@ class ResPartner(models.Model):
         string="Maker",
     )
     send_by_mail = fields.Boolean(
-        string="Enviar por correo",
+        string="Enviar por boletin correo",
+        default=True,
+    )
+    send_confirmation_mail = fields.Boolean(
+        string="Enviar email de recpción",
         default=True,
     )

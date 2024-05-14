@@ -23,10 +23,15 @@
                           <div class="o_row">
                             <field name="is_maker" />
                         </div>
+                          <label for="send_confirmation_mail" />
+                          <div class="o_row">
+                            <field name="send_confirmation_mail" />
+                        </div>
                         <label for="send_by_mail" />
                         <div class="o_row">
                             <field name="send_by_mail" />
                         </div>
+
                     </group>
                 </div>
              </xpath>
