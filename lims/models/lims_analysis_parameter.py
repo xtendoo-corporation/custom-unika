@@ -71,6 +71,76 @@ class LimsAnalysisParameter(models.Model):
                         'display_name': vals['name'] + " - " + method.analytical_method_id.name,
                     }
                 )
+        if vals.get('parameter_uom'):
+            udm_vals = vals.get('parameter_uom')[0][2]
+            udm_actuals = self.parameter_uom.ids
+            for udm_actual in udm_actuals:
+                if udm_actual not in udm_vals:
+                    if self.analytical_method_price_ids:
+                        for method in self.analytical_method_price_ids:
+                            udm_to_delete = self.env['parameter.analytical.method.price.uom'].search([
+                                ('uom_id', '=', udm_actual),
+                                ('analytical_method_id', '=', method.id),
+                            ])
+                            udm_to_delete.unlink()
+
+        if vals.get('analytical_method_price_ids'):
+            #si se eliminan metodos:
+            method_vals = vals.get('analytical_method_price_ids')[0][2]
+            method_actuals = self.analytical_method_price_ids
+            for method_actual in method_actuals:
+                if method_actual.id not in method_vals:
+                    method_to_delete = self.env['analytical.method.price'].search([
+                        ('id', '=', method_actual.id)
+                    ])
+                    method_to_delete.unlink()
+                    method_price_to_delete = self.env['parameter.analytical.method.price.uom'].search([
+                        ('analytical_method_id', '=', method_actual.id),
+                    ])
+                    method_price_to_delete.unlink()
+            #añadir metodos
+            methods = self.env['analytical.method.price'].search(
+                [
+                    ('id', 'in', vals.get('analytical_method_price_ids')[0][2]),
+                ]
+            )
+            for method in methods:
+                if self.parameter_uom:
+                    for udm in self.parameter_uom:
+                        print("udm", udm)
+                        method_exist = self.env['parameter.analytical.method.price.uom'].search(
+                            [
+                                ('analytical_method_id', '=', method.id),
+                                ('uom_id', '=', udm.id),
+                            ]
+                        )
+                        print("method_craeted udm", len(method_exist))
+                        if len(method_exist) == 0:
+                            print(" no hay metodos udm", method)
+                            self.env['parameter.analytical.method.price.uom'].create(
+                                {
+                                    'analytical_method_id': method.id,
+                                    'uom_id': udm.id,
+                                    'parent_id': None,
+                                }
+                            )
+                else:
+                    method_exist = self.env['parameter.analytical.method.price.uom'].search(
+                        [
+                            ('analytical_method_id', '=', method.id),
+                            ('uom_id', '=', False)
+                        ]
+                    )
+                    if len(method_exist) == 0:
+                        print(" no hay metodos", method)
+                        self.env['parameter.analytical.method.price.uom'].create(
+                            {
+                                'analytical_method_id': method.id,
+                                'uom_id': None,
+                                'parent_id': None,
+                            }
+                        )
+
         return super(LimsAnalysisParameter, self).write(vals)
 
     @api.model
