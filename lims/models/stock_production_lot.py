@@ -14,6 +14,7 @@ class ProductionLot(models.Model):
         [
             ("ambient", "Ambiente"),
             ("refrigered", "Refrigerado"),
+            ("freezed", "Congelado"),
         ],
         "Temperatura",
     )
@@ -47,7 +48,6 @@ class ProductionLot(models.Model):
     is_sample_number = fields.Boolean(default=False)
 
     def _get_default_lot_serial(self):
-        print("self.env.context: ", self.env.context.get('is_product_sample'))
         is_sample = self.env.context.get('default_is_sample_number')
         if is_sample:
             return self.env['ir.sequence'].next_by_code('stock.lot.serial')

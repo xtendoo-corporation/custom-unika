@@ -85,6 +85,7 @@
             <tree>
                 <field name="default_code"/>
                 <field name="name"/>
+                <field name="description"/>
                 <field
                     name="type_tags"
                     widget="many2one_tags"

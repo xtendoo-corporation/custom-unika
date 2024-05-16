@@ -13,6 +13,7 @@
                 <field name="display_name" string="display_name" optional="hide"/>
                 <field name="name" string="Name" required="1" optional="hide"/>
                 <field name="parameter_id" optional="show"></field>
+                <field name="parameter_description" optional="show"></field>
                 <field name="analytical_method_id" required="1"/>
                 <field name="external_lab" string="External laboratory" domain="[('is_lab','=', True)]"/>
                 <field name="cost" string="Cost" widget="monetary"/>

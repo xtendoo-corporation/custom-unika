@@ -18,6 +18,22 @@ class LimsAnalysisNumericalResult(models.Model):
     )
 
     lot_id = fields.Many2one(related="analysis_ids.lot_id", string="Sample num.")
+    def _compute_parameter_nethod(self):
+        for line in self:
+            method = ""
+            purchase = self.env['purchase.order'].search([('name', '=', line.analysis_ids.stock_move_line_id.move_id.picking_id.origin)])
+            if purchase:
+                sale = self.env['sale.order'].search([('name', '=', purchase.origin)])
+                if sale:
+                    for sale_line in sale.order_line:
+                        for parametro in sale_line.parameter_ids:
+                            if parametro.analytical_method_id.parameter_id.name == line.parameter_ids.name:
+                                method = parametro.analytical_method_id.analytical_method_id.name
+            line.method = method
+
+
+
+    method = fields.Char(string="Método", compute="_compute_parameter_nethod")
 
     type_tags = fields.Many2one(related="parameter_ids.type_tags", string="Type tags")
 
@@ -206,26 +222,6 @@ class LimsAnalysisNumericalResult(models.Model):
         fail_num = sum(1 for line in related_lines if line.eval_in_group == True)
         return fail_num
 
-
-    # @api.model
-    # def write(self, vals):
-    #     print("*" * 100)
-    #     print("vals: ", vals)
-    #     result = super(LimsAnalysisNumericalResult, self).write(vals)
-    #     print("result: ", result)
-    #     print(self.eval_in_group)
-    #
-    #     max_samples = self.parameter_ids.max_samples_permitted
-    #     max_samples_act = self.get_fail_sample_num()
-    #     if self.eval_in_group:
-    #         max_samples_act = max_samples_act + 1
-    #     self._set_global_result(max_samples, max_samples_act)
-    #     print("max_samples: ", max_samples)
-    #     print("max_samples_act: ", max_samples_act)
-    #     print("*" * 100)
-    #
-    #     return result
-
     def _set_global_result(self, max_samples, max_samples_act):
         analysis_id = str(self.analysis_ids.id)
         partes = analysis_id.split("_")
@@ -240,58 +236,11 @@ class LimsAnalysisNumericalResult(models.Model):
             ('analysis_ids', '=', analysis_id),
             ('id', '!=', line_id)
         ])
-        print("related_lines", related_lines)
-        print("max_samples_act > max_samples", max_samples_act > max_samples)
         for line in related_lines:
             if max_samples_act > max_samples:
                 line.global_result = 'fail'
             else:
                 line.global_result = 'pass'
-
-                    # self._update_global_result('fail')
-        # if vals.get('result_legislation'):
-        #     print("vals['result_legislation']: ", vals['result_legislation'])
-        #     if vals.get('result_legislation') == 'fail':
-        #         self._update_global_result('fail')
-        #     else:
-        #         eval_sample_num = self.get_fail_sample_num()
-        #         print("eval_sample_num: ", eval_sample_num)
-        #         print("vals: ", vals)
-        #         if vals.get('eval_in_group') or self.eval_in_group:
-        #             eval_sample_num = eval_sample_num + 1
-        #         print("eval_sample_num: ", eval_sample_num)
-        #         print("eval_sample_num >= self.parameter_ids.max_samples_permitted", eval_sample_num >= self.parameter_ids.max_samples_permitted)
-        #         if eval_sample_num >= self.parameter_ids.max_samples_permitted:
-        #             self._update_global_result('fail')
-        #         else:
-        #             self._update_global_result('pass')
-            # if self.parameter_ids.max_samples_number == self.analysis_ids.product_id.number_of_samples:
-            #     fail_sample = self.get_fail_sample_num()
-            #     max_permitted = self.parameter_ids.max_samples_permitted
-            #     if vals['result_legislation'] == 'fail':
-            #         fail_sample = fail_sample + 1
-            #     if fail_sample <= max_permitted:
-            #         self._update_global_result('pass')
-            #     else:
-            #         self._update_global_result('fail')
-
-        # print("*" * 100)
-        # print("self.parameter_ids.max_sample_number: ", self.parameter_ids.max_samples_number)
-        # print("self.parameter_ids.name: ", self.parameter_ids.name)
-        # print("self.analysis_ids.product_id.numer_of_samples: ", self.analysis_ids.product_id.number_of_samples)
-        # print("*" * 100)
-        # if vals.get('result_legislation'):
-        #     if self.parameter_ids.max_samples_number == self.analysis_ids.product_id.number_of_samples:
-        #         fail_sample = self.get_fail_sample_num()
-        #         max_permitted = self.parameter_ids.max_samples_permitted
-        #         if vals['result_legislation'] == 'fail':
-        #             fail_sample = fail_sample + 1
-        #         if fail_sample <= max_permitted:
-        #             self._update_global_result('pass')
-        #         else:
-        #             self._update_global_result('fail')
-        # result = super(LimsAnalysisNumericalResult, self).write(vals)
-        # return result
 
     @api.onchange("is_present")
     def _onchange_is_present(self):

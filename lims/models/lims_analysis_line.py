@@ -242,6 +242,7 @@ Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, seg
         [
             ("ambient", "Ambiente"),
             ("refrigered", "Refrigerado"),
+            ("freezed", "Congelado"),
         ],
         "Temperatura",
     )
@@ -286,9 +287,6 @@ Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, seg
             vals["previous_analysis_date"] = self.get_previous_analysis_date(vals.get("product_id"), vals.get("customer_id"))
             vals["previous_analysis_result"] = self.get_previous_analysis_result(vals.get("product_id"), vals.get("customer_id"))
             if move_line_id.lot_id:
-                print("*" * 100)
-                print("Cogemos los datos de la etiqueta", move_line_id.lot_id)
-                print("*" * 100)
                 if move_line_id.lot_id.container:
                     vals["presentation"] = move_line_id.lot_id.container
                 if move_line_id.lot_id.description:
@@ -542,35 +540,25 @@ Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, seg
             return result
 
     def write(self, vals):
-        print("*"*100)
-        print("Write analysis", vals)
         result = super(LimsAnalysisLine, self).write(vals)
         parameters = []
         for line in self.numerical_result:
-            print("line parameter", line.parameter_ids.name)
             if line.parameter_ids.max_samples_number > 1 and line.parameter_ids not in parameters:
                 parameters.append(line.parameter_ids)
-        print("parameters", parameters)
         for parameter in parameters:
-            print("parameter", parameter)
             fail_num = sum(1 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id) if line.result_legislation == 'fail')
-            print("fail_num", fail_num)
             if fail_num > 0:
                 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id):
                     # line.eval_in_group = True
-                    print("line r", line)
                     line.global_result = 'fail'
             else:
                 between_limit = sum(1 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id) if line.eval_in_group == True)
-                print("between_limit", between_limit)
                 max_permited = parameter.max_samples_permitted
-                print("max_permited", max_permited)
                 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id):
                     if between_limit > max_permited:
                         line.global_result = 'fail'
                     else:
                         line.global_result = 'pass'
-        print("*"*100)
         return result
     def unlink(self):
         if any(analysis.state not in ["cancel"] for analysis in self):

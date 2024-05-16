@@ -107,16 +107,13 @@ class LimsAnalysisParameter(models.Model):
             for method in methods:
                 if self.parameter_uom:
                     for udm in self.parameter_uom:
-                        print("udm", udm)
                         method_exist = self.env['parameter.analytical.method.price.uom'].search(
                             [
                                 ('analytical_method_id', '=', method.id),
                                 ('uom_id', '=', udm.id),
                             ]
                         )
-                        print("method_craeted udm", len(method_exist))
                         if len(method_exist) == 0:
-                            print(" no hay metodos udm", method)
                             self.env['parameter.analytical.method.price.uom'].create(
                                 {
                                     'analytical_method_id': method.id,
@@ -132,7 +129,6 @@ class LimsAnalysisParameter(models.Model):
                         ]
                     )
                     if len(method_exist) == 0:
-                        print(" no hay metodos", method)
                         self.env['parameter.analytical.method.price.uom'].create(
                             {
                                 'analytical_method_id': method.id,
@@ -157,7 +153,6 @@ class LimsAnalysisParameter(models.Model):
         res = super(LimsAnalysisParameter, self).create(vals)
         #si hay límites, los creamos
         if res and (self.limits_ids or res['limits_ids']):
-            print("Añade limites")
             for limit in self.limits_ids:
                 limit_to_create = self.env['lims.analysis.limit'].create(
                     {
@@ -411,9 +406,6 @@ class LimsAnalysisParameter(models.Model):
                 if limit_result_line != "":
                     limit_result = limit_result_line
             if parameter_result.type == "BETWEEN":
-                print("/"*100)
-                print("BETWEEN")
-                print("/"*100)
                 between_result_line = parameter_result.get_result_when_between(value)
                 # eval_in_group = True
                 if between_result_line != "":
@@ -442,10 +434,6 @@ class LimsAnalysisParameter(models.Model):
             result = "pass"
         if result == "not_conform":
             result = "fail"
-        print("*"*100)
-        print("eval_in_group", eval_in_group)
-        print("result", result)
-        print("*"*100)
         return result, eval_in_group
 
     def _get_parameter_analysis_result(self, value=None, use_legislation=False):

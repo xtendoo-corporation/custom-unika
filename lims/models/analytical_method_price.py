@@ -15,6 +15,8 @@ class ParameterAnalyticalMethodRel(models.Model):
         comodel_name="lims.analysis.parameter",
         string="Parameter",
     )
+    parameter_description = fields.Text(string="Descripción", store=True,
+                                        related="parameter_id.description")
     name = fields.Char(string="Name", store=True, )
     price = fields.Float("Price", store=True)
     cost = fields.Float("Cost", store=True)

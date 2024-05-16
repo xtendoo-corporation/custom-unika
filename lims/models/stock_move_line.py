@@ -47,9 +47,6 @@ class StockMoveLine(models.Model):
             "product_id": self.product_id.product_tmpl_id.id,
             "lot_name": self.lot_name,
         }
-        print("*/"*20)
-        print("action['context']: ", action["context"])
-        print("*/"*20)
         return action
 
     @api.constrains("lot_id", "product_id")
@@ -89,5 +86,4 @@ class StockMoveLine(models.Model):
 
             ], order="partner_id ASC, id DESC")
             domain['lot_id'] = [('id', 'in', lot_id_can_use.ids)]
-            print(domain['lot_id'], "domain['lot_id']")
         return {"domain": domain}
