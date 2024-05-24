@@ -302,7 +302,7 @@
                                     t-set="parameters_grouped"
                                     t-value="doc.numerical_result.filtered(lambda l: l.type_tags.id == type.id)"/>
                             <t t-if="parameters_grouped">
-                                <h1 style="clear:both;color:white;font-size:0.6em">test
+                                <h1 style="clear:both;color:white;font-size:0.6em">
                                     <span t-esc="type.name"></span>
                                 </h1>
                                 <t t-set="last_type" t-value=""/>
@@ -434,63 +434,70 @@
                                                         <div
                                                                 style="width:14%;margin-right:0.5%;float:left;height:15px;display:table;"
                                                         >
+                                                            <t t-if="line.print_valor_informe">
+                                                                        <span
+                                                                                    t-field="line.valor_informe"
+                                                                                    style="padding-left:5px;"
+                                                                            />
+                                                                    </t>
+                                                            <t t-else="">
                                                             <t
-                                                                    t-if="line.data_sheet == 'Present'"
+                                                                    t-if="line.legislation_value in ('Presente', 'No Presente')"
                                                             >
-                                                                <span
+                                                                <t t-if="line.is_present">
+                                                                    <span
                                                                         style="padding-left:5px;"
                                                                 >
                                                                     Presente
                                                                 </span>
-                                                            </t>
-                                                            <t t-else="">
-                                                                <t
-                                                                        t-if="line.data_sheet == 'Not Present'"
-                                                                >
-                                                                    <span
-                                                                            style="padding-left:5px;"
-                                                                    >
-                                                                        No presente
-                                                                    </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <t t-if="line.change_value_for_comment">
-                                                                        <span
-                                                                                t-field="line.valor_informe"
-                                                                                style="padding-left:5px;"
-                                                                        />
-                                                                    </t>
-                                                                    <t t-else="">
-                                                                        <t t-if="line.show_potency">
-                                                                            <t t-set="valor_exponente"
-                                                                               t-value="line.valor_exponente"/>
-                                                                            <span style="padding-left:5px;">
-                                                                                <t t-if="valor_exponente.find('+') == 0">
-                                                                                    <t t-set="valor_exponente"
-                                                                                       t-value="valor_exponente[1:]"/>
-                                                                                    <t t-if="valor_exponente.find('0') == 0">
-                                                                                        <t t-set="valor_exponente"
-                                                                                           t-value="valor_exponente[1:]"/>
-                                                                                    </t>
-                                                                                </t>
-                                                                                <span t-esc="line.valor_potencia"/>
-                                                                                <span>x10
-                                                                                    <sup>
-                                                                                        <span t-esc="line.valor_exponente"/>
-                                                                                    </sup>
-                                                                                </span>
-                                                                            </span>
-                                                                        </t>
-                                                                        <t t-else="">
+                                                                     <span
+                                                                        style="padding-left:5px;"
+                                                                >
+                                                                    No Presente
+                                                                </span>
+                                                                </t>
+
+                                                            </t>
+                                                            <t t-else="">
+                                                                        <t t-if="line.change_value_for_comment">
                                                                             <span
-                                                                                    t-field="line.value"
+                                                                                    t-field="line.valor_informe"
                                                                                     style="padding-left:5px;"
                                                                             />
                                                                         </t>
+                                                                        <t t-else="">
+                                                                            <t t-if="line.show_potency">
+                                                                                <t t-set="valor_exponente"
+                                                                                   t-value="line.valor_exponente"/>
+                                                                                <span style="padding-left:5px;">
+                                                                                    <t t-if="valor_exponente.find('+') == 0">
+                                                                                        <t t-set="valor_exponente"
+                                                                                           t-value="valor_exponente[1:]"/>
+                                                                                        <t t-if="valor_exponente.find('0') == 0">
+                                                                                            <t t-set="valor_exponente"
+                                                                                               t-value="valor_exponente[1:]"/>
+                                                                                        </t>
+                                                                                    </t>
+                                                                                    <span t-esc="line.valor_potencia"/>
+                                                                                    <span>x10
+                                                                                        <sup>
+                                                                                            <span t-esc="line.valor_exponente"/>
+                                                                                        </sup>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <span
+                                                                                        t-field="line.value"
+                                                                                        style="padding-left:5px;"
+                                                                                />
+                                                                            </t>
 
+                                                                        </t>
                                                                     </t>
 
-                                                                </t>
                                                             </t>
 
                                                         </div>

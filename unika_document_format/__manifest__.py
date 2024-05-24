@@ -14,7 +14,9 @@
         "account",
     ],
     "data": [
-        "views/report_invoice.xml",
+        # "views/report_invoice.xml",
+        "views/sale/external_layout_boxed_sale.xml",
+        "views/sale/report_analysis_sale.xml",
     ],
     "installable": True,
     "auto_install": False,

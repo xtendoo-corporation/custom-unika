@@ -57,6 +57,7 @@ class LimsAnalysisNumericalResult(models.Model):
     reason = fields.Char(string="Reason", store=True)
     comment = fields.Char(string="Comment", store=True)
     valor_informe = fields.Char(string="Valor informe", store=True)
+    print_valor_informe = fields.Boolean(string="Imprimir valor informe", store=True)
     lot_name = fields.Char(
         string="Lote",
         copy=False,

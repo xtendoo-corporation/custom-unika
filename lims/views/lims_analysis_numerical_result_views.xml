@@ -109,6 +109,7 @@
                 <field name="change_value_for_comment" invisible="1"/>
                 <field name="show_description" invisible="1"/>
                 <field name="valor_informe" optional="show" string="Valor informe" attrs="{'required': [('change_value_for_comment', '=', True)]}" />
+                <field name="print_valor_informe" optional="show" />
                 <field name="valor_potencia" optional="show" string="Valor Potencia" invisible="1"/>
                 <field name="valor_exponente" optional="show" string="Valor Exponente" invisible="1"/>
                 <field name="eval_in_group" invisible="1" string="eval_in_group"/>

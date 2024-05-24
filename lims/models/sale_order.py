@@ -13,6 +13,202 @@ class SaleOrder(models.Model):
         "Number of Analysis Generated",
         compute="_compute_analysis_count",
     )
+    date_validity = fields.Datetime(
+        store=True,
+        index=True,
+    )
+    normative_used = fields.Text(
+        string="Normativa aplicable",
+        store=True,
+        tracking=True,
+    )
+
+    def _get_price_in_pricelist_item(
+        self, pricelist_item, pricelist_type, product=None
+    ):
+        price = 0.00
+        if pricelist_type == "4_analysis_group":
+            product = pricelist_item.analysis_group_ids
+        elif pricelist_type == "5_analytical_method":
+            product = pricelist_item.analitycal_method_ids
+        if pricelist_item.compute_price == "fixed":
+            price = pricelist_item.fixed_price
+        if pricelist_item.compute_price == "percentage":
+            price = product.price - product.price * (pricelist_item.percent_price / 100)
+        if pricelist_item.compute_price == "formula":
+            if pricelist_item.base == "pricelist":
+                if pricelist_item.base_pricelist_id:
+                    parent_pricelist_item = self.env["product.pricelist.item"].search(
+                        [
+                            ("analysis_group_ids", "=", product.id),
+                            ("pricelist_id", "=", pricelist_item.base_pricelist_id.id),
+                        ],
+                        limit=1,
+                    )
+                    if parent_pricelist_item:
+                        price = self._get_price_in_pricelist_item(
+                            parent_pricelist_item, parent_pricelist_item.applied_on
+                        )
+                    else:
+                        parent_pricelist_item = self.env[
+                            "product.pricelist.item"
+                        ].search(
+                            [
+                                ("analitycal_method_ids", "=", product.id),
+                                (
+                                    "pricelist_id",
+                                    "=",
+                                    pricelist_item.base_pricelist_id.id,
+                                ),
+                            ],
+                            limit=1,
+                        )
+                        if parent_pricelist_item:
+                            price = self._get_price_in_pricelist_item(
+                                parent_pricelist_item, parent_pricelist_item.applied_on
+                            )
+                        else:
+                            parent_pricelist_item = self.env[
+                                "product.pricelist.item"
+                            ].search(
+                                [
+                                    ("applied_on", "=", "3_global"),
+                                    (
+                                        "pricelist_id",
+                                        "=",
+                                        pricelist_item.base_pricelist_id.id,
+                                    ),
+                                ],
+                                limit=1,
+                            )
+                            price = self._get_price_in_pricelist_item(
+                                parent_pricelist_item,
+                                parent_pricelist_item.applied_on,
+                                product,
+                            )
+                else:
+                    price = product.price
+            else:
+                price = product.price
+            price = (
+                price
+                - price * (pricelist_item.price_discount / 100)
+                + pricelist_item.price_surcharge
+            )
+        return price
+
+    def _get_parameter_individual_price(self, parameter):
+        print(parameter.analytical_method_id)
+        pricelist_item = self.env["product.pricelist.item"].search(
+            [
+                ("analitycal_method_ids", "=", parameter.analytical_method_id.id),
+                ("pricelist_id", "=", self.pricelist_id.id),
+            ],
+            limit=1,
+        )
+        if pricelist_item:
+            price = self._get_price_in_pricelist_item(
+                pricelist_item, pricelist_item.applied_on
+            )
+        else:
+            pricelist_item_all = self.env["product.pricelist.item"].search(
+                [
+                    ("applied_on", "=", "3_global"),
+                    ("pricelist_id", "=", self.pricelist_id.id),
+                ],
+                limit=1,
+            )
+            if pricelist_item_all:
+                price = self._get_price_in_pricelist_item(
+                    pricelist_item_all,
+                    pricelist_item.applied_on,
+                    parameter.analytical_method_id,
+                )
+            else:
+                price = parameter.price
+        return price
+
+    def _get_group_price(self, analysis_id):
+
+        pricelist_item = self.env["product.pricelist.item"].search(
+            [
+                ("analysis_group_ids", "=", analysis_id.id),
+                ("pricelist_id", "=", self.pricelist_id.id),
+            ],
+            limit=1,
+        )
+        if pricelist_item:
+            price = self._get_price_in_pricelist_item(
+                pricelist_item, pricelist_item.applied_on
+            )
+        else:
+            pricelist_item_all = self.env["product.pricelist.item"].search(
+                [
+                    ("applied_on", "=", "3_global"),
+                    ("pricelist_id", "=", self.pricelist_id.id),
+                ],
+                limit=1,
+            )
+            if pricelist_item_all:
+                price = self._get_price_in_pricelist_item(
+                    pricelist_item_all, pricelist_item.applied_on, analysis_id
+                )
+            else:
+                price = analysis_id.price
+        return price
+
+    def _get_parameter_in_group(self):
+        groups = {}
+        line = self.order_line[0]
+        parameters_data = {}
+        if not line.analysis_group_ids:
+            for parameter in line.parameter_ids:
+                parameter_price = parameter.price
+                if self.pricelist_id:
+                    parameter_price = self._get_parameter_individual_price(parameter)
+                parameters_data[parameter.id] = {
+                    'name': parameter.parameter_id.name,
+                    'group_price': 'None',
+                    'parameter_price': parameter_price,
+                }
+            groups['None'] = parameters_data
+            return groups
+        else:
+            for group in line.analysis_group_ids:
+                group_price = group.price
+                if self.pricelist_id:
+                    group_price = self._get_group_price(group)
+
+                if group.parameter_method_ids:
+                    for parameter in group.parameter_method_ids:
+                        parameter_price = parameter.price
+                        if self.pricelist_id:
+                            parameter_price = self._get_parameter_individual_price(parameter)
+
+                        parameters_data[parameter.id] = {
+                            'name': parameter.parameter_id.name,
+                            'group_price': group_price,
+                            'parameter_price': parameter_price,
+                        }
+                if parameters_data:
+                    groups[group.name] = parameters_data
+                    parameters_data = {}
+            for parameter in line.parameter_ids:
+                if parameter not in line.analysis_group_ids.parameter_method_ids:
+                    parameter_price = parameter.price
+                    if self.pricelist_id:
+                        parameter_price = self._get_parameter_individual_price(parameter)
+                    parameters_data[parameter.id] = {
+                        'name': parameter.parameter_id.name,
+                        'group_price': 'None',
+                        'parameter_price': parameter_price,
+                    }
+            if parameters_data:
+                groups['None'] = parameters_data
+        return groups
+
+
+        # return groups
 
     def _compute_analysis_count(self):
         for order in self:

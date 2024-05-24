@@ -43,6 +43,12 @@
                     </div>
                 </button>
             </xpath>
+            <xpath expr="//field[@name='date_order'][1]" position="after">
+                <div class="o_td_label" groups="base.group_no_one" >
+                    <label for="date_validity" string="Fecha de validez"/>
+                </div>
+                <field name="date_validity" nolabel="1" groups="base.group_no_one"/>
+            </xpath>
              <xpath
                 expr="//field[@name='order_line']/tree/field[@name='name']"
                 position="after"
@@ -58,6 +64,15 @@
             >
                  <field name="price_type" string="Tipo de precio"></field>
              </xpath>
+            <xpath expr="//group[@name='note_group']" position="before">
+                <group colspan="2">
+                    <label for="normative_used" string="Normativa Aplicable"/>
+                </group>
+                 <group colspan="4">
+                     <field name="normative_used" class="oe-bordered-editor" nolabel="1" placeholder="Normativa Aplicable..."/>
+                 </group>
+
+            </xpath>
         </field>
     </record>
 

@@ -1,0 +1,342 @@
+<odoo>
+
+    <data>
+
+        <report id="unika_document_format.report_analysis_sale_print"
+                string="Presupuesto Análisis"
+                model="sale.order"
+                report_type="qweb-pdf"
+                name="unika_document_format.report_analysis_sale"
+        />
+
+        <template id="unika_document_format.report_analysis_sale">
+            <t t-name="unika_document_format.report_analysis_sale">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="unika_document_format.report_analysis_sale_document" t-lang="doc.partner_id.lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="unika_document_format.report_analysis_sale_document">
+            <t t-name="unika_document_format.report_analysis_sale_document">
+                <!-- seteamos variables de cabecera -->
+                <t t-set="company" t-value="doc.company_id"/>
+                <t t-call="unika_document_format.external_layout_boxed_sale">
+                    <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                    <t t-set="forced_vat"
+                       t-value="doc.fiscal_position_id.foreign_vat"/> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <!-- Cabecera -->
+                        <!-- Nombre y fechas -->
+                        <div class="row" style="margin-top:-20px;">
+                            <dic class="col-7" style="display:block;">
+                                <div class="row">
+                                    <div class="col-5" style="display:block;background-color:#F2F2F2;">
+                                        Nº Presupuesto
+                                    </div>
+                                    <div class="col-5" style="display:block;border-top:3px solid #F2F2F2;">
+                                        <span t-esc="doc.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5" style="display:block;background-color:#F2F2F2;">
+                                        Fecha
+                                    </div>
+                                    <div class="col-5" style="display:block;border-top:3px solid #F2F2F2;border-bottom:3px solid #F2F2F2;">
+                                        <span t-esc="doc.date_order" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                    </div>
+                                </div>
+                            </dic>
+                            <div class="col-5" style="display:block;">
+                                <div class="row">
+                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;">
+                                        Fecha vigor
+                                    </div>
+                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;">
+                                        <span t-esc="doc.date_order" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;">
+                                        Fecha validez
+                                    </div>
+                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;border-bottom:3px solid #F2F2F2;">
+                                        <span t-esc="doc.date_validity" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin Nombre y fechas -->
+                        <div class="row" style="margin-top:30px;">
+                            <!-- Datos cliente -->
+                            <div class="col-7" style="display:block;width:80%;">
+                                <div class="row">
+                                    <div class="col-10" style="background-color:#26A273;">
+                                         <span style="font-weight:bolder;color:white;">CLIENTE Nº</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7" style="background-color:#F2F2F2;">
+                                        <span style="font-size:0.8em;" t-field="doc.partner_id.name"/>
+                                    </div>
+                                    <div class="col-3" style="background-color:#F2F2F2;">
+                                        <span style="font-size:0.8em;" t-field="doc.partner_id.vat"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7" style="background-color:#F2F2F2;">
+                                        <span style="font-size:0.8em;" t-field="doc.partner_id.street"/>
+                                    </div>
+                                    <div class="col-3" style="background-color:#F2F2F2;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7" style="background-color:#F2F2F2;">
+                                        <span style="font-size:0.8em;">
+                                            <span t-field="doc.partner_id.zip"/> <span t-field="doc.partner_id.city"/> (<span t-field="doc.partner_id.state_id.name"/>)
+                                        </span>
+                                    </div>
+                                    <div class="col-3" style="background-color:#F2F2F2;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7" style="background-color:#F2F2F2;">
+                                        <u><span t-field="doc.partner_id.email" style="font-size:0.8em;color:blue;"/></u>
+                                    </div>
+                                    <div class="col-3" style="background-color:#F2F2F2;">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fin Datos cliente -->
+                            <!-- Descripciones generales -->
+                            <div class="col-5" style="display:block;">
+                               <div class="row" style="display:block;">
+                                    <div class="col-12" style="width:100%;display:block;background-color:#26A273;">
+                                         <span style="font-weight:bolder;color:white;">DESCRIPCIONES GENERALES</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="height:47px;">
+                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;font-size:0.8em;">
+                                        Producto
+                                    </div>
+                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;">
+                                        <span style="font-size:0.8em;" t-esc="doc.order_line[0].product_id.name" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;font-size:0.8em;">
+                                        Tipo de servicio
+                                    </div>
+                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;">
+                                        <span style="font-size:0.8em;">Análisis</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;font-size:0.8em;">
+                                        Nº Muestras requeridas
+                                    </div>
+                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;font-size:0.8em;">
+                                        <span style="font-size:0.8em;" t-esc="doc.order_line[0].product_id.number_of_samples"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Descripciones generales -->
+                        </div>
+                        <!-- Fin Cabecera -->
+                        <!-- Lineas -->
+                        <t t-set="parameter_in_group" t-value="doc._get_parameter_in_group()"/>
+                        <t t-if="parameter_in_group">
+                            <table name="parameter_lines" style="width:103%;margin-top:20px;clear:both;margin-left:-1.5%;">
+                                 <thead style="clear:both;background-color:#D9D9D9;">
+                                    <tr>
+                                        <th>
+                                            <div style="display:block;width:100%;clear:both;">
+                                                <div style="width:90%;float:left;height:35px;display:table;">
+                                                    <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                        <strong>PARÁMETRO</strong>
+                                                    </span>
+                                                </div>
+                                                <div style="width:10%;float:left;height:35px;display:table;">
+                                                    <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right">
+                                                        <strong>PRECIO</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div style="clear:both;"/>
+                                        </th>
+                                    </tr>
+                                 </thead>
+                                <t t-foreach="parameter_in_group.items()" t-as="group">
+                                    <t t-if="doc.order_line[0].price_type == 'package'">
+                                        <tbody>
+                                        <t t-if="group[0] != 'None'">
+                                            <tr>
+                                                <td>
+                                                    <div style="margin-top:15px;display:block;width:100%;clear:both;background-color:#D9D9D9;">
+                                                        <div style="width:90%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <strong t-esc="group[0]"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:10%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="group_price" t-value="list(group[1].values())[0]"/>
+                                                                <strong t-esc="group_price['group_price']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr t-foreach="group[1].items()" t-as="parameter_line">
+                                                <td>
+                                                    <div style="margin-top:10px;display:block;width:103%;clear:both;margin-left:-1.5%;">
+                                                        <div style="width:100%;float:left;height:35px;display:table;background-color:#F2F2F2">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
+                                                                <strong style="margin-left:5%;" t-esc="parameter_line_data"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                            <tr t-foreach="group[1].items()" t-as="parameter_line">
+                                                <td>
+                                                    <div style="margin-top:15px;display:block;width:100%;clear:both;">
+                                                        <div style="width:90%;float:left;height:35px;display:table;">
+                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
+                                                                <strong t-esc="parameter_line_data"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:10%;float:left;height:35px;display:table;">
+                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
+                                                                <strong t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        </tbody>
+                                    </t>
+                                    <t t-else="">
+                                        <tbody>
+                                        <t t-if="group[0] != 'None'">
+                                            <tr>
+                                                <td>
+                                                    <div style="margin-top:15px;display:block;width:103%;clear:both;margin-left:-1.5%;background-color:#D9D9D9;">
+                                                        <div style="width:100%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <strong t-esc="group[0]"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr t-foreach="group[1].items()" t-as="parameter_line">
+                                                <td>
+                                                    <div style="margin-top:10px;display:block;width:100%;clear:both;">
+                                                        <div style="width:90%;float:left;height:35px;display:table;background-color:#F2F2F2">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
+                                                                <strong style="margin-left:5%;" t-esc="parameter_line_data"/>
+                                                            </span>
+                                                        </div>
+                                                         <div style="width:10%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
+                                                                <strong t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                            <tr t-foreach="group[1].items()" t-as="parameter_line">
+                                                <td>
+                                                    <div style="margin-top:15px;display:block;width:100%;clear:both;">
+                                                        <div style="width:90%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
+                                                                <strong t-esc="parameter_line_data"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:10%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
+                                                                <strong t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    </t>
+                                </t>
+                            </table>
+                            <div style="clear:both;background-color:#D9D9D9;height:10px;width:103%;margin-left:-1.5%;">
+                            </div>
+
+                            <div class="clearfix" name="so_total_summary">
+                                <div id="total" class="row" name="total">
+                                    <div t-attf-class="#{'col-3' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                        <table class="table table-sm" style="margin-left:17px;">
+                                            <tr>
+                                                <td>
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <strong><span style="font-size:0.8em;" t-field="doc.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <table t-if="doc.normative_used" style="clear:both;width:103%;margin-left:-1.5%;">
+                                <tr>
+                                    <td>
+                                        <div style="clear:both;width:100%;background-color:#D9D9D9;">
+                                            <strong>
+                                                <span style="font-size:0.8em;">Normativa Aplicable</span>
+                                            </strong>
+                                        </div>
+                                        <p style="font-size:0.8em;" t-field="doc.normative_used"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="row">
+                                <div class="col-5" style="border-top:5px solid #26A273;border-bottom:5px solid #26A273;">
+                                    <p style="font-size:0.8em;"><strong>CONDICIONES PARTICULARES</strong></p>
+                                    <p style="font-size:0.8em;">Los importes detallados no incluyen impuestos</p>
+                                </div>
+                                <div class="col-2"></div>
+                                <div class="col-5" style="border-top:5px solid #26A273;border-bottom:5px solid #26A273;">
+                                    <p style="font-size:0.8em;"><strong>ACEPTACIÓN CLIENTE</strong></p>
+                                </div>
+                            </div>
+<!--                            <h1 t-esc="parameter_in_group"></h1>-->
+<!--                            <t t-foreach="parameter_in_group" t-as="group">-->
+<!--                                <h1 t-esc="group"></h1>-->
+<!--                            </t>-->
+
+                        </t>
+                        <!-- Fin Lineas -->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
