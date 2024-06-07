@@ -23,11 +23,11 @@
                             </div>
                             <!-- Fin logo-->
                             <!-- texto -->
-                            <div class="col-3" style="padding:0;">
-                                <div style="display:table;height:112.5px;max-height:112.5px;">
+                            <div class="col-4" style="padding:0;">
+                                <div style="display:table;height:112.5px;max-height:112.5px;width:100%">
                                     <div style="display:table-cell;vertical-align: middle;width:100%;">
                                     <p
-                                    style="font-size:1.4em;color:black;font-weight:bolder;width:100%;text-align:center;margin-top:8px;margin-left:5%;"
+                                    style="font-size:1.4em;color:black;font-weight:bolder;width:100%;text-align:center;margin-top:8px;"
 
                             >
                                 INFORME DE ENSAYO
@@ -37,11 +37,11 @@
                             </div>
                             <!-- Fin texto -->
                             <!-- tabla datos -->
-                            <div class="col-5" style="padding-top:15px;">
-                                <div style="width:80%;margin-left:10%;border:1px solid black;height:82.5px;">
-                                    <p style="margin:0;padding:0;font-size:1.2em;font-weight:bolder;text-align:center;">Laboratorio de Seguridad</p>
-                                    <p style="margin:0;padding:0;font-size:1.2em;font-weight:bolder;text-align:center;">Agroalimentaria y de Control de </p>
-                                    <p style="margin:0;padding:0;font-size:1.2em;font-weight:bolder;text-align:center;">Calidad del Agua</p>
+                            <div class="col-4" style="padding-top:15px;">
+                                <div style="width:80%;margin-left:19%;border:1px solid black;height:82.5px;padding-top:10px;">
+                                    <p style="margin:0;padding:0;font-size:1em;font-weight:bolder;text-align:center;">Laboratorio de Seguridad</p>
+                                    <p style="margin:0;padding:0;font-size:1em;font-weight:bolder;text-align:center;">Agroalimentaria y de Control de </p>
+                                    <p style="margin:0;padding:0;font-size:1em;font-weight:bolder;text-align:center;">Calidad del Agua</p>
                                 </div>
                             </div>
                             <!-- Fin tabla datos -->
@@ -58,6 +58,23 @@
 <!--                                <span class="topage" />-->
 <!--                            </div>-->
                         <div style="clear:both;" />
+                        <div class="row">
+                            <div class="col-7">
+                                <div style="width:90%;margin-left:1%;">
+                                    <!--Nª muestra -->
+                                    <div style="width:100%;height:28px;">
+                                        <div style="width:35%;float:left;background-color:grey;padding-left:5px;">
+                                            <span style="color:white;font-size:1em;font-weight:bolder;">MUESTRA Nª
+                                            </span>
+                                        </div>
+                                        <div style="width:65%;float:left;padding-left:5px;">
+                                            <span style="font-size:1em;font-weight:bolder;" t-esc="sample_number.name"/>
+                                        </div>
+                                    </div>
+                                    <!--Fin Nª muestra -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -75,6 +92,31 @@
                 </div>
 
                 <div t-attf-class="footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="display:block;width:100%;font-size:0.7em;">-Las incertidumbres están calculadas y se encuentran a disposición del cliente que lo solicite.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="display:block;width:100%;font-size:0.7em;">-Este informe sólo afecta a la muestra tal como es recibida en el laboratorio, no pudiéndose reproducir total o parcialmente sin la expresa autorización por escrito del laboratorio emisor.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="display:block;width:100%;font-size:0.7em;">-Este informe está sometido a las normas de salvaguarda y seguridad establecidas, así como a las contractuales y legales que resulten aplicables.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="display:block;width:100%;font-size:0.7em;">-El laboratorio no se hace responsable de la información suministrada por el cliente</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="display:block;width:100%;font-size:0.7em;text-align:center;">Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, según la norma ISO 9001:2015 Nº Certificado: ES142745-1</span>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-11"></div>
                         <div class="col-1" style="text-align:right;">

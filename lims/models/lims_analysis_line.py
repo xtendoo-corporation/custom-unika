@@ -161,15 +161,15 @@ class LimsAnalysisLine(models.Model):
         store=True,
         tracking=True,
     )
-    observations = fields.Text(
-        string="Observaciones",
-        store=True,
-        tracking=True,
-        default="""-Las incertidumbres están calculadas y se encuentran a disposición del cliente que lo solicite.
--Este informe sólo afecta a la muestra tal como es recibida en el laboratorio, no pudiéndose reproducir total o parcialmente sin la expresa autorización por escrito del laboratorio emisor.
--Este informe está sometido a las normas de salvaguarda y seguridad establecidas, así como a las contractuales y legales que resulten aplicables.
-Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, según la norma ISO 9001:2015 Nº Certificado: ES123521-2""",
-    )
+#     observations = fields.Text(
+#         string="Observaciones",
+#         store=True,
+#         tracking=True,
+#         default="""-Las incertidumbres están calculadas y se encuentran a disposición del cliente que lo solicite.
+# -Este informe sólo afecta a la muestra tal como es recibida en el laboratorio, no pudiéndose reproducir total o parcialmente sin la expresa autorización por escrito del laboratorio emisor.
+# -Este informe está sometido a las normas de salvaguarda y seguridad establecidas, así como a las contractuales y legales que resulten aplicables.
+# Sistema de Gestión de Calidad certificado por BUREAU VERITAS Certification, según la norma ISO 9001:2015 Nº Certificado: ES123521-2""",
+#     )
     applied_legislation = fields.Text(
         string="Legislaciones aplicadas",
         store=True,

@@ -30,7 +30,7 @@
                                         style="width:100%;"
                                     />
                                 </figure>
-                                <div class="row" style="margin-top:-20px;">
+                                <div class="row" style="margin-top:-15px;">
                                     <div class="col-6" >
                                         <figure style="width:100%;">
                                     <img
@@ -54,6 +54,46 @@
                             <!-- Fin logo-->
                         </div>
                         <div style="clear:both;" />
+                                    <!-- Nombre y fechas -->
+                        <div class="row">
+                            <dic class="col-7" style="display:block;">
+                                <div class="row">
+                                    <div class="col-5" style="display:block;">
+                                        <span style="color:black;">Nº Presupuesto</span>
+                                    </div>
+                                    <div class="col-5" style="display:block;">
+                                        <span t-esc="doc_name" style="color:black;"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5" style="display:block;">
+                                        <span style="color:black;">Fecha</span>
+                                    </div>
+                                    <div class="col-5" style="display:block;">
+                                        <span t-esc="doc_date_order" t-options='{"widget": "date","format": "dd/MM/yyyy"}' style="color:black;"/>
+                                    </div>
+                                </div>
+                            </dic>
+                            <div class="col-5" style="display:block;">
+                                <div class="row">
+                                    <div class="col-6" style="display:block;text-align:right;">
+                                        <span style="color:black;">Fecha Vigor</span>
+                                    </div>
+                                    <div class="col-6" style="display:block;">
+                                        <span t-esc="doc_date_order" t-options='{"widget": "date","format": "dd/MM/yyyy"}' style="color:black;"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" style="display:block;text-align:right;">
+                                        <span style="color:black;">Fecha Validez</span>
+                                    </div>
+                                    <div class="col-6" style="display:block;">
+                                        <span t-esc="doc_date_validity" t-options='{"widget": "date","format": "dd/MM/yyyy"}' style="color:black;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin Nombre y fechas -->
                     </div>
                 </div>
 

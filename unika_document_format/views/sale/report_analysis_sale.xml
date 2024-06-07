@@ -22,6 +22,9 @@
             <t t-name="unika_document_format.report_analysis_sale_document">
                 <!-- seteamos variables de cabecera -->
                 <t t-set="company" t-value="doc.company_id"/>
+                <t t-set="doc_name" t-value="doc.name"/>
+                <t t-set="doc_date_order" t-value="doc.date_order"/>
+                <t t-set="doc_date_validity" t-value="doc.validity_date"/>
                 <t t-call="unika_document_format.external_layout_boxed_sale">
                     <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
                     <t t-set="forced_vat"
@@ -29,47 +32,7 @@
                     <div class="page">
                         <div class="oe_structure"/>
                         <!-- Cabecera -->
-                        <!-- Nombre y fechas -->
                         <div class="row" style="margin-top:-20px;">
-                            <dic class="col-7" style="display:block;">
-                                <div class="row">
-                                    <div class="col-5" style="display:block;background-color:#F2F2F2;">
-                                        Nº Presupuesto
-                                    </div>
-                                    <div class="col-5" style="display:block;border-top:3px solid #F2F2F2;">
-                                        <span t-esc="doc.name"/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5" style="display:block;background-color:#F2F2F2;">
-                                        Fecha
-                                    </div>
-                                    <div class="col-5" style="display:block;border-top:3px solid #F2F2F2;border-bottom:3px solid #F2F2F2;">
-                                        <span t-esc="doc.date_order" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
-                                    </div>
-                                </div>
-                            </dic>
-                            <div class="col-5" style="display:block;">
-                                <div class="row">
-                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;">
-                                        Fecha vigor
-                                    </div>
-                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;">
-                                        <span t-esc="doc.date_order" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6" style="display:block;background-color:#F2F2F2;text-align:right;">
-                                        Fecha validez
-                                    </div>
-                                    <div class="col-6" style="display:block;border-top:3px solid #F2F2F2;border-bottom:3px solid #F2F2F2;">
-                                        <span t-esc="doc.date_validity" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Fin Nombre y fechas -->
-                        <div class="row" style="margin-top:30px;">
                             <!-- Datos cliente -->
                             <div class="col-7" style="display:block;width:80%;">
                                 <div class="row">
@@ -148,19 +111,34 @@
                         <!-- Lineas -->
                         <t t-set="parameter_in_group" t-value="doc._get_parameter_in_group()"/>
                         <t t-if="parameter_in_group">
-                            <table name="parameter_lines" style="width:103%;margin-top:20px;clear:both;margin-left:-1.5%;">
-                                 <thead style="clear:both;background-color:#D9D9D9;">
+                            <table name="parameter_lines" style="width:103%;margin-top:20px;clear:both;margin-left:-1.5%;font-size:0.8em;">
+                                 <thead style="clear:both;">
                                     <tr>
                                         <th>
                                             <div style="display:block;width:100%;clear:both;">
-                                                <div style="width:90%;float:left;height:35px;display:table;">
-                                                    <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                <div style="width:14.5%;margin-right:0.5%;float:left;height:35px;display:table;background-color:#D9D9D9;">
+                                                    <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                        <strong>CÓDIGO</strong>
+                                                    </span>
+                                                </div>
+                                                <div style="width:54.5%;margin-right:0.5%;float:left;height:35px;display:table;background-color:#D9D9D9;">
+                                                    <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
                                                         <strong>PARÁMETRO</strong>
                                                     </span>
                                                 </div>
-                                                <div style="width:10%;float:left;height:35px;display:table;">
-                                                    <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right">
-                                                        <strong>PRECIO</strong>
+                                                <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;background-color:#D9D9D9;">
+                                                    <span style="font-size:0.9em;padding-right: 5px;display:table-cell;vertical-align: middle;text-align:right">
+                                                        <strong>UNIDADES</strong>
+                                                    </span>
+                                                </div>
+                                                <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;background-color:#D9D9D9;">
+                                                    <span style="font-size:0.9em;padding-right: 5px;display:table-cell;vertical-align: middle;text-align:right">
+                                                        <strong>PRECIO/U</strong>
+                                                    </span>
+                                                </div>
+                                                <div style="width:10%;float:left;height:35px;display:table;background-color:#D9D9D9;">
+                                                    <span style="font-size:0.9em;display:table-cell;vertical-align: middle;text-align:right;padding-right: 5px;">
+                                                        <strong>TOTAL</strong>
                                                     </span>
                                                 </div>
                                             </div>
@@ -173,15 +151,35 @@
                                         <tbody>
                                         <t t-if="group[0] != 'None'">
                                             <tr>
+                                                <t t-set="items_list" t-value="list(group[1].items())"/>
+                                                <t t-set="first_item" t-value="items_list[0]"/>
+                                                <t t-if="len(list(first_item[1].values())) >= 5">
+                                                    <t t-set="group_unit" t-value="list(first_item[1].values())[4]"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="group_unit" t-value="None"/>
+                                                </t>
                                                 <td>
-                                                    <div style="margin-top:15px;display:block;width:100%;clear:both;background-color:#D9D9D9;">
-                                                        <div style="width:90%;float:left;height:35px;display:table;">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                    <div style="margin-top:15px;display:block;width:99.5%;clear:both;background-color:#D9D9D9;">
+                                                        <div style="width:69.5%;margin-right: 0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;display:table-cell;vertical-align: middle;padding-left:5px;">
                                                                 <strong t-esc="group[0]"/>
                                                             </span>
                                                         </div>
-                                                        <div style="width:10%;float:left;height:35px;display:table;">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                        <div style="width:9.5%;margin-right: 0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="group_price" t-value="list(group[1].values())[0]"/>
+                                                                <strong t-esc="group_unit" />
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right: 0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="group_price" t-value="list(group[1].values())[0]"/>
+                                                                <strong t-esc="group_price['group_price']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                         <div style="width:10%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;display:table-cell;vertical-align: middle;text-align:right;">
                                                                 <t t-set="group_price" t-value="list(group[1].values())[0]"/>
                                                                 <strong t-esc="group_price['group_price']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                                             </span>
@@ -193,30 +191,55 @@
                                             <tr t-foreach="group[1].items()" t-as="parameter_line">
                                                 <td>
                                                     <div style="margin-top:10px;display:block;width:103%;clear:both;margin-left:-1.5%;">
-                                                        <div style="width:100%;float:left;height:35px;display:table;background-color:#F2F2F2">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                        <div style="width:11%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:15px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_code" t-value="list(parameter_line[1].values())[3]"/>
+                                                                <span t-esc="parameter_line_code"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:85%;float:left;height:35px;display:table;background-color:#F2F2F2">
+                                                            <span style="padding-left:-15px;font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
                                                                 <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
-                                                                <strong style="margin-left:5%;" t-esc="parameter_line_data"/>
+                                                                <span style="margin-left:5%;" t-esc="parameter_line_data"/>
                                                             </span>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
                                         </t>
+
                                         <t t-else="">
                                             <tr t-foreach="group[1].items()" t-as="parameter_line">
                                                 <td>
                                                     <div style="margin-top:15px;display:block;width:100%;clear:both;">
-                                                        <div style="width:90%;float:left;height:35px;display:table;">
-                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle;">
-                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
-                                                                <strong t-esc="parameter_line_data"/>
+                                                        <div style="width:14.5%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_code" t-value="list(parameter_line[1].values())[3]"/>
+                                                                <span t-esc="parameter_line_code"/>
                                                             </span>
                                                         </div>
-                                                        <div style="width:10%;float:left;height:35px;display:table;">
-                                                            <span style="padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                        <div style="width:54.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
+                                                                <span t-esc="parameter_line_data"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align: right;">
+                                                                <t t-set="parameter_line_unit" t-value="list(parameter_line[1].values())[4]"/>
+                                                                <span t-esc="parameter_line_unit"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
                                                                 <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
-                                                                <strong t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                                <span t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
+                                                                <span t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                                             </span>
                                                         </div>
                                                         <div style="clear:both;"/>
@@ -231,9 +254,10 @@
                                         <t t-if="group[0] != 'None'">
                                             <tr>
                                                 <td>
-                                                    <div style="margin-top:15px;display:block;width:103%;clear:both;margin-left:-1.5%;background-color:#D9D9D9;">
+
+                                                    <div style="margin-top:15px;display:block;width:100%;clear:both;background-color:#D9D9D9;">
                                                         <div style="width:100%;float:left;height:35px;display:table;">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                            <span style="font-size:0.9em;display:table-cell;vertical-align: middle;padding-left:5px;">
                                                                 <strong t-esc="group[0]"/>
                                                             </span>
                                                         </div>
@@ -243,19 +267,38 @@
                                             </tr>
                                             <tr t-foreach="group[1].items()" t-as="parameter_line">
                                                 <td>
-                                                    <div style="margin-top:10px;display:block;width:100%;clear:both;">
-                                                        <div style="width:90%;float:left;height:35px;display:table;background-color:#F2F2F2">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                    <div style="margin-top:15px;display:block;width:100%;clear:both;">
+                                                        <div style="width:14.5%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_code" t-value="list(parameter_line[1].values())[3]"/>
+                                                                <span t-esc="parameter_line_code"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:54.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
                                                                 <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
-                                                                <strong style="margin-left:5%;" t-esc="parameter_line_data"/>
+                                                                <span t-esc="parameter_line_data"/>
                                                             </span>
                                                         </div>
-                                                         <div style="width:10%;float:left;height:35px;display:table;">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align: right;">
+                                                                <t t-set="parameter_line_unit" t-value="list(parameter_line[1].values())[4]"/>
+                                                                <span t-esc="parameter_line_unit"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
                                                                 <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
-                                                                <strong t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                                <span t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                                             </span>
                                                         </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
+                                                                <span t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both;"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -264,16 +307,34 @@
                                             <tr t-foreach="group[1].items()" t-as="parameter_line">
                                                 <td>
                                                     <div style="margin-top:15px;display:block;width:100%;clear:both;">
-                                                        <div style="width:90%;float:left;height:35px;display:table;">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;">
-                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
-                                                                <strong t-esc="parameter_line_data"/>
+                                                        <div style="width:14.5%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_code" t-value="list(parameter_line[1].values())[3]"/>
+                                                                <span t-esc="parameter_line_code"/>
                                                             </span>
                                                         </div>
-                                                        <div style="width:10%;float:left;height:35px;display:table;">
-                                                            <span style="font-size:0.8em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                        <div style="width:54.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;">
+                                                                <t t-set="parameter_line_data" t-value="list(parameter_line[1].values())[0]"/>
+                                                                <span t-esc="parameter_line_data"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;margin-right:0.5%;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align: right;">
+                                                                <t t-set="parameter_line_unit" t-value="list(parameter_line[1].values())[4]"/>
+                                                                <span t-esc="parameter_line_unit"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
                                                                 <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
-                                                                <strong t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                                <span t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div style="width:9.5%;margin-right:0.5%;float:left;height:35px;display:table;">
+                                                            <span style="font-size:0.9em;padding-left:5px;display:table-cell;vertical-align: middle;text-align:right;">
+                                                                <t t-set="parameter_line_price" t-value="list(parameter_line[1].values())[2]"/>
+                                                                <span t-esc="parameter_line_price" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                                             </span>
                                                         </div>
                                                         <div style="clear:both;"/>
@@ -285,13 +346,13 @@
                                     </t>
                                 </t>
                             </table>
-                            <div style="clear:both;background-color:#D9D9D9;height:10px;width:103%;margin-left:-1.5%;">
+                            <div style="clear:both;background-color:#D9D9D9;height:10px;width:102%;margin-left:-1%;">
                             </div>
 
-                            <div class="clearfix" name="so_total_summary">
+                            <div class="clearfix" name="so_total_summary" style="margin-bottom:20px;">
                                 <div id="total" class="row" name="total">
                                     <div t-attf-class="#{'col-3' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
-                                        <table class="table table-sm" style="margin-left:17px;">
+                                        <table class="table table-sm" style="margin-left:8.5px;">
                                             <tr>
                                                 <td>
                                                     <strong>Total</strong>
@@ -304,28 +365,47 @@
                                     </div>
                                 </div>
                             </div>
-                            <table t-if="doc.normative_used" style="clear:both;width:103%;margin-left:-1.5%;">
+                            <table t-if="doc.observations" style="clear:both;width:102%;margin-left:-1%;">
                                 <tr>
                                     <td>
                                         <div style="clear:both;width:100%;background-color:#D9D9D9;">
                                             <strong>
-                                                <span style="font-size:0.8em;">Normativa Aplicable</span>
+                                                <span style="font-size:0.9em;">Comentarios</span>
                                             </strong>
                                         </div>
-                                        <p style="font-size:0.8em;" t-field="doc.normative_used"/>
+                                        <p style="font-size:0.9em;" t-field="doc.observations"/>
                                     </td>
                                 </tr>
                             </table>
-                            <div class="row">
-                                <div class="col-5" style="border-top:5px solid #26A273;border-bottom:5px solid #26A273;">
-                                    <p style="font-size:0.8em;"><strong>CONDICIONES PARTICULARES</strong></p>
-                                    <p style="font-size:0.8em;">Los importes detallados no incluyen impuestos</p>
-                                </div>
-                                <div class="col-2"></div>
-                                <div class="col-5" style="border-top:5px solid #26A273;border-bottom:5px solid #26A273;">
-                                    <p style="font-size:0.8em;"><strong>ACEPTACIÓN CLIENTE</strong></p>
-                                </div>
-                            </div>
+                            <table t-if="doc.normative_used" style="clear:both;width:102%;margin-left:-1%;">
+                                <tr>
+                                    <td>
+                                        <div style="clear:both;width:100%;background-color:#D9D9D9;">
+                                            <strong>
+                                                <span style="font-size:0.9em;">Normativa Aplicable</span>
+                                            </strong>
+                                        </div>
+                                        <p style="font-size:0.9em;" t-field="doc.normative_used"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="clear:both;width:103%;margin-left:-1.5%;">
+                                <tr>
+                                    <td>
+                                        <div class="row" style="width:100%;">
+                                            <div class="col-5" style="border-top:5px solid #26A273;border-bottom:5px solid #26A273;">
+                                                <p style="font-size:0.9em;"><strong>CONDICIONES PARTICULARES</strong></p>
+                                                <p style="font-size:0.9em;">Los importes detallados no incluyen impuestos</p>
+                                            </div>
+                                            <div class="col-2"></div>
+                                            <div class="col-5" style="border-top:5px solid #26A273;border-bottom:5px solid #26A273;margin-left:10px;">
+                                                <p style="font-size:0.9em;"><strong>ACEPTACIÓN CLIENTE</strong></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
 <!--                            <h1 t-esc="parameter_in_group"></h1>-->
 <!--                            <t t-foreach="parameter_in_group" t-as="group">-->
 <!--                                <h1 t-esc="group"></h1>-->

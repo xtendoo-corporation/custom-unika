@@ -66,12 +66,17 @@
              </xpath>
             <xpath expr="//group[@name='note_group']" position="before">
                 <group colspan="2">
+                    <label for="observations" string="Observaciones"/>
+                </group>
+                 <group colspan="4">
+                     <field name="observations" class="oe-bordered-editor" nolabel="1" placeholder="Observaciones..."/>
+                 </group>
+                <group colspan="2">
                     <label for="normative_used" string="Normativa Aplicable"/>
                 </group>
                  <group colspan="4">
                      <field name="normative_used" class="oe-bordered-editor" nolabel="1" placeholder="Normativa Aplicable..."/>
                  </group>
-
             </xpath>
         </field>
     </record>

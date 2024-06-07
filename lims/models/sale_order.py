@@ -22,6 +22,11 @@ class SaleOrder(models.Model):
         store=True,
         tracking=True,
     )
+    observations = fields.Text(
+        string="Comentarios",
+        store=True,
+        tracking=True,
+    )
 
     def _get_price_in_pricelist_item(
         self, pricelist_item, pricelist_type, product=None
@@ -170,6 +175,8 @@ class SaleOrder(models.Model):
                     'name': parameter.parameter_id.name,
                     'group_price': 'None',
                     'parameter_price': parameter_price,
+                    'parameter_code': parameter.parameter_id.default_code,
+                    'parameter_units': line.product_uom_qty,
                 }
             groups['None'] = parameters_data
             return groups
@@ -189,6 +196,8 @@ class SaleOrder(models.Model):
                             'name': parameter.parameter_id.name,
                             'group_price': group_price,
                             'parameter_price': parameter_price,
+                            'parameter_code': parameter.parameter_id.default_code,
+                            'parameter_units': line.product_uom_qty,
                         }
                 if parameters_data:
                     groups[group.name] = parameters_data
@@ -202,6 +211,8 @@ class SaleOrder(models.Model):
                         'name': parameter.parameter_id.name,
                         'group_price': 'None',
                         'parameter_price': parameter_price,
+                        'parameter_code': parameter.parameter_id.default_code,
+                        'parameter_units': line.product_uom_qty,
                     }
             if parameters_data:
                 groups['None'] = parameters_data
