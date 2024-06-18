@@ -37,7 +37,7 @@ class StockPicking(models.Model):
                 }
             )
         res = super(StockPicking, self).button_validate()
-        if self.patner_id.send_confirmation_mail:
+        if self.partner_id.send_confirmation_mail:
             self.send_recepcion_email()
         return res
 
