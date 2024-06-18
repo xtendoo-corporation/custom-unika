@@ -37,7 +37,8 @@ class StockPicking(models.Model):
                 }
             )
         res = super(StockPicking, self).button_validate()
-        self.send_recepcion_email()
+        if self.patner_id.send_confirmation_mail:
+            self.send_recepcion_email()
         return res
 
     def _compute_analysis_count(self):
