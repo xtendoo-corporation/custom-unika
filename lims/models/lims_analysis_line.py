@@ -161,6 +161,7 @@ class LimsAnalysisLine(models.Model):
         store=True,
         tracking=True,
     )
+    take_for = fields.Char(string="Muestra tomada por")
 #     observations = fields.Text(
 #         string="Observaciones",
 #         store=True,
@@ -209,6 +210,17 @@ class LimsAnalysisLine(models.Model):
         string="Date sample",
         tracking=True,
     )
+    date_sample_collection = fields.Datetime(
+        string="Fecha de recogida",
+        tracking=True,
+    )
+    def _get_data_time_format(self):
+        if self.date_sample_collection:
+            print("*"*50)
+            print(datetime.datetime.strptime(self.date_sample_collection, "%H:%M %d/%m/%Y"))
+            print("*"*50)
+            return datetime.datetime.strptime(self.date_sample_collection, "%H:%M %d/%m/%Y")
+        return False
     date_sample_receipt = fields.Date(
         string="Date sample receipt",
         tracking=True,

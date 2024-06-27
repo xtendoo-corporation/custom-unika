@@ -86,7 +86,6 @@
         parent="lims.cat_menu_lims_config"
         sequence="0"
         action="action_lims_analysis"
-        groups="base.group_system"
     />
 
     <menuitem
@@ -95,6 +94,5 @@
         parent="sale.product_menu_catalog"
         sequence="4"
         action="action_lims_analysis"
-        groups="base.group_system"
     />
 </odoo>

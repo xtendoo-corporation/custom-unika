@@ -45,6 +45,5 @@
         parent="cat_menu_lims_config"
         sequence="0"
         action="action_lims_analysis_group"
-        groups="base.group_system"
     />
 </odoo>

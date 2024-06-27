@@ -136,6 +136,7 @@
                             name="General Information"
                             string="General Information"
                         >
+                            <field name="take_for"/>
                             <field name="pricelist_id"/>
                             <field
                                 name="maker_id"
@@ -150,6 +151,7 @@
                             <field name="customer_contact_id"/>
                             <!--<field name="active"></field>-->
                             <!--<field name="tag_ids"></field>-->
+                            <field name="date_sample_collection" readonly="0"/>
                             <field name="date_sample_receipt" readonly="0"/>
                             <field name="date_sample_begin"/>
                             <field name="date_complete"/>
@@ -287,7 +289,6 @@
         parent="cat_menu_lims_config"
         sequence="0"
         action="action_lims_analysis_line"
-        groups="base.group_system"
     />
 
 <!--    Secuence-->

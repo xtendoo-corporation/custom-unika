@@ -63,7 +63,6 @@
         parent="lims.cat_menu_lims_config"
         sequence="0"
         action="action_lims_limit_result"
-        groups="base.group_system"
     />
 
 </odoo>

@@ -93,6 +93,8 @@ class StockPicking(models.Model):
                             "lot_id": line.lot_id.id,
                             "pricelist_id": self.get_pricelist_id(line),
                             "lot_name": line.lot_name,
+                            "take_for": line.lot_id.take_for,
+                            "date_sample_collection": line.lot_id.collection_date,
                         }
                     )
                     return

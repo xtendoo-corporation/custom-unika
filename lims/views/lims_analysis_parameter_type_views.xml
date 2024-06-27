@@ -70,6 +70,5 @@
         parent="lims.cat_menu_lims_config"
         sequence="0"
         action="action_lims_parameter_type"
-        groups="base.group_system"
     />
 </odoo>
