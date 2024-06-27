@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+# Copyright 2024 - Daniel Domínguez <https://xtendoo.es>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+    <record id="parameter_extra_comment_form" model="ir.ui.view">
+        <field name="name">parameter.extra.comment.form</field>
+        <field name="model">parameter.extra.comment</field>
+        <field name="arch" type="xml">
+            <form>
+                 <div class="oe_title">
+                    <h1 class="mt0">
+                        <field name="name" placeholder="Comentario extra..." required="1"/>
+                    </h1>
+                </div>
+            </form>
+        </field>
+    </record>
+
+   <record id="parameter_extra_comment_tree" model="ir.ui.view">
+        <field name="name">parameter.extra.comment.tree</field>
+        <field name="model">parameter.extra.comment</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Name"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_parameter_extra_comment" model="ir.actions.act_window">
+        <field name="name">Comentarios extra</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">parameter.extra.comment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'lims'}</field>
+    </record>
+
+    <menuitem
+        id="menu_parameter_extra_comment"
+        name="Comentarios extra"
+        parent="lims.cat_menu_lims_config"
+        sequence="0"
+        action="action_parameter_extra_comment"
+
+    />
+</odoo>

@@ -268,6 +268,20 @@ class LimsAnalysisLine(models.Model):
         default=lambda self: self._get_parameters_type(),
     )
 
+    def _get_parameter_extra_comment(self):
+        comment_set = set()
+        for line in self.numerical_result:
+            if line.parameter_extra_comment:
+                comment_set.add(line.parameter_extra_comment.name)
+        comment_list = sorted(comment_set)
+        indexed_comments = {f"{'*' * (i + 1)}": comment for i, comment in enumerate(comment_list)}
+        return indexed_comments
+
+    def _get_extra_comment_header(self, indexed_comments):
+        comments=[]
+        for key, value in indexed_comments.items():
+            comments.append(f"{key} {value}")
+        return comments
     @api.model
     def create(self, vals):
         if vals.get("name", "New") == "New":

@@ -16,6 +16,19 @@ class LimsAnalysisNumericalResult(models.Model):
         "lims.analysis.parameter",
         "Analysis lims parameter",
     )
+    parameter_extra_comment = fields.Many2one(
+        "parameter.extra.comment",
+        "Comentario Extra",
+    )
+
+    def get_name_with_index(self, indexed_comments):
+        self.ensure_one()
+        if self.parameter_extra_comment:
+            for key, value in indexed_comments.items():
+                print("value:", value)
+                if self.parameter_extra_comment.name == value:
+                    return f"{self.parameter_ids.name}{key}"
+        return self.parameter_ids.name
 
     lot_id = fields.Many2one(related="analysis_ids.lot_id", string="Sample num.")
     def _compute_parameter_nethod(self):

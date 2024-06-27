@@ -94,6 +94,7 @@
                 <field name="sample_sub_number" optional="hide"/>
                 <field name="lot_name" optional="hide"/>
                 <field name="parameter_ids" optional="show" string="Parámetro" />
+                <field name="parameter_extra_comment" optional="show" string="Comentario extra" />
                 <field name="method" optional="show" readonly="1"/>
                 <field name="use_acreditation" optional="hidden" string="Use acreditation"  readonly="1"/>
                 <field name="use_normative" optional="hidden" string="Use normative" readonly="1"/>
@@ -150,6 +151,7 @@
                 <field name="reason" optional="show" string="Reason" />
                 <field name="show_potency" invisible="1"/>
                 <field name="legislation_used_name" optional="show" />
+                <field name="parameter_extra_comment" optional="show" string="Comentario extra" />
                 <field name="comment" optional="show" string="Message" attrs="{'required': [('required_comment', '=', True)]}" />
                 <field name="to_invoice" optional="show" string="To invoice" />
                 <field name="show_in_report" optional="show" string="Show in report" />

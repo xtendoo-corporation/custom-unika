@@ -26,3 +26,4 @@ from . import lims_sale_order_line_analysis_parameter_method_rel
 from . import parameter_analytical_method_price_uom
 from . import lims_analysis_normative
 from . import lims_analysis_normative_result_line
+from . import parameter_extra_comment

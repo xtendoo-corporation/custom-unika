@@ -380,6 +380,7 @@
                                         </t>
                                         <t t-set="last_type" t-value="actual_type"/>
                                         <tbody style="clear:both">
+                                            <t t-set="extra_comments" t-value="doc._get_parameter_extra_comment()"/>
                                             <tr>
                                                 <td>
                                                     <div
@@ -388,8 +389,9 @@
                                                         <div
                                                                 style="width:29.5%;margin-right:0.5%;float:left;"
                                                         >
+                                                            <t t-set="parameter_name" t-value="line.get_name_with_index(extra_comments)"/>
                                                             <span
-                                                                    t-field="line.parameter_ids.name"
+                                                                    t-esc="parameter_name"
                                                                     style="padding-left:5px;"
                                                             />
                                                         </div>
@@ -582,7 +584,7 @@
                         <table style="width:99.46%;margin-left:0.58%;">
                             <tr>
                                 <td>
-                                    <div t-if="doc.note">
+                                    <div t-if="doc.note or extra_comments">
                                         <div
                                                 style="clear:both;width:100%;background-color:grey;padding-bottom:2px;height:28px;margin-top:5px;"
                                         >
@@ -599,7 +601,12 @@
                                         <!--  fin Etiqueta Comentarios -->
                                     </div>
                                     <div style="clear:both;display:block;width:95%;margin-left:2.5%;font-size:0.8em;">
-                                        <span t-field="doc.note"/>
+                                         <t t-if="extra_comments">
+                                             <t t-foreach="doc._get_extra_comment_header(extra_comments)" t-as="extra_comment">
+                                                 <p t-esc="extra_comment" style="margin:0;"/>
+                                             </t>
+                                        </t>
+                                    <span t-field="doc.note"/>
                                     </div>
                                     <!-- Firma -->
                         <div class="row">
