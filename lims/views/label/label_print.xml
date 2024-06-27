@@ -28,6 +28,8 @@
 
          <record id="lims_report_label_lot" model="ir.actions.report">
             <field name="paperformat_id" ref="lims.lot_label" />
+<!--             <field name="print_report_name" eval="'Label_%s.pdf' % (o.name.replace('/', '_'))" />-->
+             <field name="print_report_name">'Muestra %s' % (object.name)</field>
         </record>
 
         <template id="lims.report_label_lot_lims">

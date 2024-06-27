@@ -94,6 +94,11 @@
                 <div t-attf-class="footer">
                     <div class="row">
                         <div class="col-12">
+                            <span style="display:block;width:100%;font-size:0.7em;">-Los valores límites expresados se indican a título informativo, en base a la legislación aplicable o requisitos internos del cliente.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
                             <span style="display:block;width:100%;font-size:0.7em;">-Las incertidumbres están calculadas y se encuentran a disposición del cliente que lo solicite.</span>
                         </div>
                     </div>
