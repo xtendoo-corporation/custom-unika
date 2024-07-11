@@ -2,12 +2,23 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models, api, _
+from odoo.exceptions import UserError
 
 
 class LimsAnalysis(models.Model):
     _name = "lims.analysis"
     _description = "Analysis LIMS"
     name = fields.Char(string="Name", store=True)
+
+    def _is_name_in_use(self, name):
+        package = self.env['lims.analysis'].search(
+            [
+                ("name", "=", name),
+            ], )
+        if package:
+            return True
+        return False
+
     description = fields.Char(string="Description", store=True)
 
     product_ids = fields.Many2many(
@@ -55,7 +66,29 @@ class LimsAnalysis(models.Model):
 
     @api.model
     def create(self, vals):
+        if vals['name'] and vals['name'] != '':
+            is_in_use = self._is_name_in_use(vals['name'])
+            if is_in_use:
+                if not self.name:
+                    raise UserError(_("El nombre debe ser único para cada paquete analítico"))
+                else:
+                    vals['name'] = vals['name'] + '(Copia)'
         res = super(LimsAnalysis, self).create(vals)
+        return res
+
+
+    def write(self, vals):
+        if vals.get('name'):
+            if vals['name']:
+                package = self.env['lims.analysis'].search(
+                    [
+                        ("name", "=", vals['name']),
+                        ("id", "!=", self.id),
+                    ], )
+                if package:
+                    raise UserError(_("El nombre debe ser único para cada paquete analítico"))
+        res = super(LimsAnalysis, self).write(vals)
+        return res
 
         if self.parameter_method_ids and res:
             parameter_values = [{
