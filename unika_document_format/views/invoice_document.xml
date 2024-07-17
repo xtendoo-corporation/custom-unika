@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <template id="unika_document_format.report_invoice_document_inherit"
+                  inherit_id="account.report_invoice_document">
+            <!--PAGOS TRANSFERENCIA BANCARIA-->
+            <xpath expr="//p[@name='payment_communication']" position="before">
+                <div t-if="o.payment_mode_id.name == 'Transferencia bancaria'" id="bank_account"
+                     class="dl-horizontal text-muted">
+                    <strong>Transferencia bancaria:</strong>
+                    <span>ES56 0182 6788 1902 0155 7069</span>
+                </div>
+                <!--FIN PAGOS TRANSFERENCIA BANCARIA-->
+            </xpath>
+        </template>
+    </data>
+</odoo>

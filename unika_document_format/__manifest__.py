@@ -14,7 +14,7 @@
         "account",
     ],
     "data": [
-        # "views/report_invoice.xml",
+        "views/invoice_document.xml",
         "views/sale/external_layout_boxed_sale.xml",
         "views/sale/report_analysis_sale.xml",
     ],
