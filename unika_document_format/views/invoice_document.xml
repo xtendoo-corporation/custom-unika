@@ -3,15 +3,34 @@
     <data>
         <template id="unika_document_format.report_invoice_document_inherit"
                   inherit_id="account.report_invoice_document">
-            <!--PAGOS TRANSFERENCIA BANCARIA-->
-            <xpath expr="//p[@name='payment_communication']" position="before">
-                <div t-if="o.payment_mode_id.name == 'Transferencia bancaria'" id="bank_account"
-                     class="dl-horizontal text-muted">
-                    <strong>Transferencia bancaria:</strong>
-                    <span>ES56 0182 6788 1902 0155 7069</span>
+            <!--MOSTRAR COMERCIAL-->
+            <xpath expr="//address[1]" position="before">
+                <div id="commercial">
+                    <span t-field="o.partner_id.comercial" t-if="o.partner_id.comercial"/>
                 </div>
-                <!--FIN PAGOS TRANSFERENCIA BANCARIA-->
             </xpath>
+            <!--FIN MOSTRAR COMERCIAL-->
+            <!--PAGOS-->
+            <xpath expr="//p[@name='payment_communication']" position="before">
+                <div id="bank_account" class="dl-horizontal text-muted">
+                    <strong t-field="o.payment_mode_id"/>
+                    <span t-if="o.payment_mode_id.name == 'Transferencia bancaria'">ES56 0182 6788 1902 0155 7069</span>
+                </div>
+            </xpath>
+            <!--FIN PAGOS-->
+            <!--COLUMNA REFERENCIA ANALISIS-->
+            <xpath expr="//th[@name='th_description']" position="before">
+                <th name="th_analysis_reference" class="text-left">
+                    <span>Numero de análisis</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//td[@name='account_invoice_line_name']" position="before">
+                <td name="td_analysis_reference">
+                    <span t-field="line.sale_line_ids.order_id._get_analysis().name" t-if="line.sale_line_ids.order_id._get_analysis()"/>
+                </td>
+            </xpath>
+            <!--FIN COLUMNA REFERENCIA ANALISIS-->
         </template>
     </data>
 </odoo>
