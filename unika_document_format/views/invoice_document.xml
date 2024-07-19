@@ -27,7 +27,10 @@
 
             <xpath expr="//td[@name='account_invoice_line_name']" position="before">
                 <td name="td_analysis_reference">
-                    <span t-field="line.sale_line_ids.order_id._get_analysis().name" t-if="line.sale_line_ids.order_id._get_analysis()"/>
+                    <!--                    <span t-field="line.sale_line_ids.order_id._get_analysis().name" t-if="line.sale_line_ids.order_id._get_analysis()"/>-->
+                    <t t-foreach="o.picking_ids.move_line_ids" t-as="picking_line">
+                        <span t-field="picking_line.lot_id"/>
+                    </t>
                 </td>
             </xpath>
             <!--FIN COLUMNA REFERENCIA ANALISIS-->
