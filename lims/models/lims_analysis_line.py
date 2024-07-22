@@ -101,11 +101,13 @@ class LimsAnalysisLine(models.Model):
         store=True,
         tracking=True,
     )
-    analysis_name = fields.Char(
-        string="Análisis de",
-        store=True,
+    analysis_name = fields.Many2one(
+        "analysis.of.text",
+        "Análisis de",
         tracking=True,
+        store=True,
     )
+
     description = fields.Char(
         string="Description",
         store=True,

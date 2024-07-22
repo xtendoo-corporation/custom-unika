@@ -43,6 +43,7 @@
         "views/lims_analytical_method_views.xml",
         "views/sale_order_view.xml",
         "views/parameter_extra_comment.xml",
+        "views/analysis_of_text.xml",
         "views/layout/external_layout_boxed.xml",
         "views/layout/external_layout_boxed_sample_received.xml",
         # Formatos
