@@ -288,6 +288,7 @@ class LimsAnalysisNumericalResult(models.Model):
                                     line.result_datasheet = technical_result
                         #Legislation
                         limit_ids_legislation = limit_ids_filter.filtered(lambda r: r.type == 'legislation')
+                        comment = ""
                         if limit_ids_legislation:
                             limits_legislation = self.env['lims.analysis.limit.result.line'].search(
                                 [
@@ -308,16 +309,21 @@ class LimsAnalysisNumericalResult(models.Model):
 
     @api.onchange("is_correct")
     def _onchange_is_correct(self):
-
         for line in self:
+            if self.parameter_uom:
+                limit = self.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == self.parameter_uom)
+            else:
+                limit = self.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == False)
+            for limit_line in limit.limit_result_line_ids:
+                if limit_line.is_correct == self.is_correct:
+                    line.comment = limit_line.message
+                    line.valor_informe = limit_line.message
             if self.is_correct:
-                if self.data_sheet:
-                    line.result_datasheet = "pass"
                 if self.legislation_value:
                     line.result_legislation = "pass"
             else:
-                self._onchange_is_present()
-                self._onchange_value()
+                if self.legislation_value:
+                    line.result_legislation = "fail"
 
     @api.model
     def create(self, vals):

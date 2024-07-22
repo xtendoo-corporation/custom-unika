@@ -197,7 +197,10 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
             if self.type == "ISPRESENT":
                 limit = "Presente" if self.is_present else "No Presente"
             elif self.type == "ISCORRECT":
-                limit = "Correct" if self.is_correct else "Not Correct"
+                print("*" *100)
+                print(self.parent_id.parameter_ids.limit_value_char)
+                print("*" *100)
+                limit = self.parent_id.parameter_ids.limit_value_char if self.parent_id.parameter_ids.limit_value_char else ""
             elif self.type == "LIMIT":
                 limit = self._get_limit_value_char()
             elif self.type == "BETWEEN":

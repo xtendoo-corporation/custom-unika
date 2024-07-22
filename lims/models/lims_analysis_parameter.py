@@ -41,6 +41,7 @@ class LimsAnalysisParameter(models.Model):
     show_description = fields.Boolean(string="Mostrar descripción", store=True)
     max_samples_number = fields.Integer(string="Número de muestras usado", store=True)
     max_samples_permitted = fields.Integer(string="Número de muestras permitidas", store=True)
+    limit_value_char = fields.Char(string="Valor limite texto", store=True)
 
     def _is_code_in_use(self, code):
         parameter = self.env['lims.analysis.parameter'].search(

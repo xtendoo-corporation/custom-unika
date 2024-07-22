@@ -34,6 +34,7 @@
                         <field name="show_potency" string="Mostrar como potencia"/>
                         <field name="change_value_for_comment" string="Cambiar valor por comentario"/>
                         <field name="show_description" string="Mostrar descripción"/>
+                        <field name="limit_value_char" string="Valor límite texto"/>
                     </group>
                 </group>
                 <notebook>
