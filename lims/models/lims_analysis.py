@@ -8,18 +8,18 @@ from odoo.exceptions import UserError
 class LimsAnalysis(models.Model):
     _name = "lims.analysis"
     _description = "Analysis LIMS"
-
     name = fields.Char(string="Name", store=True)
 
     def _is_name_in_use(self, name):
-        return self.env['lims.analysis'].search(
+        package = self.env['lims.analysis'].search(
             [
                 ("name", "=", name),
             ], )
+        if package:
+            return True
+        return False
 
-    description = fields.Char(
-        string="Description",
-        store=True)
+    description = fields.Char(string="Description", store=True)
 
     product_ids = fields.Many2many(
         "product.template",
@@ -104,4 +104,3 @@ class LimsAnalysis(models.Model):
             self.env['parameter.analytical.method.price.uom'].create(parameter_values)
 
         return res
-
