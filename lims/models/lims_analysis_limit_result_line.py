@@ -195,7 +195,7 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
         limit = ""
         if self.state == 'conform':
             if self.type == "ISPRESENT":
-                limit = "Presente" if self.is_present else "No Presente"
+                limit = "Presencia" if self.is_present else "Ausencia"
             elif self.type == "ISCORRECT":
                 limit = self.parent_id.parameter_ids.limit_value_char if self.parent_id.parameter_ids.limit_value_char else ""
             elif self.type == "LIMIT":

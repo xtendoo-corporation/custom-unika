@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+       <report
+            id="lims_report_label_lot_n5"
+            string="Imprimir etiquetas"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="lims.report_label_lot_lims_n5"
+        />
+
+         <record id="lims_report_label_lot_n5" model="ir.actions.report">
+            <field name="paperformat_id" ref="lims.lot_label" />
+<!--             <field name="print_report_name" eval="'Label_%s.pdf' % (o.name.replace('/', '_'))" />-->
+             <field name="print_report_name">'Muestra %s' % (object.name)</field>
+        </record>
+
+        <template id="lims.report_label_lot_lims_n5">
+           <t t-name="report_label_lot_lims_n5">
+               <t t-foreach="docs" t-as="o">
+                   <t t-foreach="o.move_line_nosuggest_ids" t-as="product_line">
+<!--                       <t t-if="not doc" t-set="doc" t-value="product_line"/>-->
+                        <t t-call="lims.report_label_lot_document_lims_n5" />
+                   </t>
+               </t>
+           </t>
+        </template>
+
+        <template id="lims.report_label_lot_document_lims_n5">
+            <t t-name="report_label_lot_document_lims_n5">
+                <t t-call="web.basic_layout" >
+                    <div class="page">
+                        <t t-set="o" t-value="product_line.lot_id"/>
+                        <div style="-webkit-transform: rotate(-90deg);position: relative;top: 50px;">
+                        <div class="oe_structure"/>
+                            <div style="width:123%;margin-left:-11.5%;">
+                                <!-- LOGO -->
+                                <img
+                                        style="width:15%;"
+                                        src="/lims/static/src/img/VERDE_BMP.bmp"
+                                />
+                                <!-- FIN LOGO -->
+                                <!-- Cod Muestra -->
+                                <div style="display:block:width:100%;clear:both;height:15px;margin-top:10px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Cód Muestra:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span style="font-size:0.9em;">
+                                            <t t-esc="o.name"/>
+                                            <t t-if="product_line.sample_sub_number &gt; 0">
+                                                /
+                                                <t t-esc="product_line.sample_sub_number"/>
+                                            </t>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- FIN Cod Muestra -->
+                                <!-- Fecha y hora de recepción -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Fecha y hora de recepción:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.recepcion_date" t-field="o.recepcion_date" style="font-size:0.9em;"></span>
+                                    </div>
+                                </div>
+                                <!-- FIN Fecha y hora de recepción -->
+                                <!-- Muestreo por -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Muestreo por:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.take_for" t-field="o.take_for" style="font-size:0.9em;"></span>
+                                    </div>
+                                </div>
+                                <!-- FIN Muestreo por -->
+                                <!-- Fecha y hora de recogida -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Fecha y hora de recogida:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.collection_date" t-field="o.collection_date" style="font-size:0.9em;"></span>
+                                    </div>
+                                </div>
+                                <!-- FIN Fecha y hora de recogida -->
+                                <!-- Condiciones de recepción -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Tempratura  de recepción:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.conditions" t-field="o.conditions" style="font-size:0.9em;"></span>
+                                    </div>
+                                </div>
+                                <!-- FIN Condiciones de recepción -->
+                                <!-- cliente -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Cliente:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.partner_id" t-esc="o.partner_id.name" style="font-size:0.7em;"></span>
+                                    </div>
+                                </div>
+                                <!-- Fin cliente -->
+                                <!-- Descripción de la muestra -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Descripción de la muestra:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.description" t-field="o.description" style="font-size:0.9em;"></span>
+                                    </div>
+                                </div>
+                                <!-- Fin Descripción de la muestra -->
+                                <!-- Envase/material -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Envase/material:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.container" t-field="o.container"></span>
+                                    </div>
+                                </div>
+                                <!-- Fin Envase/material -->
+                                <!-- Peso/volumen -->
+                                <div style="display:block:width:100%;clear:both;height:15px;">
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <b>
+                                            <span>
+                                                Peso/volumen:
+                                            </span>
+                                        </b>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-top:-3px;font-size:0.7em;">
+                                        <span t-if="o.weight" t-field="o.weight" style="font-size:0.9em;"></span>
+                                        <span t-if="o.udm" t-field="o.udm.name" style="font-size:0.9em;"></span>
+                                    </div>
+                                </div>
+                                <!-- Fin Peso/volumen -->
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

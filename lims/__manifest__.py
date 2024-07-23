@@ -48,6 +48,7 @@
         "views/layout/external_layout_boxed_sample_received.xml",
         # Formatos
         "views/label/label_print.xml",
+        "views/label/label_print_picking_n_5.xml",
         "report/analysis_report_unika.xml",
         "report/sample_received_report.xml",
         "data/mail_template.xml",
