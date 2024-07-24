@@ -29,6 +29,7 @@
                         <field name="required_comment" string="Comment required"/>
                         <field name="max_samples_permitted"/>
                         <field name="max_samples_number"/>
+                        <field name="decimal_precision"/>
                     </group>
                     <group string="Informe">
                         <field name="show_potency" string="Mostrar como potencia"/>

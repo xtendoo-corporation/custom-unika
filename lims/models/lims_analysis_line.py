@@ -218,11 +218,9 @@ class LimsAnalysisLine(models.Model):
     )
     def _get_data_time_format(self):
         if self.date_sample_collection:
-            print("*"*50)
-            print(datetime.datetime.strptime(self.date_sample_collection, "%H:%M %d/%m/%Y"))
-            print("*"*50)
             return datetime.datetime.strptime(self.date_sample_collection, "%H:%M %d/%m/%Y")
         return False
+
     date_sample_receipt = fields.Date(
         string="Date sample receipt",
         tracking=True,
@@ -281,6 +279,19 @@ class LimsAnalysisLine(models.Model):
         string='Types',
         default=lambda self: self._get_parameters_type(),
     )
+
+    @api.model
+    def _get_parameter_decimal_precision(self, parameter_ids):
+        print("*"*50)
+        print("decimal_precision", parameter_ids)
+        if parameter_ids and parameter_ids.decimal_precision:
+            return parameter_ids.decimal_precision
+        else:
+            return 2
+    @api.model
+    def format_value(self, value, decimal_precision):
+        format_str = '%.' + str(decimal_precision) + 'f'
+        return format_str % value
 
     def _get_parameter_extra_comment(self):
         comment_set = set()

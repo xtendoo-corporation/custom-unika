@@ -553,17 +553,14 @@
                                                                                 </t>
                                                                             </t>
                                                                             <t t-else="">
+                                                                                <t t-set="decimal_precision" t-value="doc._get_parameter_decimal_precision(line.parameter_ids)"/>
                                                                                 <t t-if="line.result_legislation == 'fail'">
-                                                                                    <b><span
-                                                                                            t-field="line.value"
-                                                                                            style="padding-left:5px;"
-                                                                                    /></b>
+                                                                                    <b>
+                                                                                        <span t-esc="doc.format_value(line.value, decimal_precision)"/>
+                                                                                    </b>
                                                                                 </t>
                                                                                 <t t-else="">
-                                                                                    <span
-                                                                                            t-field="line.value"
-                                                                                            style="padding-left:5px;"
-                                                                                    />
+                                                                                     <span t-esc="doc.format_value(line.value, decimal_precision)"/>
                                                                                 </t>
                                                                             </t>
 
