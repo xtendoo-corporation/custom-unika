@@ -208,17 +208,28 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
         limit_char = ""
         value = ""
         if self.operator_from not in ('', False):
+            operator_from = self.operator_from
+            if self.operator_from == ">=":
+                operator_from = "≥"
+            if self.operator_from == "<=":
+                operator_from = "≤"
             limit_char = "{operator_from} {value_from:.2f}".format(
-                operator_from=self.operator_from,
+                operator_from=operator_from,
                 value_from=self.limit_value_from,
             )
             value = self.limit_value_from
         if self.operator_to not in ('', False):
+            operator_to = self.operator_to
+            if self.operator_to == ">=":
+                operator_to = "≥"
+            if self.operator_to == "<=":
+                operator_to = "≤"
             limit_char = "{operator_to} {value_to:.2f}".format(
-                operator_to=self.operator_to,
+                operator_to=operator_to,
                 value_to=self.limit_value_to,
             )
             value = self.limit_value_to
+
         if self.parent_id.parameter_ids.show_potency:
             superindice_unicode = str.maketrans("0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻")
             value = "{:.1E}".format(value)
@@ -264,10 +275,20 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 value_to=value_to,
             )
         else:
+            operator_to = self.operator_to
+            operator_from = self.operator_from
+            if self.operator_to == ">=":
+                operator_to = "≥"
+            if self.operator_to == "<=":
+                operator_to = "≤"
+            if self.operator_from == ">=":
+                operator_from = "≥"
+            if self.operator_from == "<=":
+                operator_from = "≤"
             between_limit_result = "{operator_from} {value_from:.2f} y {operator_to} {value_to:.2f}".format(
-                operator_from=self.operator_from,
+                operator_from=operator_from,
                 value_from=self.limit_value_from,
-                operator_to=self.operator_to,
+                operator_to=operator_to,
                 value_to=self.limit_value_to,
             )
         return between_limit_result
