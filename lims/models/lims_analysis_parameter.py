@@ -34,7 +34,7 @@ class LimsAnalysisParameter(models.Model):
     type_tags = fields.Many2one(
         "lims.analysis.parameter.type.tags", string="Type tags"
     )
-    parameter_uom = fields.Many2many("uom.uom", string="Unit of Measure")
+    parameter_uom = fields.Many2many("uom.uom", string="Unidad de medida de parámetro")
     required_comment = fields.Boolean(string="Required Commentary", store=True)
     show_potency = fields.Boolean(string="Mostrar en potencia", store=True)
     change_value_for_comment = fields.Boolean(string="Cambiar valor por comentario", store=True)

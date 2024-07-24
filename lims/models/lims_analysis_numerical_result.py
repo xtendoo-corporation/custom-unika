@@ -14,7 +14,7 @@ class LimsAnalysisNumericalResult(models.Model):
     )
     parameter_ids = fields.Many2one(
         "lims.analysis.parameter",
-        "Analysis lims parameter",
+        "Analysis lims parameter line",
     )
     parameter_extra_comment = fields.Many2one(
         "parameter.extra.comment",
@@ -60,7 +60,7 @@ class LimsAnalysisNumericalResult(models.Model):
         related="parameter_ids.parameter_uom", string="parameter_uom"
     )
 
-    limit_value_char = fields.Char(string="Limit Value", store=True)
+    limit_value_char = fields.Char(string="Valor limite texto", store=True)
     limit_value = fields.Float(string="Limit Value", store=True)
     legislation_limit_value = fields.Char(string="Between Limit Value", store=True)
     is_present = fields.Boolean(string="Is Present", store=True)
@@ -90,13 +90,13 @@ class LimsAnalysisNumericalResult(models.Model):
             line.valor_exponente = valor_exponente
 
     valor_potencia = fields.Char(string="Valor Potencia", compute="_compute_valor_potencia")
-    valor_exponente = fields.Char(string="Valor Potencia", compute="_compute_valor_potencia")
+    valor_exponente = fields.Char(string="Valor Exponente", compute="_compute_valor_potencia")
     required_comment = fields.Boolean(related="parameter_ids.required_comment", store=True)
     show_potency = fields.Boolean(related="parameter_ids.show_potency", store=True)
     show_description = fields.Boolean(related="parameter_ids.show_description", store=True)
     change_value_for_comment = fields.Boolean(related="parameter_ids.change_value_for_comment", store=True)
     analytical_method_id = fields.Many2one(
-        "lims.analytical.method", string="Método", ondelete="cascade", required=True
+        "lims.analytical.method", string="Método analítico", ondelete="cascade", required=True
     )
     result_legislation = fields.Selection(
         [
@@ -309,12 +309,17 @@ class LimsAnalysisNumericalResult(models.Model):
 
     @api.onchange("is_correct")
     def _onchange_is_correct(self):
+        print("*"*50)
+        print("onchange")
+
         for line in self:
             if self.parameter_uom:
                 limit = self.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == self.parameter_uom)
             else:
-                limit = self.parameter_ids.limits_ids.filtered(lambda r: r.uom_id == False)
+                limit = self.parameter_ids.limits_ids
+                print("limit", limit)
             for limit_line in limit.limit_result_line_ids:
+                print("limit_line", limit_line)
                 if limit_line.is_correct == self.is_correct:
                     line.comment = limit_line.message
                     line.valor_informe = limit_line.message
@@ -324,7 +329,7 @@ class LimsAnalysisNumericalResult(models.Model):
             else:
                 if self.legislation_value:
                     line.result_legislation = "fail"
-
+        print("*" * 50)
     @api.model
     def create(self, vals):
         result = super(LimsAnalysisNumericalResult, self).create(vals)

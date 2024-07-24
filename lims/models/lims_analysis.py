@@ -47,7 +47,6 @@ class LimsAnalysis(models.Model):
     parameter_method_ids = fields.One2many(
         "parameter.analytical.method.price.uom",
         "parent_id",
-        tracking=True,
     )
     parameter_used_ids = fields.Many2many(
         "analytical.method.price",

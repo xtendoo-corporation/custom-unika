@@ -13,7 +13,7 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
 
     parent_id = fields.Many2one(
         "lims.analysis.limit",
-        "Analysis lims parameter",
+        "Analysis lims parameter parent",
     )
     operator_from = fields.Selection(
         [
@@ -38,7 +38,7 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
     )
     parameter_legislation_ids = fields.Many2one(
         "lims.analysis.parameter",
-        "Analysis lims parameter",
+        "Analysis lims parameter legislation",
     )
     limit_value_to = fields.Float(string="Limit Value to", store=True)
     is_correct = fields.Boolean(string="Is Correct", store=True)

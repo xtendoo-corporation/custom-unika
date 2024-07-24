@@ -3,6 +3,7 @@ from odoo import fields, models
 
 class LotWiward(models.TransientModel):
     _name = "lims.wizard.lot"
+    _description = "Wizard for generate lots"
 
     def _compute_number_from(self):
         sequence = self.env["ir.sequence"].search([("code", "=", "stock.lot.serial")])

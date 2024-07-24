@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class LineAnalysisGroupRel(models.Model):
     _name = "line.analysis.group.rel"
+    _description = "Line Analysis Group Rel"
 
     analysis_group_id = fields.Many2one(
         "lims.analysis", string="Analysis Group", ondelete="cascade", required=True

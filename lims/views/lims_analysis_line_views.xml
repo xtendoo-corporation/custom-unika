@@ -69,7 +69,7 @@
                 >
 
                     <div style="width:2%;float:left">
-                        <i class="fa fa-info-circle" style="font-size:2em;"/>
+                        <i title="fa-info-circle" class="fa fa-info-circle" style="font-size:2em;"/>
                     </div>
                     <div style="width:98%;float:left">
                         <field name="analysis_warn_msg" style="font-size:1.4em;"/>

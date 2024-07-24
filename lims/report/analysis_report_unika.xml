@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-        <report
-                id="lims.report_analysis_result_unika_boletin"
-                string="Boletín"
-                model="lims.analysis.line"
-                report_type="qweb-pdf"
-                name="lims.report_analysis_result_print_unika_boletin"
-        />
+<!--        <report-->
+<!--                id="lims.report_analysis_result_unika_boletin"-->
+<!--                string="Boletín"-->
+<!--                model="lims.analysis.line"-->
+<!--                report_type="qweb-pdf"-->
+<!--                name="lims.report_analysis_result_print_unika_boletin"-->
+<!--        />-->
+        <record id="lims.report_analysis_result_unika_boletin" model="ir.actions.report">
+            <field name="name">Boletín</field>
+            <field name="model">lims.analysis.line</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">lims.report_analysis_result_print_unika_boletin</field>
+            <field name="report_file">lims.report_analysis_result_print_unika_boletin</field>
+            <field name="attachment_use">False</field>
+        </record>
+
         <record id="lims.report_analysis_result_unika_boletin" model="ir.actions.report">
              <field name="print_report_name">'%s' % (object.name)</field>
         </record>

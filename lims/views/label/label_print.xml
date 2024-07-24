@@ -18,13 +18,22 @@
             <field name="dpi">90</field>
         </record>
 
-       <report
-            id="lims_report_label_lot"
-            string="Label Print"
-            model="stock.production.lot"
-            report_type="qweb-pdf"
-            name="lims.report_label_lot_lims"
-        />
+        <record id="lims_report_label_lot" model="ir.actions.report">
+            <field name="name">Label Print</field>
+            <field name="model">stock.production.lot</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">lims.report_label_lot_lims</field>
+            <field name="report_file">lims.report_label_lot_lims</field>
+            <field name="attachment_use">False</field>
+        </record>
+
+<!--       <report-->
+<!--            id="lims_report_label_lot"-->
+<!--            string="Label Print"-->
+<!--            model="stock.production.lot"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="lims.report_label_lot_lims"-->
+<!--        />-->
 
          <record id="lims_report_label_lot" model="ir.actions.report">
             <field name="paperformat_id" ref="lims.lot_label" />

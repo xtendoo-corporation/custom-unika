@@ -22,18 +22,14 @@ class ProductPricelistItem(models.Model):
     )
 
     applied_on = fields.Selection(
-        [
-            ("5_analytical_method", "Analytical Method"),
-            ("4_analysis_group", "Analysis group"),
-            ("3_global", "All Products"),
-            ("2_product_category", "Product Category"),
-            ("1_product", "Product"),
-            ("0_product_variant", "Product Variant"),
+        selection_add=[
+            ('4_analysis_group', 'Analysis group'),
+            ('5_analytical_method', 'Analytical Method'),
         ],
-        "Apply On",
-        default="3_global",
-        required=True,
-        help="Pricelist Item applicable on selected option",
+        ondelete={
+            '4_analysis_group': 'cascade',
+            '5_analytical_method': 'cascade',
+        }
     )
 
     @api.depends(

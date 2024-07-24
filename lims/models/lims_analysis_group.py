@@ -6,7 +6,7 @@ from odoo import fields, models
 
 class LimsAnalysisGroup(models.Model):
     _name = "lims.analysis.group"
-    _description = "Quality Check"
+    _description = "LIMS Analysis Group"
     name = fields.Char(string="Name", store=True)
 
     analysis_ids = fields.Many2many(

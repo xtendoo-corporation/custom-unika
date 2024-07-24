@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-
-       <report
-            id="lims_report_label_lot_n5"
-            string="Imprimir etiquetas"
-            model="stock.picking"
-            report_type="qweb-pdf"
-            name="lims.report_label_lot_lims_n5"
-        />
+            <record id="lims_report_label_lot_n5" model="ir.actions.report">
+                <field name="name">Imprimir etiquetas</field>
+                <field name="model">stock.picking</field>
+                <field name="report_type">qweb-pdf</field>
+                <field name="report_name">lims.report_label_lot_lims_n5</field>
+                <field name="report_file">lims.report_label_lot_lims_n5</field>
+                <field name="attachment_use">False</field>
+            </record>
+<!--       <report-->
+<!--            id="lims_report_label_lot_n5"-->
+<!--            string="Imprimir etiquetas"-->
+<!--            model="stock.picking"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="lims.report_label_lot_lims_n5"-->
+<!--        />-->
 
          <record id="lims_report_label_lot_n5" model="ir.actions.report">
             <field name="paperformat_id" ref="lims.lot_label" />
