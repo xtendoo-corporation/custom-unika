@@ -128,7 +128,7 @@
                     optional="show"
                     string="Result DS."
                 />
-                <field name="legislation_value" optional="show" string="legislation" readonly="1"/>
+                <field name="legislation_value" optional="show" string="legislation" readonly="0"/>
                 <field
                     name="result_legislation"
                     decoration-success="result_legislation == 'pass'"

@@ -73,6 +73,16 @@ class LimsAnalysis(models.Model):
                 else:
                     vals['name'] = vals['name'] + '(Copia)'
         res = super(LimsAnalysis, self).create(vals)
+        for parameter_method in self.parameter_method_ids:
+            self.env['parameter.analytical.method.price.uom'].create({
+                'parent_id': res.id,
+                'analytical_method_id': parameter_method.analytical_method_id.id,
+                'uom_id': parameter_method.uom_id.id,
+                'use_acreditation': parameter_method.use_acreditation,
+                'used_acreditation': parameter_method.used_acreditation,
+                'use_normative': parameter_method.use_normative,
+                'used_normative': parameter_method.used_normative,
+            })
         return res
 
 
