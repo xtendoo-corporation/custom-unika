@@ -10,6 +10,10 @@
                 </div>
             </xpath>
             <!--FIN MOSTRAR COMERCIAL-->
+            <!-- OCULTAR ORIGEN -->
+            <xpath expr="//div[@name='origin']" position="replace">
+            </xpath>
+            <!-- FIN OCULTAR ORIGEN -->
             <!--PAGOS-->
             <xpath expr="//p[@name='payment_communication']" position="before">
                 <div id="bank_account" class="dl-horizontal text-muted">
@@ -20,20 +24,35 @@
             <!--FIN PAGOS-->
             <!--COLUMNA REFERENCIA ANALISIS-->
             <xpath expr="//th[@name='th_description']" position="before">
-                <th name="th_analysis_reference" class="text-left">
-                    <span>Numero de análisis</span>
+                <t t-set="show_analysis_number" t-value="0"/>
+                <t t-foreach="o.invoice_line_ids" t-as="line">
+                    <t t-if="line.product_id.is_product_sample">
+                        <t t-set="show_analysis_number" t-value="1"/>
+                    </t>
+                </t>
+                <th t-if="show_analysis_number != 0" name="th_analysis_reference" class="text-left">
+                    <span>Numero de muestra</span>
                 </th>
             </xpath>
 
             <xpath expr="//td[@name='account_invoice_line_name']" position="before">
-                <td name="td_analysis_reference">
-                    <!--                    <span t-field="line.sale_line_ids.order_id._get_analysis().name" t-if="line.sale_line_ids.order_id._get_analysis()"/>-->
+                <td t-if="show_analysis_number != 0" name="td_analysis_reference">
                     <t t-foreach="o.picking_ids.move_line_ids" t-as="picking_line">
-                        <span t-field="picking_line.lot_id"/>
+                        <t t-if="picking_line.product_id == line.product_id">
+                            <span t-field="picking_line.lot_id"/>
+                        </t>
                     </t>
                 </td>
             </xpath>
             <!--FIN COLUMNA REFERENCIA ANALISIS-->
+        </template>
+        <template id="unika_document_format.report_invoice_document_inherit_due_list"
+                  inherit_id="account_invoice_report_due_list.report_invoice_document">
+             <!-- TABLA DE VENCIMIENTOS -->
+            <xpath expr="//div[@t-if='due_list']" position="replace">
+
+            </xpath>
+            <!-- FIN TABLA DE VENCIMIENTOS -->
         </template>
     </data>
 </odoo>
