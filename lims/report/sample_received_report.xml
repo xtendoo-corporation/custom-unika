@@ -130,7 +130,7 @@
                             </div>
                             <div class="col-8">
                                 <b>
-                                    <span t-esc="doc.move_ids_without_package[0].product_id.default_code"/>
+                                    <span t-esc="doc.move_line_nosuggest_ids[0].lot_id.description"/>
                                 </b>
                             </div>
                         </div>
