@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2019 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="view_move_form">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//notebook/field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="after">-->
+            <xpath expr="//field[@name='quantity']" position="after">
+                <field name="sample_number" optional="hidde"/>
+                <field name="analysis_name" optional="hidde"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

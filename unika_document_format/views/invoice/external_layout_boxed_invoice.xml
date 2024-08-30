@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="unika_document_format.external_layout_boxed_invoice">
+            <t t-name="unika_document_format.external_layout_boxed_invoice">
+                <div t-attf-class="o_company_#{company.id}_layout header" t-att-style="report_header_style">
+                <div class="o_background_header">
+                    <div class="float-right">
+                        <h3 class="mt0 text-right" t-field="company.report_header"/>
+                    </div>
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" class="float-left" alt="Logo"/>
+                    <div class="float-right company_address">
+                        <ul class="list-unstyled" t-if="company.company_details or forced_vat">
+                            <li t-if="company.company_details"> <t t-esc="company.company_details"/></li>
+                            <li t-if="forced_vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span t-esc="forced_vat"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix mb8"/>
+                    </div>
+                </div>
+
+                <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <t t-call="web.address_layout"/>
+                    <t t-out="0"/>
+                </div>
+
+                <div t-attf-class="footer">
+                    <ul class="list-inline">
+                        <div t-field="company.report_footer"/>
+                    </ul>
+                    <div
+                        style="height:40px;background-color:#12986f;display:table;width:100%;"
+                    >
+                        <p
+                            style="text-align:center;color:white;font-size:0.8em;display:table-cell;vertical-align: middle;text-align:text-align:center;"
+                        >
+                            <span style="margin-left:8px;"><strong>UNIKALAB QUALITY, S.L.</strong></span>
+                            <span t-esc="company.street" />
+                            <span> , </span>
+                            <span t-esc="company.street2" />
+                            <span> - </span>
+                            <span t-esc="company.zip" />
+                            <span> </span>
+                            <span t-esc="company.city" />
+                            <span> (</span>
+                            <span t-esc="company.state_id.name" />
+                            <span>) Tfno.- </span>
+                            <span t-esc="company.phone" />
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" style="text-align:right;">
+                            <div style="display:block;width:100%;text-align:center;">
+                                <span>Página:</span>
+                                <span class="page" />
+                                <span>de</span>
+                                <span class="topage" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--            <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">-->
+<!--                <div class="text-center">-->
+<!--                    <ul class="list-inline">-->
+<!--                        <div t-field="company.report_footer"/>-->
+<!--                    </ul>-->
+<!--                    <div t-if="report_type == 'pdf'" class="text-muted">-->
+<!--                        Page:-->
+<!--                        <span class="page"/>-->
+<!--                        of-->
+<!--                        <span class="topage"/>-->
+<!--                    </div>-->
+<!--                    <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted">-->
+<!--                        <span t-field="o.name"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            </t>
+        </template>
+    </data>
+</odoo>

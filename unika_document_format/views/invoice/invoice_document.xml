@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <template id="unika_document_format.report_invoice_inherit" inherit_id="account.report_invoice_document">
+              <xpath expr="//t[@t-call='web.external_layout']" position="inside">
+                <!-- seteamos variables de cabecera -->
+                <t t-set="company" t-value="o.company_id"/>
+            </xpath>
+            <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+                <attribute name="t-call">unika_document_format.external_layout_boxed_invoice</attribute>
+            </xpath>
+        </template>
+
+        <template id="unika_document_format.report_invoice_document_inherit"
+                  inherit_id="account.report_invoice_document">
+            <!-- MOVER FECHA -->
+            <xpath expr="//div[@name='invoice_date']" position="replace">
+            </xpath>
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <div class="row">
+                    <div class="col-5" t-if="o.invoice_date" name="invoice_date" style="margin-top:-125px;">
+                        <div style="background-color:#26a273; width:110%;margin-left:-5%;">
+                            <t t-if="o.move_type == 'out_invoice'"><strong style="color:white;margin-left:5%;">Fecha factura:</strong></t>
+                            <t t-elif="o.move_type == 'out_refund'"><strong style="color:white;margin-left:5%;">Fecha factura rectificativa:</strong></t>
+                            <t t-elif="o.move_type == 'out_receipt'"><strong style="color:white;margin-left:5%;">Receipt Date:</strong></t>
+                            <t t-else=""><strong style="color:white;margin-left:5%;">Fecha:</strong></t>
+                        </div>
+                        <p  t-field="o.invoice_date"/>
+                    </div>
+                    <div class="col-7">
+                        <t t-set="address">
+                    <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                    <div t-if="o.partner_id.vat" class="mt16">
+                        <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label"/>
+                        <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/></div>
+                </t>
+                    </div>
+                </div>
+            </xpath>
+            <!-- FIN MOVER FECHA -->
+            <!-- OCULTAR ORIGEN -->
+            <xpath expr="//div[@name='origin']" position="replace">
+            </xpath>
+            <!-- FIN OCULTAR ORIGEN -->
+            <!--PAGOS-->
+            <xpath expr="//p[@name='payment_communication']" position="before">
+                <div style="display:block;width:100%;">
+                    <div style="display:block;float:left;width:33%;">
+                        <div style="background-color:#12986f;">
+                            <strong style="color:white;margin-left:5px;">Medio de pago</strong>
+                        </div>
+                        <div>
+                            <span t-field="o.payment_mode_id"/>
+                        </div>
+                    </div>
+                    <div style="display:block;float:left;width:66.5%;margin-left:0.5%;">
+                        <div style="background-color:#12986f;">
+                            <strong style="color:white;margin-left:5px;">Datos bancarios</strong>
+                        </div>
+                        <div>
+                            <span>CCC: 0182 6788 19 0201557069</span>
+                        </div>
+                        <div>
+                            <span>IBAN: ES56 0182 6788 1902 0155 7069</span>
+                        </div>
+                    </div>
+                    <div style="clear:both;"/>
+                </div>
+<!--                <div id="bank_account" class="dl-horizontal text-muted">-->
+<!--                    <strong t-field="o.payment_mode_id"/>-->
+<!--                    <span t-if="o.payment_mode_id.name == 'Transferencia bancaria'">ES56 0182 6788 1902 0155 7069</span>-->
+<!--                </div>-->
+            </xpath>
+            <!--FIN PAGOS-->
+            <!--COLUMNA NUMERO DE MUESTRA -->
+            <xpath expr="//th[@name='th_description']" position="before">
+                <t t-set="show_analysis_number" t-value="0"/>
+                <t t-foreach="o.invoice_line_ids" t-as="line">
+                    <t t-if="line.sample_number">
+                        <t t-set="show_analysis_number" t-value="1"/>
+                    </t>
+                </t>
+                <t t-if="show_analysis_number != 0">
+                    <th t-if="show_analysis_number != 0" name="th_analysis_name" class="text-left">
+                        <span>Análisis</span>
+                    </th>
+                    <th t-if="show_analysis_number != 0" name="th_sample_number" class="text-left">
+                        <span>Nº muestra</span>
+                    </th>
+                </t>
+            </xpath>
+
+            <xpath expr="//td[@name='account_invoice_line_name']" position="before">
+                <td t-if="show_analysis_number != 0" name="td_analysis_name">
+                    <span t-field="line.analysis_name"/>
+                </td>
+                <td t-if="show_analysis_number != 0" name="td_sample_number">
+                    <span t-field="line.sample_number"/>
+                </td>
+            </xpath>
+            <!--FIN COLUMNA NUMERO DE MUESTRA-->
+        </template>
+        <template id="unika_document_format.report_invoice_document_inherit_due_list"
+                  inherit_id="account_invoice_report_due_list.report_invoice_document">
+             <!-- TABLA DE VENCIMIENTOS -->
+            <xpath expr="//div[@t-if='due_list']" position="replace">
+
+            </xpath>
+            <!-- FIN TABLA DE VENCIMIENTOS -->
+            <xpath expr="//p[@name='payment_communication']" position="replace">
+                <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference" name="payment_communication" style="display:none;">
+                            Please use the following communication for your payment : <b><span t-field="o.payment_reference"/></b>
+                            <t t-if="o.partner_bank_id">
+                                <br/>
+                                on this account: <span t-field="o.partner_bank_id" class="font-weight-bold"/>
+                            </t>
+                        </p>
+            </xpath>
+            <xpath expr="//p[@name='payment_term']" position="replace">
+                <p t-if="o.invoice_payment_term_id" name="payment_term" style="display:none;">
+                    <span style="display:none;" t-field="o.invoice_payment_term_id.note"/>
+                </p>
+            </xpath>
+             <xpath expr="//p[@name='note']" position="replace">
+                <p t-if="not is_html_empty(o.fiscal_position_id.note)" name="note" style="display:none;">
+                    <span style="display:none;" t-field="o.fiscal_position_id.note"/>
+                </p>
+            </xpath>
+            <xpath expr="//p[@name='incoterm']" position="replace">
+                <p t-if="o.invoice_incoterm_id" name="incoterm" style="display:none;">
+                    <strong style="display:none;">Incoterm: </strong><span style="display:none;" t-field="o.invoice_incoterm_id.code"/> - <span style="display:none;" t-field="o.invoice_incoterm_id.name"/>
+                </p>
+            </xpath>
+        </template>
+
+         <template id="unika_document_format.report_invoice_inherit_2" inherit_id="account_payment_partner.report_invoice_payment_mode">
+              <xpath expr="//span[@t-field='o.invoice_payment_term_id.note']" position="replace">
+              </xpath>
+             <xpath expr="//p[@t-foreach='o.partner_banks_to_show()']" position="replace">
+                 <p t-foreach="o.partner_banks_to_show()" t-as="partner_bank" style="display:none;">
+                    <strong>Bank Account:</strong>
+                    <t t-if="partner_bank.bank_id">
+                        <t t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"/>
+                    </t>
+                    <t t-if="o.payment_mode_id.show_bank_account == 'full'">
+                        <span t-field="partner_bank.acc_number"/>
+                    </t>
+                    <t t-elif="o.payment_mode_id.show_bank_account == 'first'">
+                        <span t-esc="partner_bank.acc_number[:o.payment_mode_id.show_bank_account_chars] + '*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars)"/>
+                    </t>
+                    <t t-elif="o.payment_mode_id.show_bank_account == 'last'">
+                        <span t-esc="'*' * (len(partner_bank.acc_number) - o.payment_mode_id.show_bank_account_chars) + partner_bank.acc_number[-o.payment_mode_id.show_bank_account_chars:]"/>
+                    </t>
+                </p>
+             </xpath>
+         </template>
+    </data>
+</odoo>
