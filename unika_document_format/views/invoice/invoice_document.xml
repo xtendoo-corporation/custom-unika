@@ -18,7 +18,7 @@
             </xpath>
             <xpath expr="//t[@t-set='address']" position="replace">
                 <div class="row">
-                    <div class="col-5" t-if="o.invoice_date" name="invoice_date" style="margin-top:-125px;">
+                    <div class="col-5" t-if="o.invoice_date" name="invoice_date" style="margin-top:-115px;">
                         <div style="background-color:#26a273; width:110%;margin-left:-5%;">
                             <t t-if="o.move_type == 'out_invoice'"><strong style="color:white;margin-left:5%;">Fecha factura:</strong></t>
                             <t t-elif="o.move_type == 'out_refund'"><strong style="color:white;margin-left:5%;">Fecha factura rectificativa:</strong></t>
