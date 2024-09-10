@@ -230,7 +230,7 @@ class SaleOrder(models.Model):
             [("origin", "=", (self.name))]
         )
         stock_picking = self.env["stock.picking"].search(
-            [("purchase_id", "=", (purchase_order.id))]
+            [("purchase_id", "=", (purchase_order.ids))]
         )
 
         return stock_picking._get_analysis()
@@ -288,7 +288,8 @@ class SaleOrder(models.Model):
     def _action_confirm(self):
         result = super(SaleOrder, self)._action_confirm()
         for order in self:
-            order.order_line.sudo()._purchase_sample_generation()
+            for order_line in order.order_line:
+                purchase_line = order_line.sudo()._purchase_sample_generation_for_line()
         return result
 
 
@@ -475,6 +476,23 @@ class SaleOrderLine(models.Model):
         purchase_order = PurchaseOrder.create(values)
         # purchase_order.button_confirm()
         return purchase_order
+
+    def _purchase_sample_generation_for_line(self):
+        """Create a Purchase for the first time
+        from the sale line.
+         If the SO line already created a PO, it
+        will not create a second one.
+        """
+        result = ""
+
+        if self.product_id.is_product_sample:
+            if not self.purchase_line_count:
+                result = self._purchase_sample_create(self)
+        if result:
+            for purchase in result:
+                purchase.button_confirm()
+        return result
+
 
     def _purchase_sample_generation(self):
         """Create a Purchase for the first time

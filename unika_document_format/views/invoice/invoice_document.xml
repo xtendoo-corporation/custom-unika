@@ -38,10 +38,14 @@
                 </div>
             </xpath>
             <!-- FIN MOVER FECHA -->
-            <!-- OCULTAR ORIGEN -->
+            <!-- OCULTAR CAMPOS -->
             <xpath expr="//div[@name='origin']" position="replace">
             </xpath>
-            <!-- FIN OCULTAR ORIGEN -->
+            <xpath expr="//th[@name='th_taxes']" position="replace">
+            </xpath>
+            <xpath expr="//td[5]" position="replace">
+            </xpath>
+            <!-- FIN OCULTAR CAMPOS -->
             <!--PAGOS-->
             <xpath expr="//p[@name='payment_communication']" position="before">
                 <div style="display:block;width:100%;">
@@ -81,19 +85,31 @@
                     </t>
                 </t>
                 <t t-if="show_analysis_number != 0">
-                    <th t-if="show_analysis_number != 0" name="th_analysis_name" class="text-left">
-                        <span>Análisis</span>
-                    </th>
+<!--                    <th t-if="show_analysis_number != 0" name="th_analysis_name" class="text-left">-->
+<!--                        <span>Análisis</span>-->
+<!--                    </th>-->
                     <th t-if="show_analysis_number != 0" name="th_sample_number" class="text-left">
                         <span>Nº muestra</span>
                     </th>
                 </t>
             </xpath>
 
+             <xpath expr="//td[@name='account_invoice_line_name']" position="replace">
+                 <td name="account_invoice_line_name">
+                     <t t-if="line.description_in_lot">
+                         <span t-field="line.description_in_lot" t-options="{'widget': 'text'}"/>
+                     </t>
+                     <t t-else="">
+                         <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                     </t>
+                 </td>
+
+             </xpath>
+
             <xpath expr="//td[@name='account_invoice_line_name']" position="before">
-                <td t-if="show_analysis_number != 0" name="td_analysis_name">
-                    <span t-field="line.analysis_name"/>
-                </td>
+<!--                <td t-if="show_analysis_number != 0" name="td_analysis_name">-->
+<!--                    <span t-field="line.analysis_name"/>-->
+<!--                </td>-->
                 <td t-if="show_analysis_number != 0" name="td_sample_number">
                     <span t-field="line.sample_number"/>
                 </td>

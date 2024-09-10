@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<odoo>
+     <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="0">
+        <!--Email template -->
+        <record
+      id="unika_document_format.email_template_quotation_send"
+      model="mail.template"
+    >
+            <field name="name">Venta: Enviar presupuesto Análisis</field>
+            <field name="model_id" ref="sale.model_sale_order" />
+            <field
+        name="email_from"
+      >{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field
+        name="subject"
+      >{{ object.company_id.name }} {{ (object.get_portal_last_transaction().state == 'pending') and 'Pending Order' or 'Order' }} (Ref {{ object.name or 'n/a' }})</field>
+            <field name="body_html" type="html">
+                 <div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        <t t-set="doc_name" t-value="'presupuesto' if object.state in ('draft', 'sent') else 'pedido'"/>
+        Hola,
+        <br/><br/>
+        Su
+        <t t-if="ctx.get('proforma')">
+            Pro forma invoice for <t t-out="doc_name or ''">presupuesto</t> <strong t-out="object.name or ''">S00052</strong>
+            <t t-if="object.origin">
+                (con referencia: <t t-out="object.origin or ''"></t> )
+            </t>
+            con un importe de  <strong t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</strong> está disponible para su revisión.
+        </t>
+        <t t-else="">
+            <t t-out="doc_name or ''">presupuesto</t> <strong t-out="object.name or ''"></strong>
+            <t t-if="object.origin">
+                (con referencia: <t t-out="object.origin or ''">S00052</t> )
+            </t>
+            con un importe de <strong t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</strong> está disponible para su revisión.
+        </t>
+        <br/><br/>
+        Si tiene alguna pregunta, no dude en ponerse en contacto con nosotros.
+        <br/>
+    </p>
+</div>
+            </field>
+            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
+            <field name="report_template" ref="unika_document_format.report_analysis_sale_print" />
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="use_default_to" eval="False" />
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="auto_delete" eval="True" />
+        </record>
+    </data>
+</odoo>

@@ -15,6 +15,7 @@
         "account_payment_partner",
     ],
     "data": [
+        "data/mail_template.xml",
         "views/paper_format/paperformat_invoice.xml",
         "views/invoice/external_layout_boxed_invoice.xml",
         "views/invoice/invoice_view.xml",
