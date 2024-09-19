@@ -46,7 +46,7 @@ class AccountMoveLine(models.Model):
             if sample_number_id:
                 record.description_in_lot = sample_number_id.description
             else:
-                record.description_in_lot = ""
+                record.description_in_lot = record.name
 
     description_in_lot = fields.Char(string="Description", compute='_get_sample_description')
 
