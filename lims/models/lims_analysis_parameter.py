@@ -43,6 +43,7 @@ class LimsAnalysisParameter(models.Model):
     max_samples_permitted = fields.Integer(string="Número de muestras permitidas", store=True)
     limit_value_char = fields.Char(string="Valor limite texto", store=True)
     decimal_precision = fields.Integer(string="Número de decimales", store=True)
+    active = fields.Boolean(default=True, string="Active")
 
     def _is_code_in_use(self, code):
         parameter = self.env['lims.analysis.parameter'].search(

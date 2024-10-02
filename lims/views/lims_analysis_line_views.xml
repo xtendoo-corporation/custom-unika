@@ -255,11 +255,12 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="product_id"/>
-                <field name="lot_id"/>
-                <field name="analysis_id"/>
-                <field name="state"/>
+                <field name="name" optional="show"/>
+                <field name="customer_id" optional="show"/>
+                <field name="product_id" optional="show"/>
+                <field name="parameter_char_2" widget="text" optional="show"/>
+                <field name="lot_id" optional="show"/>
+                <field name="state" optional="show"/>
                 <field
                     name="result"
                     class="w-50 text-center text-uppercase font-weight-bolder"
@@ -268,8 +269,9 @@
                     decoration-warning="result == 'warning'"
                     decoration-danger="result == 'fail'"
                     decoration-info="result == 'none'"
+                    optional="show"
                 />
-                <field name="priority" class="oe_inline" widget="priority"/>
+                <field name="priority" class="oe_inline" widget="priority" optional="show"/>
             </tree>
         </field>
     </record>

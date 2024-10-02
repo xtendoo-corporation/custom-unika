@@ -23,16 +23,16 @@ class StockPicking(models.Model):
         compute="_compute_lot_name",
     )
     def button_validate(self):
-        date_validate = dt.datetime.now()
-        format = "%Y-%m-%d %H:%M:%S"
-        date_validate.strftime(format)
+        # date_validate = dt.datetime.now()
+        # format = "%Y-%m-%d %H:%M:%S"
+        # date_validate.strftime(format)
         partner_id = self.partner_id.id
         for line in self.move_line_ids_without_package:
             self.env["stock.production.lot"].search(
                 [("id", "=", line.lot_id.id)]
             ).write(
                 {
-                    "recepcion_date": date_validate,
+                    "recepcion_date": self.scheduled_date,
                     "partner_id": partner_id,
                 }
             )

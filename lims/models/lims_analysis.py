@@ -62,6 +62,7 @@ class LimsAnalysis(models.Model):
         string="Company",
         default=_get_company_id,
     )
+    active = fields.Boolean(default=True, string="Active")
 
     @api.model
     def create(self, vals):

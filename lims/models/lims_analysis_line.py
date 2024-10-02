@@ -12,7 +12,45 @@ class LimsAnalysisLine(models.Model):
     _inherit = ["mail.thread"]
     _description = "Analysis Line LIMS"
 
+    active = fields.Boolean(default=True, string="Active")
+
     analysis_warn_msg = fields.Text(compute="_compute_analysis_warn_msg")
+
+    def _get_parameter_char(self):
+        parameters = ""
+        if self.numerical_result:
+            for line in self.numerical_result:
+                parameters += _("%s \n" % (line.parameter_ids.name))
+        return parameters
+
+    parameter_char = fields.Text(string="Parámetros", store=True, compute="_compute_parameter_char", default=lambda self: self._get_parameter_char(),)
+    parameter_char_2 = fields.Text(string="Parámetros", compute="_compute_parameter_char_2",
+                                 default=lambda self: self._get_parameter_char(), )
+
+    def read(self, *args, **kwargs):
+        """ Sobrescribir el método read para actualizar el campo cada vez que se lee. """
+        records = super(LimsAnalysisLine, self).read(*args, **kwargs)
+        for record in records:
+            # Actualizar parameter_char manualmente
+            record['parameter_char'] = self.browse(record['id'])._compute_parameter_char()
+        return records
+    @api.depends("numerical_result", "numerical_result.parameter_ids")
+    def _compute_parameter_char(self):
+        parameters= ""
+        for record in self:
+            if record.numerical_result:
+                for line in record.numerical_result:
+                    parameters +=  _("%s \n" % (line.parameter_ids.name))
+            record.parameter_char = parameters
+
+    @api.depends("numerical_result", "numerical_result.parameter_ids")
+    def _compute_parameter_char_2(self):
+        parameters = ""
+        for record in self:
+            if record.numerical_result:
+                for line in record.numerical_result:
+                    parameters += _("%s \n" % (line.parameter_ids.name))
+            record.parameter_char_2 = parameters
 
     @api.depends(
         "state", "product_id.analysis_warn", "image_ids"

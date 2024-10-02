@@ -11,3 +11,4 @@ class AnalysisOfText(models.Model):
         string="Name",
         required=True,
     )
+    active = fields.Boolean(default=True, string="Active")

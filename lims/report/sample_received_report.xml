@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-2">
                                 <b>
-                                    <span t-field="doc.date_done" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                    <span t-field="doc.scheduled_date" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
                                 </b>
                             </div>
                             <div class="col-6">

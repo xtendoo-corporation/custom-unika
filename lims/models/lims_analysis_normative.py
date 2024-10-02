@@ -17,6 +17,7 @@ class LimsAnalysisNormative(models.Model):
     parameter_uom = fields.Many2many(related="parameter_ids.parameter_uom")
     limit_result_line_ids = fields.One2many('lims.analysis.normative.result.line', 'parent_id', string='Limits Line')
     is_acreditation = fields.Boolean(string="Is Acreditation", store=True)
+    active = fields.Boolean(default=True, string="Active")
 
 
 

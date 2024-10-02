@@ -26,8 +26,8 @@ class ParameterAnalyticalMethodRel(models.Model):
     )
 
     def get_display_name(self):
-
         self.display_name = self.display_name = f"{self.parameter_id.name} - {self.analytical_method_id.name}"
+
     display_name = fields.Char(string="Display Name", compute="get_display_name", store=True)
 
     def _get_company_id(self):
@@ -38,6 +38,7 @@ class ParameterAnalyticalMethodRel(models.Model):
         string="Company",
         default=_get_company_id
     )
+    active = fields.Boolean(default=True, string="Active")
 
     def set_display_name(self, parameter_name, method_id_name):
         return parameter_name + " - " + method_id_name

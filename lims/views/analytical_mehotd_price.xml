@@ -45,4 +45,24 @@
             </form>
         </field>
     </record>
+
+     <!-- Acción para abrir la vista del modelo analytical.method.price -->
+    <record id="action_analytical_method_price" model="ir.actions.act_window">
+        <field name="name">Parámetro-Método</field>
+        <field name="res_model">analytical.method.price</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Use this menu to manage Analytical Method Prices.
+            </p>
+        </field>
+    </record>
+
+     <menuitem
+        id="menu_analytical_method_price"
+        name="Parámetro-Método"
+        parent="cat_menu_lims_config"
+        sequence="10"
+        action="action_analytical_method_price"
+    />
 </odoo>
