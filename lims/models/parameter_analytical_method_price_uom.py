@@ -63,6 +63,17 @@ class ParameterAnalyticalMethodUomRel(models.Model):
         "Normative",
     )
 
+    def _get_is_in_sale(self):
+        for record in self:
+            sale = self.env['sale.order.line'].search([('parameter_ids', '=', record.analytical_method_id.id)])
+            if sale:
+                record.is_in_sale = True
+            else:
+                record.is_in_sale = False
+
+    is_in_sale = fields.Boolean(string="Ha sido vendido", compute="_get_is_in_sale")
+
+
     @api.onchange('use_acreditation')
     def set_use_acreditation(self):
         if self.use_acreditation and self.use_normative:

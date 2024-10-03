@@ -58,11 +58,84 @@
         </field>
     </record>
 
-     <menuitem
-        id="menu_analytical_method_price"
+<!--     <menuitem-->
+<!--        id="menu_analytical_method_price"-->
+<!--        name="Parámetro-Método"-->
+<!--        parent="cat_menu_lims_config"-->
+<!--        sequence="10"-->
+<!--        action="action_analytical_method_price"-->
+<!--    />-->
+    <record id="action_parameter_analytical_method_price_uom" model="ir.actions.act_window">
+        <field name="name">Parámetro-Método</field>
+        <field name="res_model">parameter.analytical.method.price.uom</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define aquí los precios y unidades de medida de los métodos analíticos.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_parameter_analytical_method_price_uom_tree" model="ir.ui.view">
+        <field name="name">parameter.analytical.method.price.uom.tree</field>
+        <field name="model">parameter.analytical.method.price.uom</field>
+        <field name="arch" type="xml">
+            <tree string="Analytical Method Price UOM">
+                <field name="name" optional="show"/>
+                <field name="parameter_id" optional="show"/>
+                <field name="price" optional="show"/>
+                <field name="cost" optional="show"/>
+                <field name="external_lab" optional="show"/>
+                <field name="company_id" optional="show"/>
+                <field name="required_uom" optional="show"/>
+                <field name="uom_id" optional="show"/>
+                <field name="use_acreditation" optional="show"/>
+                <field name="used_acreditation" optional="show"/>
+                <field name="use_normative" optional="show"/>
+                <field name="used_normative" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_parameter_analytical_method_price_uom_form" model="ir.ui.view">
+    <field name="name">parameter.analytical.method.price.uom.form</field>
+    <field name="model">parameter.analytical.method.price.uom</field>
+    <field name="arch" type="xml">
+        <form string="Analytical Method Price UOM">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="analytical_method_id"/>
+                        <field name="name" readonly="1"/>
+                        <field name="parameter_id" readonly="1"/>
+                        <field name="price" readonly="1"/>
+                        <field name="cost" readonly="1"/>
+                        <field name="external_lab" readonly="1"/>
+                        <field name="company_id" readonly="1"/>
+                        <field name="parameter_description"/>
+                    </group>
+                    <group>
+                        <field name="required_uom" readonly="1"/>
+                        <field name="uom_id"/>
+                        <field name="parameter_uom" widget="many2many_tags" readonly="1"/>
+                        <field name="use_acreditation"/>
+                        <field name="used_acreditation"/>
+                        <field name="use_normative"/>
+                        <field name="used_normative"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <menuitem
+        id="menu_parameter_analytical_method_price_uom"
         name="Parámetro-Método"
         parent="cat_menu_lims_config"
-        sequence="10"
-        action="action_analytical_method_price"
+        sequence="20"
+        action="action_parameter_analytical_method_price_uom"
     />
+
+
 </odoo>
