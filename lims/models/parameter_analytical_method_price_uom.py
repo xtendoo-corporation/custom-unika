@@ -73,6 +73,8 @@ class ParameterAnalyticalMethodUomRel(models.Model):
 
     is_in_sale = fields.Boolean(string="Ha sido vendido", compute="_get_is_in_sale")
 
+    active = fields.Boolean(default=True, string="Active")
+
 
     @api.onchange('use_acreditation')
     def set_use_acreditation(self):

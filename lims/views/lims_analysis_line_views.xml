@@ -259,6 +259,10 @@
                 <field name="customer_id" optional="show"/>
                 <field name="product_id" optional="show"/>
                 <field name="parameter_char_2" widget="text" optional="show"/>
+                <field name="date_sample_receipt" optional="hidden"/>
+                <field name="date_sample_begin" optional="hidden"/>
+                <field name="date_complete" optional="hidden"/>
+                <field name="date_exit" optional="hidden"/>
                 <field name="lot_id" optional="show"/>
                 <field name="state" optional="show"/>
                 <field
