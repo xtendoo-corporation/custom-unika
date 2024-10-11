@@ -103,7 +103,6 @@ class SaleOrder(models.Model):
         return price
 
     def _get_parameter_individual_price(self, parameter):
-        print(parameter.analytical_method_id)
         pricelist_item = self.env["product.pricelist.item"].search(
             [
                 ("analitycal_method_ids", "=", parameter.analytical_method_id.id),
@@ -357,8 +356,8 @@ class SaleOrderLine(models.Model):
         self.parameter_ids = None
         if self.analysis_group_ids:
             for analysis in self.analysis_group_ids:
-                if analysis.parameter_method_ids:
-                    self.parameter_ids += analysis.parameter_method_ids
+                if analysis.parameter_method_ids_new:
+                    self.parameter_ids += analysis.parameter_method_ids_new
     def button_edit_parameters(self):
         self.ensure_one()
         view = self.env.ref("lims.anaytical_method_price_tree_update_in_sale")
@@ -664,7 +663,7 @@ class SaleOrderLine(models.Model):
                             price_unit += analysis_id.price
 
                 for parameter in self.parameter_ids:
-                    if parameter not in self.analysis_group_ids.parameter_method_ids:
+                    if parameter not in self.analysis_group_ids.parameter_method_ids_new:
                         parameter_id = self.env["analytical.method.price"].search(
                             [("name", "=", parameter.name)], limit=1
                         )

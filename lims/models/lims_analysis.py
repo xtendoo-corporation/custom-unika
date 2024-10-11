@@ -2,7 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+from collections import Counter
 
 
 class LimsAnalysis(models.Model):
@@ -36,20 +37,38 @@ class LimsAnalysis(models.Model):
         "Lines",
     )
 
-    @api.depends('parameter_method_ids')
+    @api.depends('parameter_method_ids_new')
     def _get_parameter_domain(self):
+        print("*"*50)
+        print("En el compute")
         parameters_ids = []
-        for method in self.parameter_method_ids:
+        parameter_used = False
+        parameter_repeat = False
+
+        for method in self.parameter_method_ids_new:
             parameters_ids.append(method.parameter_id.id)
-        parameter_used = self.env['analytical.method.price'].search([('parameter_id', 'in', parameters_ids)])
-        self.parameter_used_ids = parameter_used
+            print("En el compute", method.id)
+            parameter_used = self.env['parameter.analytical.method.price.uom'].search([('parameter_id', 'in', parameters_ids)])
+            print("En el compute", parameter_used)
+        if parameter_used:
+            self.parameter_used_ids = parameter_used
+        else:
+            self.parameter_used_ids = False
+        print("*"*50)
 
     parameter_method_ids = fields.One2many(
         "parameter.analytical.method.price.uom",
         "parent_id",
     )
+    parameter_method_ids_new = fields.Many2many(
+        'parameter.analytical.method.price.uom',  # El modelo relacionado
+        'parameter_method_analysis',  # Nombre de la tabla intermedia
+        'parameter_method_id_new',  # Campo que apunta al modelo 'Course'
+        'parent_id_new',  # Campo que apunta al modelo 'Student'
+        string='METODOS'
+    )
     parameter_used_ids = fields.Many2many(
-        "analytical.method.price",
+        "parameter.analytical.method.price.uom",
         store=False,
         compute=_get_parameter_domain
 
@@ -88,6 +107,10 @@ class LimsAnalysis(models.Model):
 
 
     def write(self, vals):
+        print("*"*50)
+        print("En EL write", vals)
+
+        parameter_repeat = False
         if vals.get('name'):
             if vals['name']:
                 package = self.env['lims.analysis'].search(
@@ -98,19 +121,42 @@ class LimsAnalysis(models.Model):
                 if package:
                     raise UserError(_("El nombre debe ser único para cada paquete analítico"))
         res = super(LimsAnalysis, self).write(vals)
+        # if vals.get('parameter_method_ids_new'):
+        #     print("parameters", vals['parameter_method_ids_new'])
+        #     print("*" * 50)
         return res
 
-        if self.parameter_method_ids and res:
-            parameter_values = [{
-                'parent_id': res.id,
-                'analytical_method_id': parameter.analytical_method_id.id,
-                'uom_id': parameter.uom_id.id,
-                'use_acreditation': parameter.use_acreditation,
-                'used_acreditation': parameter.used_acreditation,
-                'use_normative': parameter.use_normative,
-                'used_normative': parameter.used_normative,
-            } for parameter in self.parameter_method_ids]
+    @api.constrains('parameter_method_ids_new')
+    def _check_unique_parameter_id(self):
+        for record in self:
+            parameter_used = []
+            parameter_ids = record.parameter_method_ids_new.mapped('parameter_id')
+            for parameter in record.parameter_method_ids_new:
+                parameter_used.append(parameter.parameter_id.id)
+            for parameter_id in parameter_ids:
+                if parameter_used.count(parameter_id.id) > 1:
+                    raise ValidationError(_("Parámetro %s duplicado.") % parameter_id.name)
+                # parameter_id_to_check = parameter.parameter_id
+                #
+                # # Contar cuántas veces se repite el ID específico
+                # repeticiones = len([param_id for param_id in parameter_ids if param_id == parameter_id_to_check])
+                #
+                # # Mostrar el resultado
+                # print(f"El ID {parameter_id_to_check} se repite {repeticiones} veces.")
+                # # if parameter.parameter_id in parameter_ids:
+                # #     raise ValidationError(_("Parámetro %s duplicado.") % parameter.parameter_id.name)
 
-            self.env['parameter.analytical.method.price.uom'].create(parameter_values)
-
-        return res
+        # if self.parameter_method_ids and res:
+        #     parameter_values = [{
+        #         'parent_id': res.id,
+        #         'analytical_method_id': parameter.analytical_method_id.id,
+        #         'uom_id': parameter.uom_id.id,
+        #         'use_acreditation': parameter.use_acreditation,
+        #         'used_acreditation': parameter.used_acreditation,
+        #         'use_normative': parameter.use_normative,
+        #         'used_normative': parameter.used_normative,
+        #     } for parameter in self.parameter_method_ids]
+        #
+        #     self.env['parameter.analytical.method.price.uom'].create(parameter_values)
+        #
+        # return res

@@ -36,8 +36,8 @@ class LimsAnalysisLine(models.Model):
         return records
     @api.depends("numerical_result", "numerical_result.parameter_ids")
     def _compute_parameter_char(self):
-        parameters= ""
         for record in self:
+            parameters = ""
             if record.numerical_result:
                 for line in record.numerical_result:
                     parameters +=  _("%s \n" % (line.parameter_ids.name))
@@ -45,8 +45,8 @@ class LimsAnalysisLine(models.Model):
 
     @api.depends("numerical_result", "numerical_result.parameter_ids")
     def _compute_parameter_char_2(self):
-        parameters = ""
         for record in self:
+            parameters = ""
             if record.numerical_result:
                 for line in record.numerical_result:
                     parameters += _("%s \n" % (line.parameter_ids.name))

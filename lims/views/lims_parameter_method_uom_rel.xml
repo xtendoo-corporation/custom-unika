@@ -10,14 +10,16 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
+                <field name="id"/>
                 <field name="analytical_method_id" string="Parameter and method" optional="show"/>
                 <field name="parameter_description" string="Descripción" optional="show"/>
                 <field name="parameter_id" string="Parameter" invisible="1"/>
-                <field name="parent_id" string="Paquete analítico" optional="show"/>
+                <field name="parent_id" string="Paquete analítico" invisible="1"/>
+                <field name="parent_id_new" widget="many2many_tags" string="Paquete analítico" optional="show"/>
                 <field name="uom_id" string="Unit of meassure" domain="[('id', '=', parameter_uom)]" optional="show"/>
                 <field name="parameter_uom" invisible="1"/>
                 <field name="cost" string="Cost" optional="show"/>
-                <field name="price" string="Price" optional="show"/>
+                <field name="price" string="Price" optional="show" readonly="0"/>
                 <field name="external_lab" string="External laboratory" optional="show"/>
                 <field name="company_id" string="Company" optional="show"/>
                 <field name="required_uom" optional="hidden"/>

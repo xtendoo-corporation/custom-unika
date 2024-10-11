@@ -29,7 +29,7 @@
                     <page string="Parameters" name="parameters">
                         <field name="parameter_used_ids" invisible="1"/>
                         <field
-                            name="parameter_method_ids"
+                            name="parameter_method_ids_new"
                             widget="one2many_list"
                             domain="[('id', 'not in', parameter_used_ids)]"
                         >
@@ -65,7 +65,7 @@
         <field name="arch" type="xml">
                 <tree>
                     <field name="name" string="Name"/>
-                   <field name="parameter_method_ids" string="Parameters" widget="many2many_tags" />
+                   <field name="parameter_method_ids_new" string="Parameters" widget="many2many_tags" />
                     <field name="price" string="Price"/>
                 </tree>
         </field>
