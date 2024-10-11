@@ -61,7 +61,7 @@
         <field name="res_model">product.template</field>
         <field name="view_mode">kanban,tree,form,activity</field>
         <field name="domain">[('is_product_sample', '=', True)]</field>
-        <field name="context">{'default_is_product_sample': True, 'default_detailed_type': 'product', 'default_tracking': 'lot'}</field>
+        <field name="context">{'default_is_product_sample': True, 'default_detailed_type': 'product', 'default_tracking': 'lot', 'default_invoice_policy': 'order'}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new sample product
