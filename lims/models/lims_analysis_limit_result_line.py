@@ -207,27 +207,52 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
     def _get_limit_value_char(self):
         limit_char = ""
         value = ""
+        decimal_precision = self.parent_id.parameter_ids.decimal_precision
         if self.operator_from not in ('', False):
+            if decimal_precision == 0:
+                limit_value_from_precision_applied = str(int(round(self.limit_value_from)))
+            else:
+                format_str = '%.' + str(decimal_precision) + 'f'
+                limit_value_from_precision_applied = format_str % self.limit_value_from
             operator_from = self.operator_from
             if self.operator_from == ">=":
                 operator_from = "≥"
             if self.operator_from == "<=":
                 operator_from = "≤"
-            limit_char = "{operator_from} {value_from:.2f}".format(
-                operator_from=operator_from,
-                value_from=self.limit_value_from,
-            )
+            if decimal_precision == 0:
+                limit_char = "{operator_from} {value_from}".format(
+                    operator_from=operator_from,
+                    value_from=limit_value_from_precision_applied,
+                )
+            else:
+                limit_char = "{operator_to} {value_to:.{precision}f}".format(
+                    operator_to=operator_from,
+                    value_to=float(limit_value_from_precision_applied),
+                    precision=decimal_precision  # Aquí pasamos la precisión como parámetro
+                )
             value = self.limit_value_from
         if self.operator_to not in ('', False):
+            if decimal_precision == 0:
+                limit_value_to_precision_applied = str(int(round(self.limit_value_to)))
+            else:
+                format_str = '%.' + str(decimal_precision) + 'f'
+                limit_value_to_precision_applied = format_str % self.limit_value_to
             operator_to = self.operator_to
             if self.operator_to == ">=":
                 operator_to = "≥"
             if self.operator_to == "<=":
                 operator_to = "≤"
-            limit_char = "{operator_to} {value_to:.2f}".format(
-                operator_to=operator_to,
-                value_to=self.limit_value_to,
-            )
+            if decimal_precision == 0:
+                limit_char = "{operator_to} {value_to}".format(
+                    operator_to=operator_to,
+                    value_to=limit_value_to_precision_applied,
+                )
+            else:
+                limit_char = "{operator_to} {value_to:.{precision}f}".format(
+                    operator_to=operator_to,
+                    value_to=float(limit_value_to_precision_applied),
+                    precision=decimal_precision  # Aquí pasamos la precisión como parámetro
+                )
             value = self.limit_value_to
 
         if self.parent_id.parameter_ids.show_potency:
@@ -275,6 +300,7 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 value_to=value_to,
             )
         else:
+            decimal_precision = self.parent_id.parameter_ids.decimal_precision
             operator_to = self.operator_to
             operator_from = self.operator_from
             if self.operator_to == ">=":
@@ -285,11 +311,26 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 operator_from = "≥"
             if self.operator_from == "<=":
                 operator_from = "≤"
-            between_limit_result = "{operator_from} {value_from:.2f} y {operator_to} {value_to:.2f}".format(
-                operator_from=operator_from,
-                value_from=self.limit_value_from,
-                operator_to=operator_to,
-                value_to=self.limit_value_to,
-            )
+            if decimal_precision == 0:
+                limit_value_from_precision_applied = str(int(round(self.limit_value_from)))
+                limit_value_to_precision_applied = str(int(round(self.limit_value_to)))
+                between_limit_result = "{operator_from} {value_from} y {operator_to} {value_to}".format(
+                    operator_from=operator_from,
+                    value_from=limit_value_from_precision_applied,
+                    operator_to=operator_to,
+                    value_to=limit_value_to_precision_applied,
+                )
+            else:
+                format_str = '%.' + str(decimal_precision) + 'f'
+                limit_value_to_precision_applied = format_str % self.limit_value_to
+                limit_value_from_precision_applied = format_str % self.limit_value_from
+
+                between_limit_result = "{operator_from} {value_from:.{precision}f} y {operator_to} {value_to:.{precision}f}".format(
+                    operator_from=operator_from,
+                    value_from=float(limit_value_from_precision_applied),
+                    operator_to=operator_to,
+                    value_to=float(limit_value_to_precision_applied),
+                    precision=decimal_precision  # Aquí pasamos la precisión como parámetro
+                )
         return between_limit_result
 

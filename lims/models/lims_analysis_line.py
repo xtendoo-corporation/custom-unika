@@ -321,15 +321,24 @@ class LimsAnalysisLine(models.Model):
     @api.model
     def _get_parameter_decimal_precision(self, parameter_ids):
         print("*"*50)
-        print("decimal_precision", parameter_ids)
-        if parameter_ids and parameter_ids.decimal_precision:
+        print("parameter_ids", parameter_ids)
+        print("decimal_precision", parameter_ids.decimal_precision)
+        if parameter_ids and parameter_ids.decimal_precision >= 0:
+            print("buena")
             return parameter_ids.decimal_precision
         else:
             return 2
     @api.model
     def format_value(self, value, decimal_precision):
-        format_str = '%.' + str(decimal_precision) + 'f'
-        return format_str % value
+        print("value", value)
+        print("decimal_precision", decimal_precision)
+        if decimal_precision == 0:
+            # Formatear sin decimales, pero también como entero
+            return str(int(round(value)))
+        else:
+            # Crear la cadena de formato para manejar el caso con decimales
+            format_str = '%.' + str(decimal_precision) + 'f'
+            return format_str % value
 
     def _get_parameter_extra_comment(self):
         comment_set = set()

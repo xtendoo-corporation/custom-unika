@@ -564,9 +564,11 @@
                                                                             <t t-else="">
                                                                                 <t t-set="decimal_precision" t-value="doc._get_parameter_decimal_precision(line.parameter_ids)"/>
                                                                                 <t t-if="line.result_legislation == 'fail'">
-                                                                                    <b>
-                                                                                        <span t-esc="doc.format_value(line.value, decimal_precision)"/>
-                                                                                    </b>
+                                                                                   <i>
+                                                                                       <b>
+                                                                                            <span t-esc="doc.format_value(line.value, decimal_precision)"/>
+                                                                                        </b>
+                                                                                   </i>
                                                                                 </t>
                                                                                 <t t-else="">
                                                                                      <span t-esc="doc.format_value(line.value, decimal_precision)"/>

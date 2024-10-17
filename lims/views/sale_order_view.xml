@@ -4,6 +4,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
+    <!-- tree -->
+    <record id="sale_order_lims_tree" model="ir.ui.view">
+        <field name="name">sale.order.lims.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='team_id']" position="before">
+                <field name="analysis_group_char_2" widget="text" optional="show"/>
+                <field name="parameter_char_2" widget="text" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- form -->
     <record id="sale_order_lims_form" model="ir.ui.view">
         <field name="name">sale.order.lims.form</field>
         <field name="model">sale.order</field>

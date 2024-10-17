@@ -65,7 +65,7 @@ class LimsAnalysis(models.Model):
         'parameter_method_analysis',  # Nombre de la tabla intermedia
         'parameter_method_id_new',  # Campo que apunta al modelo 'Course'
         'parent_id_new',  # Campo que apunta al modelo 'Student'
-        string='METODOS'
+        string='Métodos'
     )
     parameter_used_ids = fields.Many2many(
         "parameter.analytical.method.price.uom",

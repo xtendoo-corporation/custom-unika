@@ -9,6 +9,74 @@ from odoo.tools import float_compare
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    def _get_parameter_char(self):
+        parameters = ""
+        if self.order_line:
+            for line in self.order_line:
+                for parameter in line.parameter_ids:
+                    parameters += _("%s \n" % (parameter.analytical_method_id.name))
+        return parameters
+
+    parameter_char = fields.Text(string="Parámetros", store=True, compute="_compute_parameter_char",
+                                 default=lambda self: self._get_parameter_char(), )
+    parameter_char_2 = fields.Text(string="Parámetros", compute="_compute_parameter_char_2",
+                                   default=lambda self: self._get_parameter_char(), )
+
+    @api.depends("order_line", "order_line.parameter_ids")
+    def _compute_parameter_char(self):
+        for record in self:
+            parameters = ""
+            if record.order_line:
+                for line in record.order_line:
+                    for parameter in line.parameter_ids:
+                        parameters += _("%s \n" % (parameter.analytical_method_id.name))
+                    # parameters += _("%s \n" % (line.parameter_ids.name))
+            record.parameter_char = parameters
+
+    @api.depends("order_line", "order_line.parameter_ids")
+    def _compute_parameter_char_2(self):
+        for record in self:
+            parameters = ""
+            if record.order_line:
+                for line in record.order_line:
+                    for parameter in line.parameter_ids:
+                        parameters += _("%s \n" % (parameter.analytical_method_id.name))
+                    # parameters += _("%s \n" % (line.parameter_ids.name))
+            record.parameter_char_2 = parameters
+
+
+    def _get_group_char(self):
+        groups = ""
+        if self.order_line:
+            for line in self.order_line:
+                for group in line.analysis_group_ids:
+                    groups += _("%s \n" % (group.name))
+        return groups
+    analysis_group_char = fields.Text(string="Paquetes analíticos", store=True, compute="_compute_group_char",
+                                 default=lambda self: self._get_group_char(), )
+    analysis_group_char_2 = fields.Text(string="Paquetes analíticos", compute="_compute_group_char_2",
+                                   default=lambda self: self._get_group_char(), )
+
+    @api.depends("order_line", "order_line.analysis_group_ids")
+    def _compute_group_char(self):
+        for record in self:
+            groups = ""
+            if record.order_line:
+                for line in record.order_line:
+                    for group in line.analysis_group_ids:
+                        groups += _("%s \n" % (group.name))
+            record.analysis_group_char = groups  # Asegurarse de que esto asigne a 'analysis_group_char_2'
+
+    @api.depends("order_line", "order_line.analysis_group_ids")
+    def _compute_group_char_2(self):
+        for record in self:
+            groups = ""
+            if record.order_line:
+                for line in record.order_line:
+                    for group in line.analysis_group_ids:
+                        groups += _("%s \n" % (group.name))
+            record.analysis_group_char_2 = groups  # Asegurarse de que esto asigne a 'analysis_group_char_2'
+
     analysis_count = fields.Integer(
         "Number of Analysis Generated",
         compute="_compute_analysis_count",
@@ -409,7 +477,7 @@ class SaleOrderLine(models.Model):
             decreased_values = {
                 line.id: line.product_uom_qty for line in decreased_lines
             }
-
+        self.change_parameter_in_analysis(values)
         result = super(SaleOrderLine, self).write(values)
 
         if increased_lines:
@@ -421,6 +489,322 @@ class SaleOrderLine(models.Model):
                 values["product_uom_qty"], decreased_values
             )
         return result
+
+    def _get_analysis_line(self):
+        purchase_order = self.env["purchase.order"].search(
+            [("origin", "=", (self.order_id.name))]
+        )
+        if not purchase_order:
+            print("no hay orden de compra")
+            return
+        stock_picking = self.env["stock.picking"].search(
+            [("purchase_id", "in", (purchase_order.ids))]
+        )
+        if not stock_picking:
+            print("no hay picking")
+            return
+        analysis_line =stock_picking._get_analysis()
+        if not analysis_line:
+            print("no hay analisis")
+            return
+        return analysis_line
+
+    def change_parameter_in_analysis(self,values):
+        print("*")
+        analysis_id = self._get_analysis_line()
+        if not analysis_id:
+            print("no hay analisis")
+            return
+
+        actual_ids = self.parameter_ids.ids
+        new_ids = values['parameter_ids'][0][2]
+        print("En EL write actual_ids", actual_ids)
+        print("En EL write values", new_ids)
+        actual_set = set(actual_ids)
+        new_set = set(new_ids)
+        # Elementos añadidos en new_ids
+        added = new_set - actual_set
+
+        # Elementos eliminados en new_ids
+        removed = actual_set - new_set
+
+        if added:
+            print(f"Se añadieron los IDs: {added}")
+            for add in added:
+                self.add_new_parameter_in_analysis(add, analysis_id)
+
+        if removed:
+            print(f"Se eliminaron los IDs: {removed}")
+            for remove in removed:
+                self.remove_parameter_in_analysis(remove, analysis_id)
+        print("*")
+
+    def remove_parameter_in_analysis(self, id, analysis_id):
+        if analysis_id and id:
+            parameter_method = self.env["parameter.analytical.method.price.uom"].search(
+                [("id", "=", id)]
+            )
+            parameter = parameter_method.parameter_id
+            analysis_line = self.env["lims.analysis.numerical.result"].search(
+                [
+                    ("analysis_ids", "=", analysis_id.id),
+                    ("parameter_ids", "=", parameter.id),
+                    ("parameter_uom", "=", parameter_method.uom_id.id),
+                ]
+            )
+            if analysis_line:
+                analysis_line.unlink()
+
+    def add_new_parameter_multiple_in_analysis(self, parameter_method,analysis_id):
+        result_comment = ""
+        is_correct_default = False
+        is_present_default = False
+        use_acreditation = False
+        use_normative = False
+        technical_result = None
+        parameter = parameter_method.parameter_id
+        purchase_line = self.env["purchase.order.line"].search(
+            [("sale_line_id", "=", self.id)]
+        )
+        picking_id = purchase_line.order_id.picking_ids
+        move_line_id = self.env["stock.move.line"].search(
+            [("picking_id", "=", picking_id.id)]
+        )
+        move_line_ids = self.env["stock.move.line"].search(
+            [
+                ("picking_id", "=", move_line_id.picking_id.id),
+                ("product_id", "=", self.product_id.id),
+            ]
+        )
+        limit_ids_filter = parameter.limits_ids.filtered(
+            lambda r: r.uom_id == parameter_method.uom_id)
+        # ficha tecnica, Elegimos acreditado o no y si usa normativa.
+        technical_limit = ""
+        if parameter_method.use_acreditation:
+            eval_in_group = False
+            use_acreditation = True
+            acreditation_ids_filter = self.env["lims.analysis.normative"].search(
+                [
+                    ("parameter_ids", "=", parameter.id),
+                    ("is_acreditation", "=", True),
+                    ("uom_id", "=", parameter_method.uom_id.id)
+                ]
+            )
+            for line in acreditation_ids_filter.limit_result_line_ids.filtered(
+                lambda r: r.state == 'conform'):
+                technical_limit = line.get_correct_limit()
+
+                if technical_limit == "Present":
+                    is_present_default = True
+                if technical_limit == "Correct":
+                    is_correct_default = True
+                technical_result, eval_in_group = parameter.get_anlysis_result(
+                    acreditation_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+                technical_comment = parameter._get_limit_comment(
+                    acreditation_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+        elif parameter_method.use_normative:
+            use_normative = True
+            normative_ids_filter = self.env["lims.analysis.normative"].search(
+                [
+                    ("parameter_ids", "=", parameter.id),
+                    ("is_acreditation", "=", False),
+                    ("uom_id", "=", parameter_method.uom_id.id)
+                ]
+            )
+            for line in normative_ids_filter.limit_result_line_ids.filtered(
+                lambda r: r.state == 'conform'):
+                technical_limit = line.get_correct_limit()
+                if technical_limit == "Present":
+                    is_present_default = True
+                if technical_limit == "Correct":
+                    is_correct_default = True
+                technical_result, eval_in_group = parameter.get_anlysis_result(
+                    normative_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+                technical_comment = parameter._get_limit_comment(
+                    normative_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+        else:
+            for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
+                for limit_line_ids in limits_id.limit_result_line_ids.filtered(
+                    lambda r: r.state == 'conform'):
+                    technical_limit = limit_line_ids.get_correct_limit()
+                    if technical_limit == "Present":
+                        is_present_default = True
+                    if technical_limit == "Correct":
+                        is_correct_default = True
+            technical_result, eval_in_group = parameter.get_anlysis_result(
+                limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00,
+                is_correct_default, is_present_default)
+            technical_comment = parameter._get_limit_comment(
+                limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00,
+                is_correct_default, is_present_default)
+        # legislacion
+        legislation_limit = ""
+        legislation_comment = ""
+        legislation_name = ""
+        for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
+            legislation_name = limits_id.legislation_name
+            for limit_line_ids in limits_id.limit_result_line_ids.filtered(
+                lambda r: r.state == 'conform'):
+                legislation_limit = limit_line_ids.get_correct_limit()
+        legislation_result, eval_in_group = parameter.get_anlysis_result(
+            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+            is_present_default)
+        legislation_comment = parameter._get_limit_comment(
+            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+            is_present_default)
+        if parameter.required_comment:
+            result_comment = technical_comment
+            if legislation_result != 'pass' or legislation_result is not None:
+                result_comment = legislation_comment
+        if not parameter.required_comment:
+            result_comment = ""
+
+        for move in move_line_ids:
+            self.env["lims.analysis.numerical.result"].create(
+                {
+                    "analysis_ids": analysis_id.id,
+                    "parameter_ids": parameter_method.parameter_id.id,
+                    "parameter_uom": parameter_method.uom_id.id,
+                    "value": 0.00,
+                    "data_sheet": technical_limit,
+                    "legislation_value": legislation_limit,
+                    "is_present": is_present_default,
+                    "is_correct": is_correct_default,
+                    "result_legislation": legislation_result,
+                    "result_datasheet": technical_result,
+                    "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
+                    "legislation_used_name": legislation_name,
+                    "to_invoice": False,
+                    "comment": result_comment,
+                    "use_acreditation": use_acreditation,
+                    "use_normative": use_normative,
+                    "lot_name": move.lot_name_sample,
+                    "sample_sub_number": move.sample_sub_number,
+                    "global_result": "",
+                    "eval_in_group": eval_in_group,
+                }
+            )
+
+    def add_new_parameter_in_analysis(self, id, analysis_id):
+        parameter_method = self.env["parameter.analytical.method.price.uom"].search(
+            [("id", "=", id)]
+        )
+        parameter = parameter_method.parameter_id
+        if self.product_id.number_of_samples > 1:
+            self.add_new_parameter_multiple_in_analysis(parameter_method, analysis_id)
+            return
+        result_comment = ""
+        is_correct_default = False
+        is_present_default = False
+        use_acreditation = False
+        use_normative = False
+        technical_result = None
+        limit_ids_filter = parameter.limits_ids.filtered(lambda r: r.uom_id == parameter_method.uom_id)
+        # ficha tecnica, Elegimos acreditado o no y si usa normativa.
+        technical_limit = ""
+        if parameter_method.use_acreditation:
+            use_acreditation = True
+            acreditation_ids_filter = self.env["lims.analysis.normative"].search(
+                [
+                    ("parameter_ids", "=", parameter.id),
+                    ("is_acreditation", "=", True),
+                    ("uom_id", "=", parameter_method.uom_id.id)
+                ]
+            )
+            for line in acreditation_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                technical_limit = line.get_correct_limit()
+
+                if technical_limit == "Present":
+                    is_present_default = True
+                if technical_limit == "Correct":
+                    is_correct_default = True
+                technical_result, eval_in_group = parameter.get_anlysis_result(
+                    acreditation_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+                technical_comment = parameter._get_limit_comment(
+                    acreditation_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+        elif parameter_method.use_normative:
+            use_normative = True
+            normative_ids_filter = self.env["lims.analysis.normative"].search(
+                [
+                    ("parameter_ids", "=", parameter.id),
+                    ("is_acreditation", "=", False),
+                    ("uom_id", "=", parameter_method.uom_id.id)
+                ]
+            )
+            for line in normative_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                technical_limit = line.get_correct_limit()
+                if technical_limit == "Present":
+                    is_present_default = True
+                if technical_limit == "Correct":
+                    is_correct_default = True
+                technical_result, eval_in_group = parameter.get_anlysis_result(
+                    normative_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+                technical_comment = parameter._get_limit_comment(
+                    normative_ids_filter, 0.00, is_correct_default,
+                    is_present_default)
+        else:
+            for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'technical'):
+                for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                    technical_limit = limit_line_ids.get_correct_limit()
+                    if technical_limit == "Present":
+                        is_present_default = True
+                    if technical_limit == "Correct":
+                        is_correct_default = True
+            technical_result, eval_in_group = parameter.get_anlysis_result(
+                limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default,
+                is_present_default)
+            technical_comment = parameter._get_limit_comment(
+                limit_ids_filter.filtered(lambda r: r.type == 'technical'), 0.00, is_correct_default,
+                is_present_default)
+        # legislacion
+        legislation_limit = ""
+        legislation_comment = ""
+        legislation_name = ""
+        for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
+            legislation_name = limits_id.legislation_name
+            for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                legislation_limit = limit_line_ids.get_correct_limit()
+        legislation_result, eval_in_group = parameter.get_anlysis_result(
+            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+            is_present_default)
+        legislation_comment = parameter._get_limit_comment(
+            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+            is_present_default)
+        if parameter.required_comment:
+            result_comment = technical_comment
+            if legislation_result != 'pass' or legislation_result is not None:
+                result_comment = legislation_comment
+        self.env["lims.analysis.numerical.result"].create(
+            {
+                "analysis_ids": analysis_id.id,
+                "parameter_ids": parameter_method.parameter_id.id,
+                "parameter_uom": parameter_method.uom_id.id,
+                "value": 0.00,
+                "data_sheet": technical_limit,
+                "legislation_value": legislation_limit,
+                "is_present": is_present_default,
+                "is_correct": is_correct_default,
+                "result_legislation": legislation_result,
+                "result_datasheet": technical_result,
+                "analytical_method_id": parameter_method.analytical_method_id.analytical_method_id.id,
+                "legislation_used_name": legislation_name,
+                "to_invoice": False,
+                "comment": result_comment,
+                "use_acreditation": use_acreditation,
+                "use_normative": use_normative,
+                "lot_name": analysis_id.stock_move_line_id.lot_name,
+                "sample_sub_number": analysis_id.stock_move_line_id.sample_sub_number,
+                "global_result": "",
+                "eval_in_group": eval_in_group,
+            }
+        )
 
     def _purchase_sample_create(self, line):
         supplier_po_map = {}

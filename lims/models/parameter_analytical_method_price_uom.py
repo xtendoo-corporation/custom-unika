@@ -19,7 +19,7 @@ class ParameterAnalyticalMethodUomRel(models.Model):
         'parameter_method_analysis',  # Nombre de la tabla intermedia (debe ser el mismo que en el modelo Course)
         'parent_id_new',  # Campo que apunta al modelo 'Student'
         'parameter_method_id_new',  # Campo que apunta al modelo 'Course'
-        string='PAQUETES'
+        string='Paquetes'
     )
 
     analytical_method_id = fields.Many2one(
