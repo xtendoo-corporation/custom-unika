@@ -39,22 +39,17 @@ class LimsAnalysis(models.Model):
 
     @api.depends('parameter_method_ids_new')
     def _get_parameter_domain(self):
-        print("*"*50)
-        print("En el compute")
         parameters_ids = []
-        parameter_used = False
-        parameter_repeat = False
-
+        parameter_used = self.env['parameter.analytical.method.price.uom'].search([('is_active', '=', False)])
+        for method in parameter_used:
+            parameters_ids.append(method.parameter_id.id)
         for method in self.parameter_method_ids_new:
             parameters_ids.append(method.parameter_id.id)
-            print("En el compute", method.id)
             parameter_used = self.env['parameter.analytical.method.price.uom'].search([('parameter_id', 'in', parameters_ids)])
-            print("En el compute", parameter_used)
         if parameter_used:
             self.parameter_used_ids = parameter_used
         else:
             self.parameter_used_ids = False
-        print("*"*50)
 
     parameter_method_ids = fields.One2many(
         "parameter.analytical.method.price.uom",

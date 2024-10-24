@@ -27,6 +27,7 @@
                 <field name="used_acreditation" optional="hidden"/>
                 <field name="use_normative" optional="hidden"/>
                 <field name="is_in_sale" optional="hidden"/>
+                <field name="is_active" optional="hidden"/>
             </tree>
         </field>
     </record>

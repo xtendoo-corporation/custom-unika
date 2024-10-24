@@ -55,6 +55,49 @@ class LimsAnalysisParameter(models.Model):
         return False
 
     def write(self, vals):
+        print("*"*50)
+        print("vals", vals)
+        print("vals.get('active')", vals.get('active'))
+        #Comprobamos si se esta archivando
+        if 'active' in vals:
+            paremeter_method = self.env['analytical.method.price'].search(
+                [
+                    ('parameter_id', 'in', self.ids),
+                ]
+            )
+            print("paremeter_method", paremeter_method)
+            if paremeter_method:
+                if vals.get('active'):
+                    paremeter_method_price_uom =self.env['parameter.analytical.method.price.uom'].search(
+                        [
+                            ('analytical_method_id', 'in', paremeter_method.ids),
+                            ('is_active', '=', False),
+                        ]
+                    )
+                else:
+                    paremeter_method_price_uom = self.env['parameter.analytical.method.price.uom'].search(
+                        [
+                            ('analytical_method_id', 'in', paremeter_method.ids),
+                        ]
+                    )
+                if paremeter_method_price_uom:
+                    print("paremeter_method_price_uom", paremeter_method_price_uom)
+                    for parameter_price in paremeter_method_price_uom:
+                        print("parameter_price", parameter_price.name)
+                        if vals.get('active') == False:
+                            print("Se esta archivando")
+                            parameter_price.write(
+                                {
+                                    'is_active': False,
+                                }
+                            )
+                        else:
+                            print("Se esta desarchivando")
+                            parameter_price.write(
+                                {
+                                    'is_active': True,
+                                }
+                            )
         #Comprobamos si el codigo esta en uso, si lo esta y no es el mismo que el que ya tenia, lanzamos error
         if vals.get('default_code'):
             if vals['default_code']:
@@ -140,7 +183,7 @@ class LimsAnalysisParameter(models.Model):
                                     'parent_id': None,
                                 }
                             )
-
+        print("*"*50)
         return super(LimsAnalysisParameter, self).write(vals)
 
     @api.model

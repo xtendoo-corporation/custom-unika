@@ -30,7 +30,6 @@ class SaleOrder(models.Model):
                 for line in record.order_line:
                     for parameter in line.parameter_ids:
                         parameters += _("%s \n" % (parameter.analytical_method_id.name))
-                    # parameters += _("%s \n" % (line.parameter_ids.name))
             record.parameter_char = parameters
 
     @api.depends("order_line", "order_line.parameter_ids")
@@ -41,7 +40,6 @@ class SaleOrder(models.Model):
                 for line in record.order_line:
                     for parameter in line.parameter_ids:
                         parameters += _("%s \n" % (parameter.analytical_method_id.name))
-                    # parameters += _("%s \n" % (line.parameter_ids.name))
             record.parameter_char_2 = parameters
 
 
@@ -392,11 +390,19 @@ class SaleOrderLine(models.Model):
     def _get_parameter_domain(self):
         parameters_ids = []
         if not self.parameter_ids:
-            self.parameter_used_ids = None
+            parameter_used = self.env['parameter.analytical.method.price.uom'].search([('is_active', '=', False)])
+            if parameter_used:
+                self.parameter_used_ids = parameter_used
+            else:
+                self.parameter_used_ids = None
             return
         for parameter in self.parameter_ids:
             parameters_ids.append(parameter._origin.parameter_id.id)
-            parameter_used = self.env['parameter.analytical.method.price.uom'].search([('parameter_id', 'in', parameters_ids)])
+            parameter_used = self.env['parameter.analytical.method.price.uom'].search([
+                '|',
+                ('parameter_id', 'in', parameters_ids),
+                ('is_active', '=', False)
+            ])
         if parameter_used:
             self.parameter_used_ids = parameter_used
         else:
@@ -495,31 +501,30 @@ class SaleOrderLine(models.Model):
             [("origin", "=", (self.order_id.name))]
         )
         if not purchase_order:
-            print("no hay orden de compra")
             return
         stock_picking = self.env["stock.picking"].search(
             [("purchase_id", "in", (purchase_order.ids))]
         )
         if not stock_picking:
-            print("no hay picking")
             return
         analysis_line =stock_picking._get_analysis()
         if not analysis_line:
-            print("no hay analisis")
             return
         return analysis_line
 
     def change_parameter_in_analysis(self,values):
-        print("*")
         analysis_id = self._get_analysis_line()
         if not analysis_id:
-            print("no hay analisis")
             return
-
         actual_ids = self.parameter_ids.ids
-        new_ids = values['parameter_ids'][0][2]
-        print("En EL write actual_ids", actual_ids)
-        print("En EL write values", new_ids)
+        if 'parameter_ids' in values and isinstance(values['parameter_ids'], list) and len(
+            values['parameter_ids']) > 0 and len(values['parameter_ids'][0]) > 2:
+            new_ids = values['parameter_ids'][0][2]
+        else:
+            # Manejar el caso en que la estructura no sea la esperada
+            new_ids = []
+
+        # new_ids = values['parameter_ids'][0][2]
         actual_set = set(actual_ids)
         new_set = set(new_ids)
         # Elementos añadidos en new_ids
@@ -529,15 +534,12 @@ class SaleOrderLine(models.Model):
         removed = actual_set - new_set
 
         if added:
-            print(f"Se añadieron los IDs: {added}")
             for add in added:
                 self.add_new_parameter_in_analysis(add, analysis_id)
 
         if removed:
-            print(f"Se eliminaron los IDs: {removed}")
             for remove in removed:
                 self.remove_parameter_in_analysis(remove, analysis_id)
-        print("*")
 
     def remove_parameter_in_analysis(self, id, analysis_id):
         if analysis_id and id:

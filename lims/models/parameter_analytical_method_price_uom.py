@@ -84,6 +84,9 @@ class ParameterAnalyticalMethodUomRel(models.Model):
 
     active = fields.Boolean(default=True, string="Active")
 
+    is_active = fields.Boolean(default=True, string="Está activo")
+
+
 
     @api.onchange('use_acreditation')
     def set_use_acreditation(self):

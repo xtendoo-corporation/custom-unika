@@ -35,7 +35,7 @@
                         >
                               <tree editable="bottom">
                                   <field name="parent_id" invisible="1"/>
-                                  <field name="parameter_used_ids" invisible="1"/>
+                                  <field name="parameter_used_ids" invisible="0" widget="one2many_tags"/>
                                   <field name="parameter_id" string="Parameter" invisible="1"/>
                                   <field name="analytical_method_id" string="Parameter and method" domain="[('id', 'not in', parameter_used_ids)]"/>
                                   <field name="required_uom" invisible="1"/>
