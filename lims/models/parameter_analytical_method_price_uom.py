@@ -183,10 +183,10 @@ class ParameterAnalyticalMethodUomRel(models.Model):
     #     print("*" * 50)
     #     return new_record
 
-    @api.model
-    def init(self):
-        self.update_fields_not_udm()
-        self.update_fields_udm()
+    # @api.model
+    # def init(self):
+    #     #self.update_fields_not_udm()
+    #     #self.update_fields_udm()
 
     def update_fields_not_udm(self):
         print("*" * 50)

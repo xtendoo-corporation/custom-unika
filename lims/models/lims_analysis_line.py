@@ -583,16 +583,38 @@ class LimsAnalysisLine(models.Model):
                         legislation_limit = ""
                         legislation_comment =""
                         legislation_name=""
-                        for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
-                            legislation_name = limits_id.legislation_name
-                            for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
-                                legislation_limit = limit_line_ids.get_correct_limit()
-                        legislation_result, eval_in_group = parameter.get_anlysis_result(
-                            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
-                            is_present_default)
-                        legislation_comment = parameter._get_limit_comment(
-                            limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
-                            is_present_default)
+                        if parameter_method.use_normative:
+                            use_normative = True
+                            normative_ids_filter = self.env["lims.analysis.normative"].search(
+                                [
+                                    ("parameter_ids", "=", parameter.id),
+                                    ("is_acreditation", "=", False),
+                                    ("uom_id", "=", parameter_method.uom_id.id)
+                                ]
+                            )
+                            for line in normative_ids_filter.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                legislation_limit = line.get_correct_limit()
+                                if legislation_limit == "Present":
+                                    is_present_default = True
+                                if legislation_limit == "Correct":
+                                    is_correct_default = True
+                                legislation_result, eval_in_group = parameter.get_anlysis_result(
+                                    normative_ids_filter, 0.00, is_correct_default,
+                                    is_present_default)
+                                legislation_comment = parameter._get_limit_comment(
+                                    normative_ids_filter, 0.00, is_correct_default,
+                                    is_present_default)
+                        else:
+                            for limits_id in limit_ids_filter.filtered(lambda r: r.type == 'legislation'):
+                                legislation_name = limits_id.legislation_name
+                                for limit_line_ids in limits_id.limit_result_line_ids.filtered(lambda r: r.state == 'conform'):
+                                    legislation_limit = limit_line_ids.get_correct_limit()
+                            legislation_result, eval_in_group = parameter.get_anlysis_result(
+                                limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+                                is_present_default)
+                            legislation_comment = parameter._get_limit_comment(
+                                limit_ids_filter.filtered(lambda r: r.type == 'legislation'), 0.00, is_correct_default,
+                                is_present_default)
                         if parameter.required_comment:
                             result_comment = technical_comment
                             if legislation_result != 'pass' or legislation_result is not None:
