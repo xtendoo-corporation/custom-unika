@@ -23,19 +23,6 @@ class StockPicking(models.Model):
         compute="_compute_lot_name",
     )
     def button_validate(self):
-        # date_validate = dt.datetime.now()
-        # format = "%Y-%m-%d %H:%M:%S"
-        # date_validate.strftime(format)
-        # move_line_1 = self.move_line_ids_without_package[0]
-        # move_id = move_line_1.move_id
-        # purchase_id = move_id.purchase_line_id.order_id
-        # sales = purchase_id._get_sale_orders()
-        # if len(sales) > 0:
-        #     for sale in sales:
-        #         print("*"*50)
-        #         print("lanzando")
-        #         sale._compute_sample_number_char()
-        #         sale._compute_sample_number_char_2()
         partner_id = self.partner_id.id
         for line in self.move_line_ids_without_package:
             self.env["stock.production.lot"].search(

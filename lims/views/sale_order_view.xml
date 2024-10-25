@@ -12,7 +12,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='team_id']" position="before">
                 <field name="sample_number_char_2" widget="text" optional="show"/>
-                <field name="sample_number_char" widget="text" optional="show"/>
                 <field name="analysis_group_char_2" widget="text" optional="show"/>
                 <field name="parameter_char_2" widget="text" optional="show"/>
             </xpath>
