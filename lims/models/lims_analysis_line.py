@@ -583,6 +583,8 @@ class LimsAnalysisLine(models.Model):
                         legislation_limit = ""
                         legislation_comment =""
                         legislation_name=""
+                        legislation_result= ""
+                        eval_in_group = False
                         if parameter_method.use_normative:
                             use_normative = True
                             normative_ids_filter = self.env["lims.analysis.normative"].search(

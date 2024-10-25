@@ -75,6 +75,70 @@ class SaleOrder(models.Model):
                         groups += _("%s \n" % (group.name))
             record.analysis_group_char_2 = groups  # Asegurarse de que esto asigne a 'analysis_group_char_2'
 
+    def _get_sample_number_char(self):
+        samples = ""
+        purchases = self.env["purchase.order"].search([("origin", "=", self.name)])
+        if len(purchases) > 0:
+            for purchase in purchases:
+                pickings = self.env["stock.picking"].search([("origin", "=", purchase.name)])
+                if len(pickings) > 0:
+                    for picking in pickings:
+                        sample_name = ""
+                        move_lines = self.env["stock.move.line"].search([("picking_id", "=", picking.id)])
+                        if len(move_lines) > 0:
+                            for move in move_lines:
+                                if sample_name != move.lot_id.name:
+                                    if move.lot_id:
+                                        samples += _("%s \n" % (move.lot_id.name))
+                                        sample_name = move.lot_id.name
+        return samples
+
+    sample_number_char = fields.Text(string="Nº muestra", store=True, compute="_compute_sample_number_char",
+                                 default=lambda self: self._get_sample_number_char(), )
+    sample_number_char_2 = fields.Text(string="Nº muestra", compute="_compute_sample_number_char_2",
+                                   default=lambda self: self._get_sample_number_char(), )
+
+    @api.depends("sample_number_char_2")
+    def _compute_sample_number_char(self):
+        for record in self:
+            samples = ""
+            purchases = self.env["purchase.order"].search([("origin", "=", record.name)])
+            if len(purchases) > 0:
+                for purchase in purchases:
+                    pickings = self.env["stock.picking"].search([("origin", "=", purchase.name)])
+                    if len(pickings) > 0:
+                        for picking in pickings:
+                            sample_name = ""
+                            move_lines = self.env["stock.move.line"].search([("picking_id", "=", picking.id)])
+                            if len(move_lines) > 0:
+                                for move in move_lines:
+                                    if sample_name != move.lot_id.name:
+                                        if move.lot_id:
+                                            samples += _("%s \n" % (move.lot_id.name))
+                                            sample_name= move.lot_id.name
+            record.sample_number_char = samples
+
+    @api.depends("order_line", "order_line.purchase_line_ids.order_id")
+    def _compute_sample_number_char_2(self):
+        for record in self:
+            samples = ""
+            purchases = self.env["purchase.order"].search([("origin", "=", record.name)])
+            if len(purchases) > 0:
+                for purchase in purchases:
+                    pickings = self.env["stock.picking"].search([("origin", "=", purchase.name)])
+                    if len(pickings) > 0:
+                        for picking in pickings:
+                            sample_name = ""
+                            move_lines = self.env["stock.move.line"].search([("picking_id", "=", picking.id)])
+                            if len(move_lines) > 0:
+                                for move in move_lines:
+                                    if sample_name != move.lot_id.name:
+                                        if move.lot_id:
+                                            samples += _("%s \n" % (move.lot_id.name))
+                                            sample_name = move.lot_id.name
+            record.sample_number_char = samples
+            record.sample_number_char_2 = samples
+
     analysis_count = fields.Integer(
         "Number of Analysis Generated",
         compute="_compute_analysis_count",
