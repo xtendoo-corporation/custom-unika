@@ -89,6 +89,7 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree editable="bottom" multi_edit="1">
+                <field name="sequence" widget="handle"/>
                 <field name="analysis_ids" readonly="1" invisible="1"/>
                 <field name="lot_id" optional="hide"/>
                 <field name="sample_sub_number" optional="hide"/>

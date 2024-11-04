@@ -45,6 +45,13 @@ class LimsAnalysisParameter(models.Model):
     decimal_precision = fields.Integer(string="Número de decimales", store=True)
     active = fields.Boolean(default=True, string="Active")
 
+    # @api.onchange('analytical_method_price_ids')
+    # def _onchange_analytical_method_price_ids(self):
+    #     print("*"*50)
+    #     print("onchange")
+    #
+    #     print("*"*50)
+
     def _is_code_in_use(self, code):
         parameter = self.env['lims.analysis.parameter'].search(
             [
@@ -132,6 +139,8 @@ class LimsAnalysisParameter(models.Model):
 
         if vals.get('analytical_method_price_ids'):
             #si se eliminan metodos:
+            print("*"*50)
+            print("entra")
             method_vals = vals.get('analytical_method_price_ids')[0][2]
             method_actuals = self.analytical_method_price_ids
             if method_vals != 0:
@@ -140,11 +149,19 @@ class LimsAnalysisParameter(models.Model):
                         method_to_delete = self.env['analytical.method.price'].search([
                             ('id', '=', method_actual.id)
                         ])
-                        method_to_delete.unlink()
+                        method_to_delete.write(
+                            {
+                                'is_active': False,
+                            }
+                        )
                         method_price_to_delete = self.env['parameter.analytical.method.price.uom'].search([
                             ('analytical_method_id', '=', method_actual.id),
                         ])
-                        method_price_to_delete.unlink()
+                        method_price_to_delete.write(
+                            {
+                                'is_active': False,
+                            }
+                        )
                 #añadir metodos
                 methods = self.env['analytical.method.price'].search(
                     [
@@ -160,12 +177,21 @@ class LimsAnalysisParameter(models.Model):
                                     ('uom_id', '=', udm.id),
                                 ]
                             )
+                            print("method_exist", method_exist)
                             if len(method_exist) == 0:
+                                print("crea")
                                 self.env['parameter.analytical.method.price.uom'].create(
                                     {
                                         'analytical_method_id': method.id,
                                         'uom_id': udm.id,
                                         'parent_id': None,
+                                    }
+                                )
+                            else:
+                                print("actualiza")
+                                method_exist.write(
+                                    {
+                                        'is_active': True,
                                     }
                                 )
                     else:
@@ -175,12 +201,19 @@ class LimsAnalysisParameter(models.Model):
                                 ('uom_id', '=', False)
                             ]
                         )
+                        print("method_exist", method_exist)
                         if len(method_exist) == 0:
                             self.env['parameter.analytical.method.price.uom'].create(
                                 {
                                     'analytical_method_id': method.id,
                                     'uom_id': None,
                                     'parent_id': None,
+                                }
+                            )
+                        else:
+                            method_exist.write(
+                                {
+                                    'is_active': True,
                                 }
                             )
         print("*"*50)

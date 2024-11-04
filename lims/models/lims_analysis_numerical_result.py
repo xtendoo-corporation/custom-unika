@@ -20,6 +20,7 @@ class LimsAnalysisNumericalResult(models.Model):
         "parameter.extra.comment",
         "Comentario Extra",
     )
+    sequence = fields.Integer(string='Sequence', default=10)
 
     def get_name_with_index(self, indexed_comments):
         self.ensure_one()

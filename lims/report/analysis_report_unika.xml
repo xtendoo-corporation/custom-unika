@@ -314,7 +314,7 @@
 
                             <t
                                     t-set="parameters_grouped"
-                                    t-value="doc.numerical_result.filtered(lambda l: l.type_tags.id == type.id)"/>
+                                    t-value="doc.numerical_result.filtered(lambda l: l.type_tags.id == type.id).sorted(key=lambda l: l.sequence)"/>
                             <t t-if="parameters_grouped">
                                 <h1 style="clear:both;color:white;font-size:0.6em">
                                     <span t-esc="type.name"></span>
@@ -434,20 +434,25 @@
                                                         <div
                                                                 style="width:18.5%;margin-right:0.5%;float:left;"
                                                         >
-                                                            <t t-if="line.legislation_value == 'Presencia'">
-                                                                <span style="padding-left:5px;">
-                                                                    Presencia
-                                                                </span>
+                                                            <t t-if="not line.legislation_value or line.legislation_value == ''">
+                                                                <span style="padding-left:5px;color:white;">abc</span>
                                                             </t>
                                                             <t t-else="">
-                                                                <t t-if="line.legislation_value == 'Ausencia'">
+                                                                <t t-if="line.legislation_value == 'Presencia'">
                                                                     <span style="padding-left:5px;">
-                                                                        Ausencia
+                                                                        Presencia
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="line.legislation_value"
-                                                                          style="padding-left:5px;"/>
+                                                                    <t t-if="line.legislation_value == 'Ausencia'">
+                                                                        <span style="padding-left:5px;">
+                                                                            Ausencia
+                                                                        </span>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span t-field="line.legislation_value"
+                                                                              style="padding-left:5px;"/>
+                                                                    </t>
                                                                 </t>
                                                             </t>
                                                         </div>

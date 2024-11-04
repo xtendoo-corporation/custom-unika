@@ -25,6 +25,8 @@ class ParameterAnalyticalMethodRel(models.Model):
         string="External Lab",
     )
 
+    is_active = fields.Boolean(default=True, string="Está activo")
+
     def get_display_name(self):
         self.display_name = self.display_name = f"{self.parameter_id.name} - {self.analytical_method_id.name}"
 

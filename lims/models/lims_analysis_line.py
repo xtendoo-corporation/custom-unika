@@ -3,6 +3,8 @@
 
 import datetime
 
+from setuptools.dist import sequence
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -81,6 +83,7 @@ class LimsAnalysisLine(models.Model):
         "lims.analysis.numerical.result",
         "analysis_ids",
         tracking=True,
+        order='sequence',
     )
     stock_move_line_id = fields.Many2one(
         "stock.move.line",
@@ -368,6 +371,7 @@ class LimsAnalysisLine(models.Model):
             parameter_method_ids = (
                 move_line_id.move_id.purchase_line_id.sale_line_id.parameter_ids
             )
+            analityc_package = move_line_id.move_id.purchase_line_id.sale_line_id.analysis_group_ids
             vals["date_sample_receipt"] = move_line_id.move_id.picking_id.date_done
             #Buscamos analysis anterior
             vals["previous_analysis_date"] = self.get_previous_analysis_date(vals.get("product_id"), vals.get("customer_id"))
@@ -405,6 +409,11 @@ class LimsAnalysisLine(models.Model):
                     )
                     for line_parameter in move_line_ids:
                         for parameter in parameter_method.parameter_id:
+                            sequence = 10
+                            for group in analityc_package:
+                                for parameter_package in group.parameter_method_ids_new:
+                                    if parameter_package.parameter_id.id == parameter.id:
+                                        sequence = parameter_package.sequence
                             limit_ids_filter = parameter.limits_ids.filtered(
                                 lambda r: r.uom_id == parameter_method.uom_id)
                             # ficha tecnica, Elegimos acreditado o no y si usa normativa.
@@ -493,6 +502,7 @@ class LimsAnalysisLine(models.Model):
                                 result_comment = ""
                             self.env["lims.analysis.numerical.result"].create(
                                 {
+                                    "sequence": sequence,
                                     "analysis_ids": result.id,
                                     "parameter_ids": parameter_method.parameter_id.id,
                                     "parameter_uom": parameter_method.uom_id.id,
@@ -523,6 +533,11 @@ class LimsAnalysisLine(models.Model):
                     use_acreditation = False
                     use_normative = False
                     for parameter in parameter_method.parameter_id:
+                        sequence = 10
+                        for group in analityc_package:
+                            for parameter_package in group.parameter_method_ids_new:
+                                if parameter_package.parameter_id.id == parameter.id:
+                                    sequence = parameter_package.sequence
                         limit_ids_filter = parameter.limits_ids.filtered(lambda r: r.uom_id == parameter_method.uom_id)
                         # ficha tecnica, Elegimos acreditado o no y si usa normativa.
                         technical_limit = ""
@@ -621,8 +636,10 @@ class LimsAnalysisLine(models.Model):
                             result_comment = technical_comment
                             if legislation_result != 'pass' or legislation_result is not None:
                                 result_comment = legislation_comment
+                        print("sequence", sequence)
                         self.env["lims.analysis.numerical.result"].create(
                             {
+                                "sequence": sequence,
                                 "analysis_ids": result.id,
                                 "parameter_ids": parameter_method.parameter_id.id,
                                 "parameter_uom": parameter_method.uom_id.id,

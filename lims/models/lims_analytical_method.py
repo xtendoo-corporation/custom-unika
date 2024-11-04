@@ -14,6 +14,7 @@ class LimsAnalyticalMethod(models.Model):
 
     uncertainty = fields.Float(string="uncertainty", store=True)
     active = fields.Boolean(default=True, string="Active")
+    is_active = fields.Boolean(default=True, string="Está activo")
 
     _sql_constraints = [
         ("code_uniq", "unique (default_code)", "Code already exists!"),

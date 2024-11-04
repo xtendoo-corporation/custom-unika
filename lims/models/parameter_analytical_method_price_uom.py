@@ -72,6 +72,8 @@ class ParameterAnalyticalMethodUomRel(models.Model):
         "Normative",
     )
 
+    sequence = fields.Integer(string='Sequence', default=10)
+
     def _get_is_in_sale(self):
         for record in self:
             sale = self.env['sale.order.line'].search([('parameter_ids', '=', record.id)])
