@@ -219,6 +219,8 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 operator_from = "≥"
             if self.operator_from == "<=":
                 operator_from = "≤"
+            if self.operator_from == "=":
+                operator_from = ""
             if decimal_precision == 0:
                 limit_char = "{operator_from} {value_from}".format(
                     operator_from=operator_from,
@@ -242,6 +244,8 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
                 operator_to = "≥"
             if self.operator_to == "<=":
                 operator_to = "≤"
+            if self.operator_to == "=":
+                operator_to = ""fish
             if decimal_precision == 0:
                 limit_char = "{operator_to} {value_to}".format(
                     operator_to=operator_to,
