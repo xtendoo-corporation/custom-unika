@@ -245,7 +245,7 @@ class LimsAnalysisParameterLimitResultLine(models.Model):
             if self.operator_to == "<=":
                 operator_to = "≤"
             if self.operator_to == "=":
-                operator_to = ""fish
+                operator_to = ""
             if decimal_precision == 0:
                 limit_char = "{operator_to} {value_to}".format(
                     operator_to=operator_to,
