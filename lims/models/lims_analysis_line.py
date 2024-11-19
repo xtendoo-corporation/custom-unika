@@ -372,7 +372,7 @@ class LimsAnalysisLine(models.Model):
                 move_line_id.move_id.purchase_line_id.sale_line_id.parameter_ids
             )
             analityc_package = move_line_id.move_id.purchase_line_id.sale_line_id.analysis_group_ids
-            vals["date_sample_receipt"] = move_line_id.move_id.picking_id.date_done
+            vals["date_sample_receipt"] = move_line_id.move_id.picking_id.scheduled_date
             #Buscamos analysis anterior
             vals["previous_analysis_date"] = self.get_previous_analysis_date(vals.get("product_id"), vals.get("customer_id"))
             vals["previous_analysis_result"] = self.get_previous_analysis_result(vals.get("product_id"), vals.get("customer_id"))
@@ -389,8 +389,8 @@ class LimsAnalysisLine(models.Model):
                     vals["date_expired"] = move_line_id.lot_id.expiration_date
                 if move_line_id.lot_id.place:
                     vals["capture_place"] = move_line_id.lot_id.place
-                if move_line_id.lot_id.expiration_date:
-                    vals["date_expired"] = move_line_id.lot_id.expiration_date
+                # if move_line_id.lot_id.expiration_date:
+                #     vals["date_expired"] = move_line_id.lot_id.expiration_date
             result = super(LimsAnalysisLine, self).create(vals)
             result_comment = ""
             technical_result = None
