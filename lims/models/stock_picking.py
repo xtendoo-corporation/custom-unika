@@ -162,6 +162,8 @@ class StockPicking(models.Model):
                 limit_result = limits.limit_result_line_ids.filtered(
                     lambda r: r.state == "conform"
                 )
+                if len(limit_result) > 1:
+                    limit_result= limit_result.filtered(lambda r: r.type == 'LIMIT')
                 if limit_result:
                     if limit_result[0].type == 'LIMIT':
                         value = parameter._get_limit_value_char(limit_result)
