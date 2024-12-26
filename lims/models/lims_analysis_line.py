@@ -677,7 +677,8 @@ class LimsAnalysisLine(models.Model):
                     # line.eval_in_group = True
                     line.global_result = 'fail'
             else:
-                between_limit = sum(1 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id) if line.eval_in_group == True)
+                #between_limit = sum(1 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id) if line.eval_in_group == True)
+                between_limit = self.use_between_limit(self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id))
                 max_permited = parameter.max_samples_permitted
                 for line in self.numerical_result.filtered(lambda x: x.parameter_ids.id == parameter.id):
                     if between_limit > max_permited:
@@ -685,6 +686,25 @@ class LimsAnalysisLine(models.Model):
                     else:
                         line.global_result = 'pass'
         return result
+
+    def use_between_limit(self, lines_to_evalue):
+        between_used = 0
+        for line in lines_to_evalue:
+            for limit in line.parameter_ids.limits_ids.limit_result_line_ids:
+                if limit.type == 'BETWEEN':
+                    result_from = (
+                        (limit.operator_from == ">" and line.value > limit.limit_value_from) or
+                        (limit.operator_from == ">=" and line.value >= limit.limit_value_from) or
+                        (limit.operator_from == "=" and line.value == limit.limit_value_from)
+                    )
+                    result_to = (
+                        (limit.operator_to == "<" and line.value < limit.limit_value_to) or
+                        (limit.operator_to == "<=" and line.value <= limit.limit_value_to) or
+                        (limit.operator_to == "=" and line.value == limit.limit_value_to)
+                    )
+                    if result_from and result_to:
+                        between_used += 1
+        return between_used
     def unlink(self):
         if any(analysis.state not in ["cancel"] for analysis in self):
             raise UserError(_("You can only delete Cancel analyses."))
