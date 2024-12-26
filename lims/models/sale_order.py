@@ -562,12 +562,19 @@ class SaleOrderLine(models.Model):
 
     def _get_analysis_line(self):
         purchase_order = self.env["purchase.order"].search(
-            [("origin", "=", (self.order_id.name))]
+            [("origin", "=", self.order_id.name)]
         )
+        if len(purchase_order) > 1:
+            purchase_order_line = self.env["purchase.order.line"].search(
+                [("sale_line_id", "=", self.id)]
+            )
+            purchase_order = self.env["purchase.order"].search(
+                [("id", "=", purchase_order_line.order_id.id)]
+            )
         if not purchase_order:
             return
         stock_picking = self.env["stock.picking"].search(
-            [("purchase_id", "in", (purchase_order.ids))]
+            [("purchase_id", "in", purchase_order.ids)]
         )
         if not stock_picking:
             return
