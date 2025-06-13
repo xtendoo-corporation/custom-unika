@@ -648,15 +648,14 @@
                                     <tr>
                                         <td>
                                             <b>
-                                                <span style="display:block;width:100%;text-align:center;">Responsable
-                                                    Técnico UNIKALAB
+                                                <span style="display:block;width:100%;text-align:center;">UNIKALAB QUALITY, S.L.
                                                 </span>
                                             </b>
-                                            <span style="display:block;width:100%;text-align:center;">Rocío Delgado
-                                                Pérez
-                                            </span>
+<!--                                            <span style="display:block;width:100%;text-align:center;">Rocío Delgado-->
+<!--                                                Pérez-->
+<!--                                            </span>-->
                                             <img
-                                                    style="width:100%;"
+                                                    style="width:120%;margin-left:-10%;"
                                                     src="/lims/static/src/img/firma_boletin.png"
                                             />
                                         </td>
